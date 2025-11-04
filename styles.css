@@ -1,0 +1,2083 @@
+/* PDF 출력용 페이지 설정 */
+@page {
+    size: A4 landscape;
+    margin: 0;
+    padding: 0;
+}
+
+/* CSS 변수 정의 - Figma 디자인의 색상, 폰트, 간격, 보더를 통일 */
+:root {
+    /* 색상 */
+    --color-primary: #3e7eff;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #9e9e9e;
+    --color-background: #000000;
+    --color-container-bg: #222222;
+    --color-container-bg-opacity: rgba(34, 34, 34, 0.9);
+    --color-toc-border: #92b7ff;
+    --color-toc-text-light: #eeeeee;
+    --color-toc-text-medium: #bdbdbd;
+    --color-toc-text-dark: #616161;
+    --color-info-box-bg: rgba(0, 0, 0, 0.25);
+    --color-info-box-text: #f5f5f5;
+    --color-info-box-title: #fafbfe;
+    
+    /* 폰트 */
+    --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    
+    /* 간격 */
+    --spacing-xs: 2px;
+    --spacing-sm: 5px;
+    --spacing-md: 8px;
+    --spacing-lg: 10px;
+    --spacing-xl: 12px;
+    --spacing-2xl: 20px;
+    --spacing-3xl: 40px;
+    
+    /* 패딩 */
+    --padding-container: 40px;
+    
+    /* 보더 */
+    --border-radius: 8px;
+    
+    /* 폰트 크기 */
+    --font-size-xs: 12px;
+    --font-size-sm: 18px;
+    --font-size-md: 36px;
+    --font-size-lg: 40px;
+    --font-size-toc-title: 20px;
+    --font-size-toc-section: 16px;
+    
+    /* 폰트 두께 */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* 줄 간격 */
+    --line-height-xs: 14.4px;
+    --line-height-sm: 25.2px;
+    --line-height-md: 43.2px;
+    --line-height-lg: 48px;
+    --line-height-toc-title: 26px;
+    --line-height-toc-section: 19.2px;
+    --line-height-toc-content: 16.8px;
+    
+    /* 자간 */
+    --letter-spacing-xs: -0.048px;
+    --letter-spacing-sm: -0.072px;
+    --letter-spacing-md: -0.144px;
+    --letter-spacing-lg: -0.16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--color-background);
+    padding: 0;
+    margin: 0;
+}
+
+/* 페이지 번호 카운터 설정 */
+body {
+    counter-reset: page-number;
+}
+
+/* 페이지 번호는 표지 제외한 모든 페이지부터 카운트 (목차부터 시작) */
+section.page:not(.page-cover) {
+    counter-increment: page-number;
+}
+
+/* 페이지 컨테이너 - PDF 출력 시 각 페이지가 분리됨 */
+section.page {
+    width: 842px;
+    height: 595px;
+    page-break-after: always;
+    page-break-inside: avoid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('background-image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--color-background);
+}
+
+/* 미디어그룹 상품 정보 페이지: 배경 이미지 제거, 흰색 배경 */
+section.page.page-media-info {
+    background-image: none;
+    background-color: #ffffff;
+}
+
+section.page:last-child {
+    page-break-after: auto;
+}
+
+.container {
+    position: relative;
+    width: 842px;
+    height: 595px; /* A4 Landscape: 297mm × 210mm (842px × 595px at 96 DPI) */
+    background-color: var(--color-container-bg-opacity);
+    opacity: 0.9;
+    overflow: hidden;
+}
+
+/* 미디어그룹 상품 정보 페이지 컨테이너: 배경 투명도 제거, 흰색 배경 */
+.container-media-info {
+    background-color: #ffffff;
+    opacity: 1;
+}
+
+.container-media-info::before {
+    display: none;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-container-bg-opacity);
+    z-index: 1;
+}
+
+.header-frame {
+    position: relative;
+    z-index: 2;
+    padding: var(--padding-container);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.title-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.main-title {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-md);
+    letter-spacing: var(--letter-spacing-md);
+    color: var(--color-primary);
+    text-align: left;
+}
+
+.contract-name {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+    letter-spacing: var(--letter-spacing-lg);
+    color: var(--color-text-primary);
+    text-align: left;
+}
+
+.icon-group {
+    width: 81.71px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.icon-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-frame {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    padding: 0 var(--padding-container) var(--padding-container) var(--padding-container);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.period-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    letter-spacing: var(--letter-spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.label {
+    font-weight: var(--font-weight-medium);
+}
+
+.date-range {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.date {
+    font-weight: var(--font-weight-regular);
+}
+
+.separator {
+    font-weight: var(--font-weight-regular);
+}
+
+.total-days {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-weight: var(--font-weight-regular);
+}
+
+.parenthesis {
+    font-weight: var(--font-weight-regular);
+}
+
+.days-number {
+    font-weight: var(--font-weight-regular);
+}
+
+.days-unit {
+    font-weight: var(--font-weight-regular);
+}
+
+.advertiser-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    letter-spacing: var(--letter-spacing-sm);
+    color: var(--color-text-primary);
+}
+
+.advertiser-row .label {
+    font-weight: var(--font-weight-medium);
+}
+
+.advertiser-name {
+    font-weight: var(--font-weight-regular);
+}
+
+.issue-date {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+    letter-spacing: var(--letter-spacing-xs);
+    color: var(--color-text-secondary);
+    text-align: right;
+}
+
+/* 화면 미리보기용 스타일 */
+@media screen {
+    body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    section.page {
+        width: 842px;
+        height: 595px;
+        margin: 0 auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        border-radius: 0;
+        overflow: hidden;
+    }
+    
+    .container {
+        border-radius: 0;
+    }
+}
+
+/* 인쇄/PDF 출력용 스타일 */
+@media print {
+    @page {
+        margin: 0;
+        padding: 0;
+        size: A4 landscape;
+    }
+    
+    body {
+        background: #000;
+        padding: 0;
+        margin: 0;
+    }
+    
+    section.page {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+        background-image: url('background-image.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        page-break-after: always;
+        page-break-before: always;
+    }
+    
+    section.page:first-child {
+        page-break-before: auto;
+    }
+    
+    section.page:last-child {
+        page-break-after: auto;
+    }
+    
+    /* 미디어그룹 상품 정보 페이지: 인쇄 시 배경 이미지 제거, 흰색 배경 */
+    section.page.page-media-info {
+        background-image: none;
+        background-color: #ffffff;
+    }
+    
+    .container {
+        width: 297mm; /* A4 Landscape width */
+        height: 210mm; /* A4 Landscape height */
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+    
+    /* 미디어그룹 상품 정보 페이지 컨테이너: 인쇄 시 배경 투명도 제거, 흰색 배경 */
+    .container-media-info {
+        background-color: #ffffff;
+        opacity: 1;
+    }
+    
+    .container-media-info::before {
+        display: none;
+    }
+    
+    /* 인쇄 시 모든 픽셀 단위를 mm로 변환 (96 DPI 기준: 1px = 0.264583333mm) */
+    .table-of-contents-header {
+        padding: 10.58mm 10.58mm 0 10.58mm; /* 40px = 10.58mm */
+    }
+    
+    .toc-main-card {
+        margin: 5.29mm 10.58mm 0 10.58mm; /* 20px = 5.29mm, 40px = 10.58mm */
+        width: calc(100% - 21.16mm);
+        max-width: 201.6mm; /* 762px = 201.6mm */
+    }
+    
+    /* 인쇄 시 안내 박스는 각 페이지 하단에 위치 */
+    .info-box {
+        position: absolute;
+        bottom: 10.58mm; /* 40px = 10.58mm */
+        left: 10.58mm;
+        width: calc(100% - 21.16mm);
+        max-width: 201.6mm; /* 762px = 201.6mm */
+    }
+}
+
+/* 반응형 디자인 (화면 미리보기용) */
+@media screen and (max-width: 900px) {
+    section.page {
+        width: 100%;
+        max-width: 842px;
+        height: auto;
+        aspect-ratio: 842 / 595; /* A4 Landscape 비율 유지 */
+    }
+    
+    .container {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 842 / 595;
+    }
+    
+    .main-title {
+        font-size: 28px;
+        line-height: 34px;
+    }
+    
+    .contract-name {
+        font-size: 32px;
+        line-height: 40px;
+    }
+}
+
+/* 목차 페이지 스타일 - Figma 프레임 구조 반영 */
+
+/* Frame 8: 상단 헤더 */
+.frame-8 {
+    position: absolute;
+    left: 40px;
+    top: 40px;
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    gap: 150px;
+    width: 762px;
+    height: 14px;
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 0;
+    z-index: 2;
+}
+
+.frame-1686563114 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 2px;
+    width: fit-content; /* Hug: 콘텐츠에 맞춤 */
+    height: 14px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.text-광고계약명 {
+    width: fit-content; /* Hug: 콘텐츠에 맞춤 */
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #9E9E9E;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.text-separator {
+    width: fit-content; /* Hug: 콘텐츠에 맞춤 */
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #9E9E9E;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.text-목차 {
+    width: fit-content; /* Hug: 콘텐츠에 맞춤 */
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #9E9E9E;
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.text-platform {
+    width: 146px;
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #616161;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+/* 내용 영역: 목차 카드 */
+.frame-내용영역 {
+    position: absolute;
+    left: 40px;
+    top: 54px;
+    width: 762px;
+    height: 425px;
+    border-radius: var(--border-radius);
+    background: transparent;
+    z-index: 2;
+}
+
+/* 목차 영역: 내부 컨테이너 */
+.frame-목차영역 {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 722px;
+    height: 385px;
+}
+
+/* 타이틀-목차: 목차 제목 프레임 */
+.frame-타이틀목차 {
+    position: absolute;
+    left: 0px;
+    top: 112px;
+    width: 722px;
+    height: 26px;
+    border-left: 4px solid #92b7ff;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    box-sizing: border-box;
+}
+
+.text-toc-title {
+    position: absolute;
+    left: 12px;
+    top: 0px;
+    width: 35px;
+    height: 26px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.08px;
+    color: #92b7ff;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+/* 목차 리스트: 섹션 컨테이너 */
+.frame-목차리스트 {
+    position: absolute;
+    left: 0px;
+    top: 158px;
+    width: 236px;
+    height: 115px;
+}
+
+.text-section-title {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-toc-section);
+    line-height: var(--line-height-toc-section);
+    letter-spacing: -0.064px;
+    color: var(--color-toc-text-light);
+    margin: 0;
+    margin-bottom: 11px;
+}
+
+/* 2. 미디어그룹별 광고 효과 분석: 서브섹션 */
+.frame-미디어그룹별광고효과분석 {
+    position: absolute;
+    left: 0px;
+    top: 31px;
+    width: 201px;
+    height: 84px;
+}
+
+.text-subsection-title {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-toc-section);
+    line-height: var(--line-height-toc-section);
+    letter-spacing: -0.064px;
+    color: var(--color-toc-text-light);
+    margin: 0;
+    margin-bottom: 0; /* 미디어그룹 리스트와 붙임 */
+}
+
+.text-subsection-content {
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-toc-section);
+    letter-spacing: var(--letter-spacing-xs);
+    color: var(--color-toc-text-medium);
+    white-space: pre-line;
+    margin: 0;
+}
+
+.media-group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: media-group-counter;
+}
+
+.media-group-list li {
+    counter-increment: media-group-counter;
+    display: block;
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-toc-section);
+    letter-spacing: var(--letter-spacing-xs);
+    color: var(--color-toc-text-medium);
+    margin: 0;
+    padding: 0;
+    white-space: pre-line;
+}
+
+.media-group-list li::before {
+    content: counter(media-group-counter, lower-alpha) ". ";
+    font-weight: var(--font-weight-medium);
+    margin-right: 4px;
+}
+
+/* 효과 분석 안내: 하단 안내 박스 */
+.frame-효과분석안내 {
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    width: 762px;
+    height: 76px;
+    background: var(--color-info-box-bg);
+    border-radius: var(--border-radius);
+    z-index: 100;
+}
+
+.frame-24 {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 86px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.frame-icon {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    display: block;
+}
+
+.text-info-title {
+    position: absolute;
+    left: 18px;
+    top: 0px;
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-xs);
+    letter-spacing: var(--letter-spacing-xs);
+    color: var(--color-info-box-title);
+}
+
+.text-info-content {
+    position: absolute;
+    left: 10px;
+    top: 32px;
+    width: 687px;
+    height: 34px;
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-toc-content);
+    letter-spacing: var(--letter-spacing-xs);
+    color: var(--color-info-box-text);
+    margin: 0;
+}
+
+/* 페이지 번호: 목차와 본문 페이지에 표시 (표지 제외) */
+.page-number {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    font-size: 8px;
+    line-height: 9.546875px;
+    letter-spacing: 0;
+    color: var(--color-text-secondary);
+    text-align: right;
+    z-index: 10;
+}
+
+/* 페이지 번호 자동 생성 */
+.page-number::after {
+    content: counter(page-number);
+}
+
+/* 표지 페이지만 페이지 번호 숨김 */
+.page-cover .page-number {
+    display: none;
+}
+
+/* 간지 페이지는 페이지 번호를 invisible 처리 (카운트는 포함) */
+.page-divider .page-number {
+    visibility: hidden;
+}
+
+/* 간지 1 페이지 스타일 */
+.container-divider {
+    background-color: #ffffff;
+    background-image: url('background-image.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.container-divider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.78); /* 이미지 opacity 0.22를 반영 (1 - 0.22 = 0.78) */
+    z-index: 1;
+}
+
+.divider-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.divider-title {
+    position: absolute;
+    left: 40px; /* 2471 - 2431 = 40px */
+    top: 40px; /* 1232 - 1192 = 40px */
+    width: 588px;
+    height: 48px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.16px;
+    color: #1462ff;
+    margin: 0;
+    padding: 0;
+}
+
+.divider-logo {
+    position: absolute;
+    left: 40px; /* 2471 - 2431 = 40px */
+    top: 531px; /* 1723 - 1192 = 531px */
+    width: 81.71px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* ============================================
+   미디어그룹 상품 정보 페이지 스타일
+   ============================================ */
+
+/* head: 헤더 영역 (Frame 10) */
+.frame-head {
+    position: absolute;
+    left: 40px; /* 2471 - 2431 = 40px */
+    top: 40px; /* 1829 - 1789 = 40px */
+    width: 762px;
+    height: 90px;
+}
+
+/* top title: 상단 Breadcrumb */
+.frame-top-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    gap: 150px;
+    width: 762px;
+    height: 14px;
+    margin-bottom: 20px;
+}
+
+/* top title: Breadcrumb 그룹 */
+.frame-top-title-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 2px;
+    width: fit-content;
+    height: 14px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.text-광고계약명-media,
+.text-separator-media,
+.text-목차-media {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #9e9e9e;
+    height: 14px;
+    width: fit-content;
+}
+
+.text-목차-media {
+    font-weight: 600;
+    color: #616161;
+}
+
+.text-platform-media {
+    width: fit-content;
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: -0.004em;
+    color: #1462ff;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+/* sub title: 타이틀 영역 */
+.frame-sub-title {
+    position: absolute;
+    left: 0px;
+    top: 34px; /* 1863 - 1829 = 34px */
+    width: 762px;
+    height: 56px;
+}
+
+/* 확장 페이지: sub title이 없을 때 frame-head 높이 조정 */
+.frame-head:not(:has(.frame-sub-title)) {
+    height: 34px; /* top title만 있는 경우 */
+}
+
+.text-media-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 39.2px;
+    letter-spacing: -0.112px;
+    color: #1462ff;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0; /* 간격 제거 */
+}
+
+.text-media-subtitle {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16.8px;
+    letter-spacing: -0.056px;
+    color: #222222;
+    margin: 0;
+    padding: 0;
+    margin-top: 0; /* 부제목 위 간격 없음 */
+}
+
+/* Frame 1686563146: 래퍼 프레임 */
+.frame-1686563146 {
+    position: absolute;
+    left: 40px; /* 2471 - 2431 = 40px */
+    top: 166px; /* 1955 - 1789 = 166px */
+    width: 762px;
+    height: 389px;
+    /* 테이블이 넘칠 경우를 위한 설정 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 내용: 본문 영역 (Frame 내용) */
+.frame-내용 {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 365px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 확장 페이지: sub title이 없을 때 frame-1686563146 위치 조정 */
+.frame-head:not(:has(.frame-sub-title)) + .frame-1686563146 {
+    top: 110px; /* 40px + 34px + 36px (여유 공간) */
+}
+
+/* 확장 페이지: content title 숨김 */
+.frame-head:not(:has(.frame-sub-title)) + .frame-1686563146 .frame-content-title {
+    display: none;
+}
+
+/* 확장 페이지: content title이 없을 때 frame-table 위치 조정 */
+.frame-내용:not(:has(.frame-content-title)) .frame-table {
+    top: 0px; /* content title이 없으므로 상단부터 시작 */
+    margin-left: 0; /* 확장 페이지에서는 좌측 정렬 유지 */
+}
+
+/* content title: 광고 정보 헤더 (Frame content title) */
+.frame-내용 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px; /* frame-내용 기준 */
+    width: 762px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    flex-shrink: 0; /* 크기 고정 */
+}
+
+.text-ad-info-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19.2px;
+    letter-spacing: -0.064px;
+    color: #616161;
+    margin: 0;
+    padding: 0;
+    padding-left: 8px; /* 4px border 후 텍스트 간격 */
+}
+
+/* table: 테이블 영역 (Frame table) - 표준 HTML table */
+.frame-내용 .frame-table {
+    position: absolute;
+    left: 0px;
+    top: 27px; /* content title (19px) + 간격 (8px) = 27px, frame-내용 기준 */
+    width: 762px;
+    min-height: 200px;
+    max-height: calc(100% - 50px); /* 프레임 영역을 벗어나지 않도록 (여유 공간 확보) */
+    border: 0.5px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border-collapse: collapse; /* 테이블 라이브러리 표준: border-collapse */
+    border-spacing: 0;
+    overflow: visible; /* 동적 항목이 늘어날 수 있도록 */
+    box-shadow: none; /* Figma 디자인에 shadow 없음 */
+    page-break-inside: auto; /* 페이지 분할 허용 */
+    /* 행이 페이지를 넘어갈 경우 자동으로 다음 페이지로 이동 */
+    page-break-after: auto;
+    table-layout: fixed; /* 테이블 레이아웃 고정 */
+}
+
+/* 기본 페이지: 테이블 좌상단 정렬 */
+.frame-내용:has(.frame-content-title) .frame-table {
+    margin-left: 0; /* 좌측 정렬 */
+    margin-right: auto;
+}
+
+/* Frame 18, 14, 19: 테이블 행 */
+.frame-18,
+.frame-14,
+.frame-19 {
+    width: 762px;
+    page-break-inside: avoid; /* 페이지 분할 시 행이 잘리지 않도록 */
+    break-inside: avoid; /* 페이지 분할 방지 */
+}
+
+.frame-18 {
+    height: 40px;
+}
+
+.frame-14 {
+    min-height: 120px;
+}
+
+.frame-19 {
+    height: 40px;
+}
+
+/* Field 공통 스타일 - 테이블 셀(td) */
+.frame-table td.field {
+    padding: 12px 16px;
+    border: 0.5px solid #e0e0e0;
+    box-sizing: border-box;
+    min-height: 40px;
+    vertical-align: top; /* 상단 정렬 */
+    display: table-cell; /* 테이블 셀 표시 */
+}
+
+.field-label {
+    background-color: #eeeeee; /* Figma fills: #eeeeee */
+    font-weight: 600;
+}
+
+.field-label.field-tall {
+    min-height: 120px;
+    padding-top: 16px;
+    vertical-align: top;
+    /* 높이는 동적 항목에 맞춰 자동 조정 */
+}
+
+.field-value {
+    background-color: #ffffff;
+}
+
+.frame-19 .field-value {
+    background-color: #ffffff; /* 테이블 배경 색상 흰색으로 조정 */
+}
+
+.field-value.field-tall {
+    min-height: 120px;
+    padding-top: 16px;
+    vertical-align: top;
+    /* 높이는 동적 항목에 맞춰 자동 조정 */
+}
+
+/* field-value-item: 동적 항목 컨테이너 */
+.field-value-item {
+    display: block;
+    padding: 8px 0;
+    border-bottom: 0.5px solid #e0e0e0;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #012672; /* 피그마 디자인과 동일한 색상 */
+    word-break: break-word;
+}
+
+.field-value-item:last-child {
+    border-bottom: none;
+}
+
+
+/* Field 크기 설정 - 테이블 셀(td) 크기 */
+/* Frame 18: 첫 번째 행 */
+.frame-18 td.field:nth-child(1) {
+    /* 광고주 라벨 */
+    width: 120px;
+}
+.frame-18 td.field:nth-child(2) {
+    /* 광고주 값 */
+    width: 261px;
+}
+.frame-18 td.field:nth-child(3) {
+    /* 광고 계약명 라벨 */
+    width: 120px;
+}
+.frame-18 td.field:nth-child(4) {
+    /* 광고 계약명 값 */
+    width: 261px;
+}
+
+/* Frame 14: 두 번째 행 */
+.frame-14 td.field:nth-child(1) {
+    /* 미디어그룹 상품 라벨 */
+    width: 120px;
+}
+.frame-14 td.field:nth-child(2) {
+    /* 미디어그룹 상품 값 */
+    width: 261px;
+}
+.frame-14 td.field:nth-child(3) {
+    /* 미디어 정보 라벨 */
+    width: 120px;
+}
+.frame-14 td.field:nth-child(4) {
+    /* 미디어 정보 값 */
+    width: 261px;
+}
+
+/* Frame 19: 세 번째 행 */
+.frame-19 td.field:nth-child(1) {
+    /* 광고 기간 라벨 */
+    width: 120px;
+}
+.frame-19 td.field:nth-child(2) {
+    /* 광고 기간 값 */
+    width: 261px;
+}
+.frame-19 td.field:nth-child(3) {
+    /* 보고서 발행일 라벨 */
+    width: 120px;
+}
+.frame-19 td.field:nth-child(4) {
+    /* 보고서 발행일 값 */
+    width: 261px;
+}
+
+.field-text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #616161;
+    word-break: break-word;
+}
+
+.field-label .field-text {
+    color: #616161;
+    font-weight: 600;
+}
+
+.field-value .field-text {
+    color: #012672;
+    font-weight: 500;
+}
+
+.field-label-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Frame 16, 17: 테이블에서는 rowspan으로 처리되므로 별도 스타일 불필요 */
+
+.field-text-small {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 8px;
+    line-height: 9.6px;
+    letter-spacing: -0.16px;
+    color: #616161;
+}
+
+/* pitch 안내 문구: 주석 텍스트 */
+.text-pitch-note {
+    position: absolute;
+    left: 0px;
+    top: 377px; /* 2332 - 1955 = 377px (frame-내용 기준) */
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #9e9e9e;
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================
+   주요 광고 성과 페이지 스타일
+   ============================================ */
+
+/* contents: 본문 영역 (Frame contents) */
+.frame-contents {
+    position: absolute;
+    left: 40px; /* 2471 - 2431 = 40px */
+    top: 163px; /* 2543 - 2380 = 163px (contents 시작 위치) */
+    width: 762px;
+    height: 392px; /* contents 높이 */
+}
+
+/* 유동/ 노출 인구: Frame 유동/노출 인구 */
+.frame-유동노출인구 {
+    position: absolute;
+    left: 0px; /* contents 기준 */
+    top: 0px; /* contents 기준 상단 */
+    width: 762px;
+    height: 113px;
+}
+
+/* Frame 21: 주요 오디언스 요약 */
+.frame-21 {
+    position: absolute;
+    left: 0px; /* contents 기준 */
+    top: 143px; /* 2686 - 2543 = 143px (contents 기준) */
+    width: 762px;
+    height: auto; /* hug */
+    min-height: 85px;
+}
+
+/* Frame 22: 노출인구 최다 미디어그룹 */
+.frame-22 {
+    position: absolute;
+    left: 0px; /* contents 기준 */
+    top: calc(143px + 85px + 30px); /* Frame 21 (top: 143px, min-height: 85px) + 간격 30px = 258px */
+    width: 762px;
+    height: auto; /* hug */
+    min-height: 65px;
+}
+
+/* content title: 성과 페이지용 (데이터 분석 정보 포함) */
+.frame-contents .frame-content-title {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 8px;
+}
+
+.frame-contents .text-ad-info-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19.2px;
+    letter-spacing: -0.064px;
+    color: #616161;
+    margin: 0;
+    padding: 0;
+}
+
+/* frame-data-info: 데이터 분석 정보 */
+.frame-data-info {
+    position: absolute;
+    right: 0px;
+    top: 6px; /* content title 내부에서 6px 아래 */
+    height: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.data-info-text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #bdbdbd;
+    white-space: nowrap;
+}
+
+/* frame-table-performance: 성과 페이지용 테이블 */
+.frame-table-performance {
+    position: absolute;
+    left: 0px;
+    top: 27px; /* content title (19px) + margin-bottom (8px) = 27px */
+    width: 762px;
+    height: 40px;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    box-shadow: none;
+}
+
+.frame-table-performance .frame-18 {
+    width: 762px;
+    height: 40px;
+}
+
+.frame-table-performance td.field {
+    padding: 12px 16px;
+    border: 0.5px solid #e0e0e0;
+    box-sizing: border-box;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.frame-table-performance .field-label {
+    background-color: #eeeeee;
+    width: 120px;
+}
+
+.frame-table-performance .field-value {
+    background-color: #f5f5f5; /* 피그마 디자인과 동일 */
+    width: 261px;
+}
+
+/* frame-insight: 인사이트 박스 (공통) */
+.frame-insight {
+    position: absolute;
+    left: 0px;
+    width: 762px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px 16px;
+    gap: 10px;
+    background-color: #e9f1ff;
+    border: 1px solid #bcd3ff;
+    border-radius: 4px;
+}
+
+/* 유동/노출 인구 섹션의 insight */
+.frame-유동노출인구 .frame-insight {
+    top: 75px; /* table (40px) + gap (8px) + 27px = 75px */
+    height: auto; /* hug */
+    min-height: 38px;
+}
+
+.frame-insight-large {
+    height: auto; /* 주요 오디언스 요약의 insight는 hug (auto) */
+    min-height: 58px; /* 최소 높이 유지 */
+}
+
+/* Frame 23 안의 insight (주요 오디언스 요약, 노출인구 최다 미디어그룹) */
+.frame-23 .frame-insight {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+}
+
+.frame-23 .frame-insight-large {
+    height: auto; /* hug (auto) */
+    min-height: 58px; /* 최소 높이 유지 */
+}
+
+.frame-23 .frame-insight:not(.frame-insight-large) {
+    height: auto; /* hug */
+    min-height: 38px;
+}
+
+.insight-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+    object-fit: contain;
+}
+
+/* Frame 24-insight: 아이콘 + 텍스트 컨테이너 (다중 줄 insight용) */
+.frame-24-insight {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+}
+
+/* 첫 번째 insight (유동/노출 인구): Frame 24 없이 직접 구조 */
+.frame-유동노출인구 .frame-insight {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Frame 1686563118-insight: 인사이트 텍스트 컨테이너 (단일 줄) */
+.frame-1686563118-insight {
+    flex: 1;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%; /* identical to box height, or 17px */
+    letter-spacing: -0.004em;
+    color: #616161;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Frame 1686563123-insight: 다중 줄 텍스트 컨테이너 (Frame 21용) */
+.frame-1686563123-insight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.frame-1686563123-insight .frame-1686563118-insight {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+}
+
+.frame-1686563123-insight .frame-1686563119-insight {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 120%; /* identical to box height, or 17px */
+    letter-spacing: -0.004em;
+    color: #616161;
+}
+
+/* Frame 1686563120-insight, Frame 1686563121-insight, Frame 1686563122-insight: 인라인 텍스트 그룹 */
+.frame-1686563120-insight,
+.frame-1686563121-insight,
+.frame-1686563122-insight {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.insight-value {
+    color: #616161; /* 노출 비율은 일반 텍스트 색상 */
+    font-weight: 500;
+}
+
+.insight-highlight {
+    color: #0a4acc; /* 강조 텍스트 색상 */
+    font-weight: 500;
+}
+
+/* Frame 23: 인사이트 컨테이너 */
+.frame-23 {
+    position: absolute;
+    left: 0px;
+    top: 27px; /* content title (19px) + margin-bottom (8px) = 27px */
+    width: 762px;
+    height: 38px; /* Frame 22의 경우 38px, Frame 21의 경우 58px */
+}
+
+.frame-21 .frame-23 {
+    height: 58px; /* Frame 21의 Frame 23은 58px */
+}
+
+/* ============================================
+   주요 광고 성과 2 페이지 스타일
+   ============================================ */
+
+/* Frame 1686563133: 본문 영역 */
+.frame-1686563133 {
+    position: absolute;
+    left: 40px;
+    top: 166px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 36px = 166px */
+    width: 762px;
+    height: 398px;
+}
+
+/* Frame 1686563131: 차트 영역 */
+.frame-1686563131 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 322px;
+}
+
+/* Frame 1686563131 안의 content title: 좌측 4px stroke */
+.frame-1686563131 .frame-content-title {
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px; /* stroke 후 텍스트 간격 */
+}
+
+/* frame-chart-container: 차트 라이브러리 컨테이너 */
+.frame-chart-container {
+    position: absolute;
+    left: 20px; /* 60 - 40 = 20px (Frame 1686563131 기준) */
+    top: 39px; /* content title (19px) + gap (20px) = 39px */
+    right: 20px; /* fill: 좌우 여백 20px */
+    bottom: 0px; /* fill: 하단까지 채움 */
+    width: auto; /* fill: left/right로 자동 계산 */
+    height: auto; /* fill: top/bottom으로 자동 계산 */
+    background-color: #ffffff; /* 흰색 배경 */
+    border: none;
+    /* 차트 라이브러리가 이 영역에 렌더링됩니다 */
+}
+
+#chart-canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 차트 범례 스타일 (Chart.js 범례) */
+.chart-legend-item {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #757575;
+}
+
+.chart-legend-유동인구 {
+    color: #7FECD3;
+}
+
+.chart-legend-노출인구 {
+    color: #00CF75;
+}
+
+/* frame-insight-notice: 유사 미디어그룹 선별 안내 인사이트 박스 (info 프레임) */
+.frame-insight-notice {
+    position: absolute;
+    left: 0px;
+    top: 342px; /* Frame 1686563131 (322px) + gap (20px) = 342px */
+    width: 762px;
+    height: auto; /* hug */
+    min-height: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Frame 24와 Frame 1686563118 사이 간격 */
+}
+
+/* Frame 1686563133 안의 tips 인사이트 박스 */
+.frame-1686563133 .frame-insight-notice {
+    position: absolute;
+    left: 0px;
+    top: 334px; /* Frame 1686563131 (322px) + gap (12px) = 334px */
+    width: 762px;
+    height: auto; /* hug */
+    min-height: 56px;
+}
+
+/* tip title: 아이콘 + 제목 텍스트 */
+.frame-insight-notice .frame-tip-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    height: 14px;
+}
+
+.tip-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.insight-notice-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 120%; /* identical to box height, or 14.4px */
+    letter-spacing: -0.004em;
+    color: #003399;
+}
+
+/* Frame 1686563118: 인사이트 텍스트 (tips 프레임용) */
+.frame-insight-notice .frame-1686563118-notice {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    height: 14px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%; /* identical to box height, or 14.4px */
+    letter-spacing: -0.004em;
+    color: #616161;
+}
+
+.frame-insight-notice .frame-1686563119-insight {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%; /* identical to box height, or 14.4px */
+    letter-spacing: -0.004em;
+    color: #616161;
+    display: inline;
+}
+
+/* ============================================
+   주요 광고 성과 3 페이지 스타일
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 */
+.frame-1686563108 {
+    position: absolute;
+    left: 40px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 762px;
+    height: 349px; /* 최대 높이: 349px - 테이블이 넘치면 다음 페이지로 */
+    max-height: 349px; /* 최대 높이 제한 */
+    overflow: visible; /* 넘치는 부분은 다음 페이지로 */
+    page-break-inside: avoid; /* 내부에서 페이지 분할 방지 */
+    break-inside: avoid; /* 내부에서 페이지 분할 방지 */
+}
+
+/* Frame 20: 테이블 영역 */
+.frame-20-performance3 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: auto; /* hug: 미디어그룹 수에 따라 동적으로 높이 조정 */
+    min-height: 268px; /* 최소 높이 유지 */
+    max-height: calc(349px - 12px); /* frame-1686563108 높이(349px) - tips 간격(12px) = 337px */
+    margin-bottom: 12px; /* tips 프레임과의 간격 12px */
+    overflow: visible; /* 넘치는 부분은 다음 페이지로 */
+    page-break-inside: avoid; /* 내부에서 페이지 분할 방지 */
+    break-inside: avoid; /* 내부에서 페이지 분할 방지 */
+}
+
+/* frame-20-performance3가 349px 이상일 때 (확장 모드) */
+.frame-20-performance3-extended {
+    max-height: none !important; /* 높이 제한 제거 */
+    page-break-inside: auto; /* 페이지 분할 허용 */
+    break-inside: auto; /* 페이지 분할 허용 */
+}
+
+/* 인쇄 시 페이지 분할 처리 */
+@media print {
+    /* frame-1686563108이 349px를 넘으면 다음 페이지로 */
+    .frame-1686563108 {
+        max-height: 349px;
+        page-break-after: auto;
+        break-after: auto;
+    }
+    
+    /* frame-1686563108 내부에서 페이지 분할 방지 - 전체가 넘치면 다음 페이지로 */
+    .frame-1686563108 > * {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* frame-20-performance3가 frame-1686563108 높이를 넘으면 다음 페이지로 */
+    .frame-20-performance3 {
+        max-height: calc(349px - 12px); /* frame-1686563108 높이(349px) - tips 간격(12px) */
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* frame-20-performance3가 높이 제한을 넘으면 다음 페이지로 */
+    .frame-1686563108:has(.frame-20-performance3[style*="height"]),
+    .frame-1686563108:has(.frame-20-performance3-extended) {
+        page-break-after: always;
+        break-after: page;
+    }
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance3 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 28: 테이블 */
+.frame-table-performance3 {
+    position: relative;
+    left: 0px;
+    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
+    margin-top: 27px; /* content title (19px) + gap (8px) = 27px */
+    margin-bottom: 0px; /* Frame 29와의 간격 */
+    width: 762px;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    box-shadow: none;
+    page-break-inside: auto; /* 페이지 분할 허용 */
+    break-inside: auto; /* 페이지 분할 허용 */
+}
+
+/* Frame 27: 테이블 헤더 */
+.frame-table-performance3 thead .frame-27 {
+    height: 40px;
+}
+
+.frame-table-performance3 thead th.field {
+    padding: 12px 16px;
+    border: 0.5px solid #e0e0e0;
+    background-color: #eeeeee;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500; /* Medium (피그마 스타일) */
+    font-size: 14px;
+    line-height: 16.8px; /* 피그마 lineHeightPx: 16.8 */
+    letter-spacing: -0.056px;
+    color: #616161;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* 테이블 셀 크기 설정 */
+.frame-table-performance3 th.field:nth-child(1),
+.frame-table-performance3 td.field:nth-child(1) {
+    width: 202px; /* 미디어그룹명 */
+}
+
+.frame-table-performance3 th.field:nth-child(2),
+.frame-table-performance3 td.field:nth-child(2),
+.frame-table-performance3 th.field:nth-child(3),
+.frame-table-performance3 td.field:nth-child(3),
+.frame-table-performance3 th.field:nth-child(4),
+.frame-table-performance3 td.field:nth-child(4),
+.frame-table-performance3 th.field:nth-child(5),
+.frame-table-performance3 td.field:nth-child(5) {
+    width: 140px; /* 유동인구, 노출인구, 유동 대비 노출 비율, CPM */
+}
+
+/* Frame 13: 일반 미디어그룹 행 */
+.frame-table-performance3 tbody .frame-13 {
+    height: 40px;
+}
+
+.frame-table-performance3 tbody td.field {
+    padding: 12px 16px;
+    border: 0.5px solid #e0e0e0;
+    background-color: #ffffff;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #012672;
+    vertical-align: middle;
+}
+
+/* Frame 29: 유사 미디어그룹 헤더 */
+.frame-20-performance3 .frame-29 {
+    position: relative;
+    left: 0px;
+    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
+    width: 762px;
+    height: 29px;
+    margin-top: 0px; /* 테이블과의 간격은 테이블의 margin-bottom으로 조정 */
+    background-color: #eeeeee;
+    border: 0.5px solid #eeeeee;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+/* Frame 29: frame-20-performance3 밖의 경우 (다른 페이지용) */
+.frame-29:not(.frame-20-performance3 .frame-29) {
+    position: absolute;
+    left: 0px;
+    top: 268px;
+    width: 762px;
+    height: 29px;
+    background-color: #eeeeee;
+    border: 0.5px solid #eeeeee;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+/* Frame 29: frame-20-performance3 밖의 경우 (다른 페이지용) */
+.frame-29:not(.frame-20-performance3 .frame-29) {
+    position: absolute;
+    left: 0px;
+    top: 268px;
+    width: 762px;
+    height: 29px;
+    background-color: #eeeeee;
+    border: 0.5px solid #eeeeee;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.frame-29-field {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #616161;
+}
+
+/* Frame 28: 유사 미디어그룹 테이블 */
+.frame-20-performance3 .frame-table-similar {
+    position: relative;
+    left: 0px;
+    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
+    margin-top: 0px; /* Frame 29와의 간격 */
+    width: 762px;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 0;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    box-shadow: none;
+}
+
+/* Frame 28: frame-20-performance3 밖의 경우 (다른 페이지용) */
+.frame-table-similar:not(.frame-20-performance3 .frame-table-similar) {
+    position: absolute;
+    left: 0px;
+    top: 297px;
+    width: 762px;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 0;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    box-shadow: none;
+}
+
+/* Frame 14: 유사 미디어그룹 행 */
+.frame-table-similar tbody .frame-14-similar {
+    height: 52px;
+}
+
+/* 유사 미디어그룹 행 invisible 처리 */
+.frame-table-similar tbody .frame-14-similar.invisible,
+.frame-table-similar tbody .frame-14-similar[style*="display: none"],
+.frame-table-similar tbody .frame-14-similar[style*="display:none"] {
+    display: none !important;
+}
+
+.frame-table-similar tbody td.field {
+    padding: 12px 16px;
+    border: 0.5px solid #e0e0e0;
+    background-color: #ffffff;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #012672;
+    vertical-align: middle;
+}
+
+/* field-tall-similar: 2줄 텍스트용 */
+.field-tall-similar {
+    vertical-align: top;
+    padding-top: 8px;
+}
+
+.field-value-item-similar {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-text-small-similar {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #012672;
+}
+
+.field-text-normal {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: -0.056px;
+    color: #012672;
+}
+
+/* Frame 1686563108 안의 tips 인사이트 박스 */
+/* frame-20-performance3 다음에 오는 tips 프레임 위치 조정 (frame-20-performance3 하단 + 간격 12px) */
+.frame-1686563108 .frame-20-performance3 ~ .frame-insight-notice {
+    position: absolute;
+    left: 0px;
+    top: calc(100% + 12px); /* frame-20-performance3의 높이 + margin-bottom (12px) = 12px 간격 */
+    width: 762px;
+    height: auto;
+    min-height: 56px;
+}
+
+/* CPM 계산 공식 안내 */
+.frame-1686563108 .frame-cpm-formula {
+    position: absolute;
+    left: 0px;
+    top: calc(100% + 12px); /* frame-insight-notice 하단 + 간격 12px */
+    width: 762px;
+    height: 7px;
+}
+
+.cpm-formula-text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #bdbdbd;
+}
+
+/* ============================================
+   주요 광고 성과 4-1 페이지 스타일
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 (주요 광고 성과 4-1) */
+.frame-1686563108-performance4 {
+    position: absolute;
+    left: 40px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 762px;
+    height: 392px;
+}
+
+/* Frame 20: 차트 영역 (주요 광고 성과 4-1) */
+.frame-20-performance4 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: auto;
+    min-height: 392px;
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance4 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 1686563136: 차트 영역 */
+.frame-1686563136 {
+    position: relative;
+    left: 0px;
+    top: 31px; /* content title (19px) + gap (12px) = 31px */
+    width: 762px;
+    height: 339px;
+}
+
+/* 차트 컨테이너 (주요 광고 성과 4-1) */
+.frame-chart-container-performance4 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 762px;
+    height: 254px;
+}
+
+.frame-chart-container-performance4 canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Frame 1686563137: 범례 영역 */
+.frame-1686563137 {
+    position: absolute;
+    left: 350px; /* frame-1686563136 기준: 2821 - 2471 = 350px */
+    top: 351px; /* frame-1686563136 기준: 4710 - 4359 = 351px (차트 하단 아래) */
+    width: 62px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.legend-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.legend-icon.legend-male {
+    background-color: #ff7d20;
+}
+
+.legend-icon.legend-female {
+    background-color: #ffa462;
+}
+
+.legend-text {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: -0.04px;
+    color: #757575;
+}
+
