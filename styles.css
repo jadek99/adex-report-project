@@ -1,12 +1,13 @@
 /* PDF 출력용 페이지 설정 */
 @page {
     size: A4 landscape;
-    margin: 0;
-    padding: 0;
+    margin: 10mm 15mm; /* 상하 10mm, 좌우 15mm */
 }
 
 /* CSS 변수 정의 - Figma 디자인의 색상, 폰트, 간격, 보더를 통일 */
 :root {
+    --scale-factor: 1.33333;
+    
     /* 색상 */
     --color-primary: #3e7eff;
     --color-text-primary: #ffffff;
@@ -34,8 +35,7 @@
     --spacing-2xl: 20px;
     --spacing-3xl: 40px;
     
-    /* 패딩 */
-    --padding-container: 40px;
+    --padding-container: 54px;
     
     /* 보더 */
     --border-radius: 8px;
@@ -55,19 +55,19 @@
     --font-weight-bold: 700;
     
     /* 줄 간격 */
-    --line-height-xs: 14.4px;
-    --line-height-sm: 25.2px;
-    --line-height-md: 43.2px;
+    --line-height-xs: 15px;
+    --line-height-sm: 26px;
+    --line-height-md: 44px;
     --line-height-lg: 48px;
     --line-height-toc-title: 26px;
-    --line-height-toc-section: 19.2px;
-    --line-height-toc-content: 16.8px;
+    --line-height-toc-section: 20px;
+    --line-height-toc-content: 17px;
     
     /* 자간 */
-    --letter-spacing-xs: -0.048px;
-    --letter-spacing-sm: -0.072px;
-    --letter-spacing-md: -0.144px;
-    --letter-spacing-lg: -0.16px;
+    --letter-spacing-xs: 0px;
+    --letter-spacing-sm: 0px;
+    --letter-spacing-md: 0px;
+    --letter-spacing-lg: 0px;
 }
 
 * {
@@ -76,11 +76,21 @@
     box-sizing: border-box;
 }
 
+html {
+    width: 1123px; /* 고정 너비: A4 가로 실제 크기 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
 body {
     font-family: var(--font-family);
+    font-size: 11pt; /* 기본 폰트 크기 11pt */
+    line-height: 140%; /* 모든 텍스트 기본 행간 140% */
     background: var(--color-background);
     padding: 0;
     margin: 0;
+    width: 100%; /* html 너비에 맞춤 */
+    -webkit-print-color-adjust: exact; /* PDF 인쇄 시 색상 유지 */
+    print-color-adjust: exact; /* PDF 인쇄 시 색상 유지 */
 }
 
 /* 페이지 번호 카운터 설정 */
@@ -94,11 +104,14 @@ section.page:not(.page-cover) {
 }
 
 /* 페이지 컨테이너 - PDF 출력 시 각 페이지가 분리됨 */
+/* A4 가로 실제 크기: 297mm × 210mm = 1123px × 794px (96 DPI 기준) */
 section.page {
-    width: 842px;
-    height: 595px;
-    page-break-after: always;
+    width: 1123px; /* A4 가로 실제 크기: 297mm × 96 / 25.4 */
+    height: 794px; /* A4 가로 실제 크기: 210mm × 96 / 25.4 */
+    page-break-after: always; /* 페이지마다 정확히 한 장 단위로 끊기 */
+    break-after: page; /* CSS3 표준 */
     page-break-inside: avoid;
+    break-inside: avoid; /* CSS3 표준 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -117,12 +130,13 @@ section.page.page-media-info {
 
 section.page:last-child {
     page-break-after: auto;
+    break-after: auto; /* CSS3 표준 */
 }
 
 .container {
     position: relative;
-    width: 842px;
-    height: 595px; /* A4 Landscape: 297mm × 210mm (842px × 595px at 96 DPI) */
+    width: 1123px; /* A4 가로 실제 크기: 297mm × 96 / 25.4 */
+    height: 794px; /* A4 가로 실제 크기: 210mm × 96 / 25.4 */
     background-color: var(--color-container-bg-opacity);
     opacity: 0.9;
     overflow: hidden;
@@ -161,16 +175,16 @@ section.page:last-child {
 .title-section {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl);
+    gap: 16px;
 }
 
 .main-title {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-md);
-    line-height: var(--line-height-md);
-    letter-spacing: var(--letter-spacing-md);
+    font-size: 48px;
+    line-height: 140%; /* 행간 140% */
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-primary);
     text-align: left;
 }
@@ -179,16 +193,16 @@ section.page:last-child {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-lg);
-    line-height: var(--line-height-lg);
-    letter-spacing: var(--letter-spacing-lg);
+    font-size: 53px;
+    line-height: 64px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-text-primary);
     text-align: left;
 }
 
 .icon-group {
-    width: 81.71px;
-    height: 24px;
+    width: 110px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -228,7 +242,7 @@ section.page:last-child {
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
-    letter-spacing: var(--letter-spacing-sm);
+    letter-spacing: -0.25px;
     color: var(--color-text-primary);
 }
 
@@ -278,7 +292,7 @@ section.page:last-child {
     font-weight: var(--font-weight-medium);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-sm);
-    letter-spacing: var(--letter-spacing-sm);
+    letter-spacing: -0.25px;
     color: var(--color-text-primary);
 }
 
@@ -294,9 +308,9 @@ section.page:last-child {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-xs);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-text-secondary);
     text-align: right;
 }
@@ -312,8 +326,8 @@ section.page:last-child {
     }
     
     section.page {
-        width: 842px;
-        height: 595px;
+        width: 1123px; /* A4 가로 실제 크기: 297mm × 96 / 25.4 */
+        height: 794px; /* A4 가로 실제 크기: 210mm × 96 / 25.4 */
         margin: 0 auto;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         border-radius: 0;
@@ -328,30 +342,40 @@ section.page:last-child {
 /* 인쇄/PDF 출력용 스타일 */
 @media print {
     @page {
-        margin: 0;
-        padding: 0;
+        margin: 0 !important;
+        padding: 0 !important;
         size: A4 landscape;
     }
     
-    body {
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+        height: 100%;
         background: #000;
-        padding: 0;
-        margin: 0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
     
     section.page {
-        width: 297mm;
-        height: 210mm;
-        margin: 0;
-        padding: 0;
-        box-shadow: none;
-        border-radius: 0;
+        width: 1123px !important; /* A4 가로 실제 크기: 297mm × 96 / 25.4 */
+        height: 794px !important; /* A4 가로 실제 크기: 210mm × 96 / 25.4 */
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
         background-image: url('background-image.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         page-break-after: always;
         page-break-before: always;
+        position: relative;
     }
     
     section.page:first-child {
@@ -369,11 +393,11 @@ section.page:last-child {
     }
     
     .container {
-        width: 297mm; /* A4 Landscape width */
-        height: 210mm; /* A4 Landscape height */
-        border-radius: 0;
-        margin: 0;
-        padding: 0;
+        width: 1123px !important; /* A4 가로 실제 크기: 297mm × 96 / 25.4 */
+        height: 794px !important; /* A4 가로 실제 크기: 210mm × 96 / 25.4 */
+        border-radius: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
         position: relative;
     }
     
@@ -387,69 +411,28 @@ section.page:last-child {
         display: none;
     }
     
-    /* 인쇄 시 모든 픽셀 단위를 mm로 변환 (96 DPI 기준: 1px = 0.264583333mm) */
-    .table-of-contents-header {
-        padding: 10.58mm 10.58mm 0 10.58mm; /* 40px = 10.58mm */
-    }
-    
-    .toc-main-card {
-        margin: 5.29mm 10.58mm 0 10.58mm; /* 20px = 5.29mm, 40px = 10.58mm */
-        width: calc(100% - 21.16mm);
-        max-width: 201.6mm; /* 762px = 201.6mm */
-    }
-    
-    /* 인쇄 시 안내 박스는 각 페이지 하단에 위치 */
-    .info-box {
-        position: absolute;
-        bottom: 10.58mm; /* 40px = 10.58mm */
-        left: 10.58mm;
-        width: calc(100% - 21.16mm);
-        max-width: 201.6mm; /* 762px = 201.6mm */
-    }
+    /* 인쇄 시에도 모든 요소는 px 단위를 유지하여 화면과 동일한 비율 유지 */
+    /* 브라우저가 자동으로 A4 크기에 맞춰 스케일링합니다 */
 }
 
-/* 반응형 디자인 (화면 미리보기용) */
-@media screen and (max-width: 900px) {
-    section.page {
-        width: 100%;
-        max-width: 842px;
-        height: auto;
-        aspect-ratio: 842 / 595; /* A4 Landscape 비율 유지 */
-    }
-    
-    .container {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 842 / 595;
-    }
-    
-    .main-title {
-        font-size: 28px;
-        line-height: 34px;
-    }
-    
-    .contract-name {
-        font-size: 32px;
-        line-height: 40px;
-    }
-}
+/* 반응형 디자인 제거 - 고정형으로 변경 */
 
 /* 목차 페이지 스타일 - Figma 프레임 구조 반영 */
 
 /* Frame 8: 상단 헤더 */
 .frame-8 {
     position: absolute;
-    left: 40px;
-    top: 40px;
+    left: 54px;
+    top: 54px;
     /* Auto layout */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-    gap: 150px;
-    width: 762px;
-    height: 14px;
+    gap: 200px;
+    width: 1016px;
+    height: 19px;
     /* Inside auto layout */
     flex: none;
     order: 0;
@@ -480,7 +463,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 12px;
     line-height: 120%;
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #9E9E9E;
     flex: none;
     order: 0;
@@ -496,7 +479,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 12px;
     line-height: 120%;
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #9E9E9E;
     flex: none;
     order: 1;
@@ -512,7 +495,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 12px;
     line-height: 120%;
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #9E9E9E;
     flex: none;
     order: 2;
@@ -528,7 +511,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 12px;
     line-height: 120%;
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #616161;
     flex: none;
     order: 1;
@@ -538,10 +521,10 @@ section.page:last-child {
 /* 내용 영역: 목차 카드 */
 .frame-내용영역 {
     position: absolute;
-    left: 40px;
-    top: 54px;
-    width: 762px;
-    height: 425px;
+    left: 54px;
+    top: 72px;
+    width: 1016px;
+    height: hugo;
     border-radius: var(--border-radius);
     background: transparent;
     z-index: 2;
@@ -560,10 +543,10 @@ section.page:last-child {
 .frame-타이틀목차 {
     position: absolute;
     left: 0px;
-    top: 112px;
-    width: 722px;
-    height: 26px;
-    border-left: 4px solid #92b7ff;
+    top: 150px;
+    width: 963px;
+    height: 35px;
+    border-left: 6px solid #92b7ff;
     border-top: none;
     border-right: none;
     border-bottom: none;
@@ -572,16 +555,16 @@ section.page:last-child {
 
 .text-toc-title {
     position: absolute;
-    left: 12px;
+    left: 16px;
     top: 0px;
-    width: 35px;
-    height: 26px;
+    width: 47px;
+    height: 35px;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600;
-    font-size: 20px;
-    line-height: 26px;
-    letter-spacing: -0.08px;
+    font-size: 27px;
+    line-height: 35px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: #92b7ff;
     margin: 0;
     padding: 0;
@@ -592,21 +575,22 @@ section.page:last-child {
 .frame-목차리스트 {
     position: absolute;
     left: 0px;
-    top: 158px;
-    width: 236px;
-    height: 115px;
+    top: 204px; /* frame-타이틀목차 bottom (150px + 35px = 184px) + 간격 20px */
+    width: 100%; /* 가로 fill */
+    height: auto; /* 세로 hug */
 }
 
 .text-section-title {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-toc-section);
-    line-height: var(--line-height-toc-section);
-    letter-spacing: -0.064px;
+    font-size: 21px;
+    line-height: 26px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-light);
     margin: 0;
-    margin-bottom: 11px;
+    margin-bottom: 15px;
+    width: fit-content; /* 가로 hug */
 }
 
 /* 2. 미디어그룹별 광고 효과 분석: 서브섹션 */
@@ -622,29 +606,44 @@ section.page:last-child {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-toc-section);
-    line-height: var(--line-height-toc-section);
-    letter-spacing: -0.064px;
+    font-size: 21px;
+    line-height: 26px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-light);
     margin: 0;
     margin-bottom: 0; /* 미디어그룹 리스트와 붙임 */
+    width: fit-content; /* 가로 hug */
+    white-space: nowrap; /* 줄 바꿈 방지 */
 }
 
 .text-subsection-content {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-toc-section);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-medium);
     white-space: pre-line;
     margin: 0;
 }
 
+/* text-subsection-content.media-group-list 좌측 상단 정렬 */
+.text-subsection-content.media-group-list {
+    text-align: left !important; /* 좌측 정렬 */
+    align-self: flex-start !important; /* 상단 정렬 */
+    width: fit-content !important; /* 내용에 맞춤 */
+    margin-left: 0 !important; /* 좌측 마진 제거 */
+    margin-top: 0 !important; /* 상단 마진 제거하여 텍스트를 상단으로 */
+    margin-bottom: 0 !important; /* 하단 마진 제거 */
+    padding: 0 !important; /* 모든 패딩 제거 */
+    display: block !important; /* 블록 요소로 설정 */
+}
+
 .media-group-list {
     list-style: none;
     padding: 0;
+    padding-top: 12px; /* ol 태그와 첫 번째 li 사이 간격 */
     margin: 0;
     counter-reset: media-group-counter;
 }
@@ -655,9 +654,9 @@ section.page:last-child {
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-toc-section);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-medium);
     margin: 0;
     padding: 0;
@@ -673,10 +672,11 @@ section.page:last-child {
 /* 효과 분석 안내: 하단 안내 박스 */
 .frame-효과분석안내 {
     position: absolute;
-    left: 40px;
-    bottom: 40px;
-    width: 762px;
-    height: 76px;
+    left: 54px;
+    bottom: 54px;
+    width: 1016px;
+    height: 102px;
+    padding: 20px 20px;
     background: var(--color-info-box-bg);
     border-radius: var(--border-radius);
     z-index: 100;
@@ -684,50 +684,50 @@ section.page:last-child {
 
 .frame-24 {
     position: absolute;
-    left: 10px;
-    top: 10px;
-    width: 86px;
-    height: 14px;
+    left: 14px;
+    top: 14px;
+    width: 115px;
+    height: 19px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 7px;
 }
 
 .frame-icon {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 14px;
-    height: 14px;
+    width: 19px;
+    height: 19px;
     object-fit: contain;
     display: block;
 }
 
 .text-info-title {
     position: absolute;
-    left: 18px;
+    left: 24px;
     top: 0px;
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-xs);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-info-box-title);
 }
 
 .text-info-content {
     position: absolute;
-    left: 10px;
-    top: 32px;
-    width: 687px;
-    height: 34px;
+    left: 14px;
+    top: 43px;
+    width: 916px;
+    height: 46px;
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-regular);
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-toc-content);
-    letter-spacing: var(--letter-spacing-xs);
+    font-size: 16px;
+    line-height: 23px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-info-box-text);
     margin: 0;
 }
@@ -741,8 +741,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: var(--font-weight-medium);
     font-size: 8px;
-    line-height: 9.546875px;
-    letter-spacing: 0;
+    line-height: 10px;
+    letter-spacing: -0.25px;
     color: var(--color-text-secondary);
     text-align: right;
     z-index: 10;
@@ -793,16 +793,16 @@ section.page:last-child {
 
 .divider-title {
     position: absolute;
-    left: 40px; /* 2471 - 2431 = 40px */
-    top: 40px; /* 1232 - 1192 = 40px */
-    width: 588px;
-    height: 48px;
+    left: 54px; /* 2471 - 2431 = 40px */
+    top: 54px; /* 1232 - 1192 = 40px */
+    width: 784px;
+    height: 64px;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 700;
-    font-size: 40px;
-    line-height: 48px;
-    letter-spacing: -0.16px;
+    font-size: 53px;
+    line-height: 64px;
+    letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: #1462ff;
     margin: 0;
     padding: 0;
@@ -810,13 +810,13 @@ section.page:last-child {
 
 .divider-logo {
     position: absolute;
-    left: 40px; /* 2471 - 2431 = 40px */
-    top: 531px; /* 1723 - 1192 = 531px */
-    width: 81.71px;
-    height: 24px;
+    left: 54px; /* 좌측 하단 정렬 */
+    bottom: 54px; /* 좌측 하단 정렬 */
+    width: 110px;
+    height: 32px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-start; /* 좌측 정렬 */
 }
 
 .logo-image {
@@ -826,6 +826,64 @@ section.page:last-child {
     display: block;
 }
 
+/* 간지 2 페이지: 분석 미디어그룹 목록 컨테이너 */
+.divider-media-group-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: flex-start; /* 좌측 정렬 */
+    padding-left: 54px; /* 좌측 여백 */
+}
+
+/* 간지 2 페이지: 분석 미디어그룹 목록 제목 스타일 (Frame 21) */
+.divider-media-group-title-frame {
+    width: auto;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #757575; /* stroke */
+    margin-bottom: 16px; /* 목록과의 간격 */
+}
+
+.divider-media-group-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600; /* SemiBold */
+    font-size: 26.66px;
+    line-height: 34.66px;
+    letter-spacing: -0.10665274206776532px;
+    color: #757575;
+    padding-left: 16px;
+    padding-right: 16px;
+    white-space: nowrap;
+}
+
+/* 간지 2 페이지: 미디어그룹 목록 스타일 */
+.divider-media-group-list {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* 항목 간 간격 */
+}
+
+.divider-media-group-item {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600; /* SemiBold */
+    font-size: 21.33px;
+    line-height: 25.6px;
+    letter-spacing: -0.08532219060245438px;
+    color: #053fb2;
+    width: fit-content;
+    height: 26px;
+}
+
 /* ============================================
    미디어그룹 상품 정보 페이지 스타일
    ============================================ */
@@ -833,10 +891,10 @@ section.page:last-child {
 /* head: 헤더 영역 (Frame 10) */
 .frame-head {
     position: absolute;
-    left: 40px; /* 2471 - 2431 = 40px */
-    top: 40px; /* 1829 - 1789 = 40px */
-    width: 762px;
-    height: 90px;
+    left: 54px;
+    top: 54px;
+    width: 1016px;
+    height: hugo;
 }
 
 /* top title: 상단 Breadcrumb */
@@ -846,10 +904,10 @@ section.page:last-child {
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-    gap: 150px;
-    width: 762px;
-    height: 14px;
-    margin-bottom: 20px;
+    gap: 200px;
+    width: 1016px;
+    height: 19px;
+    margin-bottom: 27px;
 }
 
 /* top title: Breadcrumb 그룹 */
@@ -868,33 +926,39 @@ section.page:last-child {
 }
 
 .text-광고계약명-media,
-.text-separator-media,
-.text-목차-media {
+.text-separator-media {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 120%;
-    letter-spacing: -0.004em;
+    font-weight: 500; /* Medium */
+    font-size: 15.998px; /* 15.997910499572754px */
+    line-height: 19.197px; /* 19.197492599487305px */
+    letter-spacing: -0.064px; /* -0.06399164295184079px */
     color: #9e9e9e;
-    height: 14px;
+    height: 19px;
     width: fit-content;
 }
 
 .text-목차-media {
-    font-weight: 600;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600; /* SemiBold */
+    font-size: 15.998px; /* 15.997910499572754px */
+    line-height: 19.197px; /* 19.197492599487305px */
+    letter-spacing: -0.064px; /* -0.06399164295184079px */
     color: #616161;
+    height: 19px;
+    width: fit-content;
 }
 
 .text-platform-media {
     width: fit-content;
-    height: 14px;
+    height: 19px;
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 120%;
-    letter-spacing: -0.004em;
+    font-weight: 500; /* Medium */
+    font-size: 15.998px; /* 15.997910499572754px */
+    line-height: 19.197px; /* 19.197492599487305px */
+    letter-spacing: -0.064px; /* -0.06399164295184079px */
     color: #1462ff;
     flex: none;
     order: 1;
@@ -906,9 +970,10 @@ section.page:last-child {
 .frame-sub-title {
     position: absolute;
     left: 0px;
-    top: 34px; /* 1863 - 1829 = 34px */
-    width: 762px;
-    height: 56px;
+    top: 46px;
+    bottom: 46px;
+    width: 1016px;
+    height: hugo;
 }
 
 /* 확장 페이지: sub title이 없을 때 frame-head 높이 조정 */
@@ -919,36 +984,37 @@ section.page:last-child {
 .text-media-title {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 800;
-    font-size: 28px;
-    line-height: 39.2px;
-    letter-spacing: -0.112px;
+    font-weight: 800; /* ExtraBold */
+    font-size: 37.328px; /* 37.32845687866211px */
+    line-height: 52.26px; /* 52.25983810424805px */
+    letter-spacing: -0.149px; /* -0.14931382973959786px */
     color: #1462ff;
     margin: 0;
     padding: 0;
-    margin-bottom: 0; /* 간격 제거 */
+    margin-bottom: 0px; /* 간격 제거 */
 }
 
 .text-media-subtitle {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16.8px;
-    letter-spacing: -0.056px;
+    font-weight: 500; /* Medium */
+    font-size: 18.664px; /* 18.664228439331055px */
+    line-height: 22.397px; /* 22.397075653076172px */
+    letter-spacing: -0.075px; /* -0.07465691486979893px */
     color: #222222;
     margin: 0;
     padding: 0;
     margin-top: 0; /* 부제목 위 간격 없음 */
+    margin-bottom: 46px; /* 아래 콘텐츠와의 간격 */
 }
 
 /* Frame 1686563146: 래퍼 프레임 */
 .frame-1686563146 {
     position: absolute;
-    left: 40px; /* 2471 - 2431 = 40px */
-    top: 166px; /* 1955 - 1789 = 166px */
-    width: 762px;
-    height: 389px;
+    left: 54px;
+    top: 222px;
+    width: 1016px;
+    height: 519px;
     /* 테이블이 넘칠 경우를 위한 설정 */
     display: flex;
     flex-direction: column;
@@ -959,8 +1025,8 @@ section.page:last-child {
     position: relative;
     left: 0px;
     top: 0px;
-    width: 762px;
-    height: 365px;
+    width: 1016px;
+    height: 487px;
     display: flex;
     flex-direction: column;
 }
@@ -986,37 +1052,39 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px; /* frame-내용 기준 */
-    width: 762px;
-    height: 19px;
-    border-left: 4px solid #616161;
-    border-top: none;
+    width: 1016px;
+    height: 26px; /* Figma 디자인 높이 */
+    border: 1px solid #616161; /* stroke */
+    border-left: none;
     border-right: none;
     border-bottom: none;
     flex-shrink: 0; /* 크기 고정 */
+    display: flex;
+    align-items: center;
+    padding-left: 16px; /* 11821.064453125 - 11805.06640625 = 16px */
 }
 
 .text-ad-info-title {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19.2px;
-    letter-spacing: -0.064px;
+    font-weight: 600; /* SemiBold */
+    font-size: 21.331px; /* 21.330547332763672px */
+    line-height: 25.597px; /* 25.59665870666504px */
+    letter-spacing: -0.085px; /* -0.08532219060245438px */
     color: #616161;
     margin: 0;
     padding: 0;
-    padding-left: 8px; /* 4px border 후 텍스트 간격 */
 }
 
 /* table: 테이블 영역 (Frame table) - 표준 HTML table */
 .frame-내용 .frame-table {
     position: absolute;
     left: 0px;
-    top: 27px; /* content title (19px) + 간격 (8px) = 27px, frame-내용 기준 */
-    width: 762px;
+    top: 36.665px; /* content title (26px) + 간격 (10.665px) = 36.665px, frame-내용 기준 */
+    width: 1016px;
     min-height: 200px;
     max-height: calc(100% - 50px); /* 프레임 영역을 벗어나지 않도록 (여유 공간 확보) */
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     background-color: #ffffff;
     border-collapse: collapse; /* 테이블 라이브러리 표준: border-collapse */
@@ -1039,7 +1107,7 @@ section.page:last-child {
 .frame-18,
 .frame-14,
 .frame-19 {
-    width: 762px;
+    width: 1016px;
     page-break-inside: avoid; /* 페이지 분할 시 행이 잘리지 않도록 */
     break-inside: avoid; /* 페이지 분할 방지 */
 }
@@ -1059,16 +1127,30 @@ section.page:last-child {
 /* Field 공통 스타일 - 테이블 셀(td) */
 .frame-table td.field {
     padding: 12px 16px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     box-sizing: border-box;
     min-height: 40px;
-    vertical-align: top; /* 상단 정렬 */
+    vertical-align: middle; /* 수직 가운데 정렬 */
+    text-align: left; /* 좌측 정렬 */
     display: table-cell; /* 테이블 셀 표시 */
+}
+
+/* field field-value field-tall: 여백 제거 */
+.frame-table td.field.field-value.field-tall {
+    padding: 0px 16px;
+    margin: 0;
+}
+
+.frame-table td.field.field-value {
+    background-color: #ffffff;
+    width: 100%; /* 가로 fill */
 }
 
 .field-label {
     background-color: #eeeeee; /* Figma fills: #eeeeee */
     font-weight: 600;
+    text-align: left; /* 좌측 정렬 */
+    width: 100%; /* 가로 fill */
 }
 
 .field-label.field-tall {
@@ -1080,6 +1162,13 @@ section.page:last-child {
 
 .field-value {
     background-color: #ffffff;
+    text-align: left; /* 좌측 정렬 */
+    width: 100%; /* 가로 fill */
+}
+
+.field.field-value {
+    background-color: #ffffff;
+    width: 100%; /* 가로 fill */
 }
 
 .frame-19 .field-value {
@@ -1088,7 +1177,8 @@ section.page:last-child {
 
 .field-value.field-tall {
     min-height: 120px;
-    padding-top: 16px;
+    padding: 12px,16px;
+    margin: 0;
     vertical-align: top;
     /* 높이는 동적 항목에 맞춰 자동 조정 */
 }
@@ -1096,16 +1186,18 @@ section.page:last-child {
 /* field-value-item: 동적 항목 컨테이너 */
 .field-value-item {
     display: block;
-    padding: 8px 0;
-    border-bottom: 0.5px solid #e0e0e0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e0e0e0;
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 1.4;
-    letter-spacing: -0.056px;
+    font-weight: 500; /* Medium */
+    font-size: 18.664px; /* 18.664228439331055px */
+    line-height: 22.397px; /* 22.397075653076172px */
+    letter-spacing: -0.075px; /* -0.07465691486979893px */
     color: #012672; /* 피그마 디자인과 동일한 색상 */
     word-break: break-word;
+    width: 100%; /* 가로 fill */
+    height: 100%; /* 세로 fill */
 }
 
 .field-value-item:last-child {
@@ -1171,22 +1263,22 @@ section.page:last-child {
 .field-text {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 1.4;
-    letter-spacing: -0.056px;
+    font-weight: 500; /* Medium */
+    font-size: 18.664px; /* 18.664228439331055px */
+    line-height: 22.397px; /* 22.397075653076172px */
+    letter-spacing: -0.075px; /* -0.07465691486979893px */
     color: #616161;
     word-break: break-word;
 }
 
 .field-label .field-text {
     color: #616161;
-    font-weight: 600;
+    font-weight: 500; /* Medium (Figma에서는 Medium으로 표시) */
 }
 
 .field-value .field-text {
     color: #012672;
-    font-weight: 500;
+    font-weight: 500; /* Medium */
 }
 
 .field-label-content {
@@ -1200,10 +1292,10 @@ section.page:last-child {
 .field-text-small {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 8px;
-    line-height: 9.6px;
-    letter-spacing: -0.16px;
+    font-weight: 500; /* Medium */
+    font-size: 10.665px; /* 10.665273666381836px */
+    line-height: 12.798px; /* 12.79832935333252px */
+    letter-spacing: -0.213px; /* -0.21330547332763672px */
     color: #616161;
 }
 
@@ -1211,13 +1303,13 @@ section.page:last-child {
 .text-pitch-note {
     position: absolute;
     left: 0px;
-    top: 377px; /* 2332 - 1955 = 377px (frame-내용 기준) */
+    top: 319px; /* table 높이 (266.6318359375px) + content title (26px) + 간격 (약 27px) = 319px (frame-내용 기준) */
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 12px;
-    letter-spacing: -0.04px;
+    font-weight: 500; /* Medium */
+    font-size: 13.332px; /* 13.331592559814453px */
+    line-height: 15.998px; /* 15.99791145324707px */
+    letter-spacing: -0.053px; /* -0.05332637103388266px */
     color: #9e9e9e;
     margin: 0;
     padding: 0;
@@ -1230,10 +1322,10 @@ section.page:last-child {
 /* contents: 본문 영역 (Frame contents) */
 .frame-contents {
     position: absolute;
-    left: 40px; /* 2471 - 2431 = 40px */
-    top: 163px; /* 2543 - 2380 = 163px (contents 시작 위치) */
-    width: 762px;
-    height: 392px; /* contents 높이 */
+    left: 54px;
+    top: 218px;
+    width: 1016px;
+    height: 523px;
 }
 
 /* 유동/ 노출 인구: Frame 유동/노출 인구 */
@@ -1241,16 +1333,16 @@ section.page:last-child {
     position: absolute;
     left: 0px; /* contents 기준 */
     top: 0px; /* contents 기준 상단 */
-    width: 762px;
-    height: 113px;
+    width: 1016px;
+    height: 151px;
 }
 
 /* Frame 21: 주요 오디언스 요약 */
 .frame-21 {
     position: absolute;
     left: 0px; /* contents 기준 */
-    top: 143px; /* 2686 - 2543 = 143px (contents 기준) */
-    width: 762px;
+    top: 191px;
+    width: 1016px;
     height: auto; /* hug */
     min-height: 85px;
 }
@@ -1259,8 +1351,8 @@ section.page:last-child {
 .frame-22 {
     position: absolute;
     left: 0px; /* contents 기준 */
-    top: calc(143px + 85px + 30px); /* Frame 21 (top: 143px, min-height: 85px) + 간격 30px = 258px */
-    width: 762px;
+    top: calc(191px + 114px + 40px); /* Frame 21 (top: 191px, min-height: 114px) + 간격 40px = 344px */
+    width: 1016px;
     height: auto; /* hug */
     min-height: 65px;
 }
@@ -1270,13 +1362,13 @@ section.page:last-child {
     position: relative;
     left: 0px;
     top: 0px;
-    width: 762px;
-    height: 19px;
+    width: 1016px;
+    height: hugo;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
     border-bottom: none;
-    margin-bottom: 8px;
+    margin-bottom: 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1288,8 +1380,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
-    line-height: 19.2px;
-    letter-spacing: -0.064px;
+    line-height: 20px;
+    letter-spacing: -0.25px;
     color: #616161;
     margin: 0;
     padding: 0;
@@ -1308,11 +1400,11 @@ section.page:last-child {
 .data-info-text {
     font-family: 'Pretendard';
     font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
+    font-weight: 500;
+    font-size: 12px;
     line-height: 12px;
-    letter-spacing: -0.04px;
-    color: #bdbdbd;
+    letter-spacing: -0.25px;
+    color: #757575;
     white-space: nowrap;
 }
 
@@ -1320,10 +1412,10 @@ section.page:last-child {
 .frame-table-performance {
     position: absolute;
     left: 0px;
-    top: 27px; /* content title (19px) + margin-bottom (8px) = 27px */
-    width: 762px;
+    top: 36px; /* content title (26px) + margin-bottom (11px) = 36px */
+    width: 1016px;
     height: 40px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     background-color: #ffffff;
     border-collapse: collapse;
@@ -1333,33 +1425,40 @@ section.page:last-child {
 }
 
 .frame-table-performance .frame-18 {
-    width: 762px;
+    width: 1016px;
     height: 40px;
 }
 
 .frame-table-performance td.field {
     padding: 12px 16px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     box-sizing: border-box;
-    vertical-align: middle;
+    vertical-align: middle; /* 수직 가운데 정렬 */
+    text-align: left; /* 좌측 정렬 */
     display: table-cell;
+}
+
+.frame-table-performance td.field.field-value {
+    background-color: #ffffff;
+    width: 100%; /* 가로 fill */
 }
 
 .frame-table-performance .field-label {
     background-color: #eeeeee;
-    width: 120px;
+    width: 100%; /* 가로 fill */
 }
 
 .frame-table-performance .field-value {
-    background-color: #f5f5f5; /* 피그마 디자인과 동일 */
-    width: 261px;
+    background-color: #ffffff; /* 테이블 배경 색상 흰색으로 조정 */
+    width: 100%; /* 가로 fill */
+    text-align: left; /* 좌측 정렬 */
 }
 
 /* frame-insight: 인사이트 박스 (공통) */
 .frame-insight {
     position: absolute;
     left: 0px;
-    width: 762px;
+    width: 1016px;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -1372,7 +1471,8 @@ section.page:last-child {
 
 /* 유동/노출 인구 섹션의 insight */
 .frame-유동노출인구 .frame-insight {
-    top: 75px; /* table (40px) + gap (8px) + 27px = 75px */
+    bottom: auto; /* 콘텐츠 영역 하단 */
+    top: 86px; /* table 하단 (36px + 40px = 76px) + 간격 (10px) = 86px */
     height: auto; /* hug */
     min-height: 38px;
 }
@@ -1387,7 +1487,7 @@ section.page:last-child {
     position: relative;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
 }
 
 .frame-23 .frame-insight-large {
@@ -1433,11 +1533,12 @@ section.page:last-child {
     font-weight: 500;
     font-size: 14px;
     line-height: 120%; /* identical to box height, or 17px */
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #616161;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    gap: 2px; /* 텍스트 프레임 간 간격 */
 }
 
 /* Frame 1686563123-insight: 다중 줄 텍스트 컨테이너 (Frame 21용) */
@@ -1445,7 +1546,7 @@ section.page:last-child {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 10px;
 }
 
 .frame-1686563123-insight .frame-1686563118-insight {
@@ -1463,7 +1564,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 14px;
     line-height: 120%; /* identical to box height, or 17px */
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #616161;
 }
 
@@ -1490,7 +1591,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 27px; /* content title (19px) + margin-bottom (8px) = 27px */
-    width: 762px;
+    width: 1016px;
     height: 38px; /* Frame 22의 경우 38px, Frame 21의 경우 58px */
 }
 
@@ -1505,9 +1606,9 @@ section.page:last-child {
 /* Frame 1686563133: 본문 영역 */
 .frame-1686563133 {
     position: absolute;
-    left: 40px;
+    left: 54px;
     top: 166px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 36px = 166px */
-    width: 762px;
+    width: 1016px;
     height: 398px;
 }
 
@@ -1516,7 +1617,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: 322px;
 }
 
@@ -1527,6 +1628,8 @@ section.page:last-child {
     border-right: none;
     border-bottom: none;
     padding-left: 8px; /* stroke 후 텍스트 간격 */
+    display: flex;
+    align-items: center;
 }
 
 /* frame-chart-container: 차트 라이브러리 컨테이너 */
@@ -1555,7 +1658,7 @@ section.page:last-child {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
-    letter-spacing: -0.04px;
+    letter-spacing: -0.25px;
     color: #757575;
 }
 
@@ -1571,8 +1674,8 @@ section.page:last-child {
 .frame-insight-notice {
     position: absolute;
     left: 0px;
-    top: 342px; /* Frame 1686563131 (322px) + gap (20px) = 342px */
-    width: 762px;
+    bottom: 0px; /* 콘텐츠 영역 하단 */
+    width: 1016px;
     height: auto; /* hug */
     min-height: 56px;
     display: flex;
@@ -1584,8 +1687,8 @@ section.page:last-child {
 .frame-1686563133 .frame-insight-notice {
     position: absolute;
     left: 0px;
-    top: 334px; /* Frame 1686563131 (322px) + gap (12px) = 334px */
-    width: 762px;
+    bottom: 0px; /* 콘텐츠 영역 하단 */
+    width: 1016px;
     height: auto; /* hug */
     min-height: 56px;
 }
@@ -1609,8 +1712,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
-    line-height: 120%; /* identical to box height, or 14.4px */
-    letter-spacing: -0.004em;
+    line-height: 120%; /* identical to box height, or 15px */
+    letter-spacing: -0.25px;
     color: #003399;
 }
 
@@ -1624,8 +1727,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 120%; /* identical to box height, or 14.4px */
-    letter-spacing: -0.004em;
+    line-height: 120%; /* identical to box height, or 15px */
+    letter-spacing: -0.25px;
     color: #616161;
 }
 
@@ -1634,8 +1737,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 120%; /* identical to box height, or 14.4px */
-    letter-spacing: -0.004em;
+    line-height: 120%; /* identical to box height, or 15px */
+    letter-spacing: -0.25px;
     color: #616161;
     display: inline;
 }
@@ -1647,9 +1750,9 @@ section.page:last-child {
 /* Frame 1686563108: 본문 영역 */
 .frame-1686563108 {
     position: absolute;
-    left: 40px;
+    left: 54px;
     top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
-    width: 762px;
+    width: 1016px;
     height: 349px; /* 최대 높이: 349px - 테이블이 넘치면 다음 페이지로 */
     max-height: 349px; /* 최대 높이 제한 */
     overflow: visible; /* 넘치는 부분은 다음 페이지로 */
@@ -1662,7 +1765,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: auto; /* hug: 미디어그룹 수에 따라 동적으로 높이 조정 */
     min-height: 268px; /* 최소 높이 유지 */
     max-height: calc(349px - 12px); /* frame-1686563108 높이(349px) - tips 간격(12px) = 337px */
@@ -1714,7 +1817,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: 19px;
     border-left: 4px solid #616161;
     border-top: none;
@@ -1733,8 +1836,8 @@ section.page:last-child {
     top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
     margin-top: 27px; /* content title (19px) + gap (8px) = 27px */
     margin-bottom: 0px; /* Frame 29와의 간격 */
-    width: 762px;
-    border: 0.5px solid #e0e0e0;
+    width: 1016px;
+    border: 1px solid #e0e0e0;
     border-radius: 4px;
     background-color: #ffffff;
     border-collapse: collapse;
@@ -1752,14 +1855,14 @@ section.page:last-child {
 
 .frame-table-performance3 thead th.field {
     padding: 12px 16px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     background-color: #eeeeee;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium (피그마 스타일) */
     font-size: 14px;
-    line-height: 16.8px; /* 피그마 lineHeightPx: 16.8 */
-    letter-spacing: -0.056px;
+    line-height: 17px; /* 피그마 lineHeightPx: 16.8 */
+    letter-spacing: -0.25px;
     color: #616161;
     text-align: left;
     vertical-align: middle;
@@ -1789,16 +1892,18 @@ section.page:last-child {
 
 .frame-table-performance3 tbody td.field {
     padding: 12px 16px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     background-color: #ffffff;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 1.4;
-    letter-spacing: -0.056px;
+    letter-spacing: -0.25px;
     color: #012672;
-    vertical-align: middle;
+    vertical-align: middle; /* 수직 가운데 정렬 */
+    text-align: left; /* 좌측 정렬 */
+    width: 100%; /* 가로 fill */
 }
 
 /* Frame 29: 유사 미디어그룹 헤더 */
@@ -1806,11 +1911,11 @@ section.page:last-child {
     position: relative;
     left: 0px;
     top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
-    width: 762px;
+    width: 1016px;
     height: 29px;
     margin-top: 0px; /* 테이블과의 간격은 테이블의 margin-bottom으로 조정 */
     background-color: #eeeeee;
-    border: 0.5px solid #eeeeee;
+    border: 1px solid #eeeeee;
     border-radius: 0;
     display: flex;
     align-items: center;
@@ -1822,10 +1927,10 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 268px;
-    width: 762px;
+    width: 1016px;
     height: 29px;
     background-color: #eeeeee;
-    border: 0.5px solid #eeeeee;
+    border: 1px solid #eeeeee;
     border-radius: 0;
     display: flex;
     align-items: center;
@@ -1837,10 +1942,10 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 268px;
-    width: 762px;
+    width: 1016px;
     height: 29px;
     background-color: #eeeeee;
-    border: 0.5px solid #eeeeee;
+    border: 1px solid #eeeeee;
     border-radius: 0;
     display: flex;
     align-items: center;
@@ -1853,7 +1958,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 14px;
     line-height: 1.4;
-    letter-spacing: -0.056px;
+    letter-spacing: -0.25px;
     color: #616161;
 }
 
@@ -1863,8 +1968,8 @@ section.page:last-child {
     left: 0px;
     top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
     margin-top: 0px; /* Frame 29와의 간격 */
-    width: 762px;
-    border: 0.5px solid #e0e0e0;
+    width: 1016px;
+    border: 1px solid #e0e0e0;
     border-radius: 0;
     background-color: #ffffff;
     border-collapse: collapse;
@@ -1878,8 +1983,8 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 297px;
-    width: 762px;
-    border: 0.5px solid #e0e0e0;
+    width: 1016px;
+    border: 1px solid #e0e0e0;
     border-radius: 0;
     background-color: #ffffff;
     border-collapse: collapse;
@@ -1902,16 +2007,18 @@ section.page:last-child {
 
 .frame-table-similar tbody td.field {
     padding: 12px 16px;
-    border: 0.5px solid #e0e0e0;
+    border: 1px solid #e0e0e0;
     background-color: #ffffff;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 1.4;
-    letter-spacing: -0.056px;
+    letter-spacing: -0.25px;
     color: #012672;
-    vertical-align: middle;
+    vertical-align: middle; /* 수직 가운데 정렬 */
+    text-align: left; /* 좌측 정렬 */
+    width: 100%; /* 가로 fill */
 }
 
 /* field-tall-similar: 2줄 텍스트용 */
@@ -1932,7 +2039,7 @@ section.page:last-child {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
-    letter-spacing: -0.04px;
+    letter-spacing: -0.25px;
     color: #012672;
 }
 
@@ -1942,7 +2049,7 @@ section.page:last-child {
     font-weight: 500;
     font-size: 14px;
     line-height: 1.4;
-    letter-spacing: -0.056px;
+    letter-spacing: -0.25px;
     color: #012672;
 }
 
@@ -1951,8 +2058,8 @@ section.page:last-child {
 .frame-1686563108 .frame-20-performance3 ~ .frame-insight-notice {
     position: absolute;
     left: 0px;
-    top: calc(100% + 12px); /* frame-20-performance3의 높이 + margin-bottom (12px) = 12px 간격 */
-    width: 762px;
+    bottom: 0px; /* 콘텐츠 영역 하단 */
+    width: 1016px;
     height: auto;
     min-height: 56px;
 }
@@ -1962,7 +2069,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: calc(100% + 12px); /* frame-insight-notice 하단 + 간격 12px */
-    width: 762px;
+    width: 1016px;
     height: 7px;
 }
 
@@ -1972,8 +2079,8 @@ section.page:last-child {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
-    letter-spacing: -0.04px;
-    color: #bdbdbd;
+    letter-spacing: -0.25px;
+    color: #757575;
 }
 
 /* ============================================
@@ -1983,9 +2090,9 @@ section.page:last-child {
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4-1) */
 .frame-1686563108-performance4 {
     position: absolute;
-    left: 40px;
+    left: 54px;
     top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
-    width: 762px;
+    width: 1016px;
     height: 392px;
 }
 
@@ -1994,7 +2101,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: auto;
     min-height: 392px;
 }
@@ -2004,7 +2111,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: 19px;
     border-left: 4px solid #616161;
     border-top: none;
@@ -2021,7 +2128,7 @@ section.page:last-child {
     position: relative;
     left: 0px;
     top: 31px; /* content title (19px) + gap (12px) = 31px */
-    width: 762px;
+    width: 1016px;
     height: 339px;
 }
 
@@ -2030,7 +2137,7 @@ section.page:last-child {
     position: absolute;
     left: 0px;
     top: 0px;
-    width: 762px;
+    width: 1016px;
     height: 254px;
 }
 
@@ -2064,11 +2171,11 @@ section.page:last-child {
 }
 
 .legend-icon.legend-male {
-    background-color: #ff7d20;
+    background-color: #4DADFF;
 }
 
 .legend-icon.legend-female {
-    background-color: #ffa462;
+    background-color: #FFA462;
 }
 
 .legend-text {
@@ -2077,7 +2184,404 @@ section.page:last-child {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
-    letter-spacing: -0.04px;
+    letter-spacing: -0.25px;
     color: #757575;
 }
 
+/* ============================================
+   주요 광고 성과 4 페이지 스타일 (인구 피라미드)
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 (주요 광고 성과 4 - 인구 피라미드) */
+.frame-1686563108-performance4-pyramid {
+    position: absolute;
+    left: 54px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 1016px;
+    height: 392px;
+}
+
+/* Frame 20: 차트 영역 (주요 광고 성과 4 - 인구 피라미드) */
+.frame-20-performance4-pyramid {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: auto;
+    min-height: 392px;
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance4-pyramid .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 1686563136: 차트 영역 (인구 피라미드) */
+.frame-1686563136-pyramid {
+    position: relative;
+    left: 0px;
+    top: 31px; /* content title (19px) + gap (12px) = 31px */
+    width: 1016px;
+    height: 472px;
+}
+
+/* 여러 미디어그룹 비교 차트 컨테이너 */
+.frame-pyramid-comparison-container {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: 339px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* 각 피라미드 차트 래퍼 */
+.pyramid-chart-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+/* 피라미드 차트 제목 (하단에 위치) */
+.pyramid-chart-title {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.25px;
+    color: #222222;
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+    flex-shrink: 0; /* 제목이 축소되지 않도록 */
+}
+
+/* 피라미드 차트 컨테이너 */
+.pyramid-chart-container {
+    flex: 1;
+    width: 100%;
+    height: calc(100% - 27px); /* 제목 높이 제외 */
+    position: relative;
+}
+
+.pyramid-chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 범례 영역 (인구 피라미드 페이지) */
+.frame-1686563136-pyramid .frame-1686563137 {
+    position: absolute;
+    left: 0px;
+    top: 438px; /* 차트 하단 + 간격 */
+    width: 1016px;
+    height: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   주요 광고 성과 4-2 페이지 스타일 (일별 노출인구 비교)
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 (주요 광고 성과 4-2) */
+.frame-1686563108-performance4-2 {
+    position: absolute;
+    left: 54px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 1016px;
+    height: 392px;
+}
+
+/* Frame 20: 차트 영역 (주요 광고 성과 4-2) */
+.frame-20-performance4-2 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: auto;
+    min-height: 392px;
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance4-2 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 1686563136: 차트 영역 (일별 노출인구) */
+.frame-1686563136-daily {
+    position: relative;
+    left: 0px;
+    top: 31px; /* content title (19px) + gap (12px) = 31px */
+    width: 1016px;
+    height: 339px;
+}
+
+/* 총합이 가장 많은 날의 값 표시 */
+.daily-chart-max-value {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.25px;
+    color: #000000;
+    text-align: center;
+    z-index: 10;
+}
+
+/* 차트 컨테이너 (일별 노출인구) */
+.frame-chart-container-daily {
+    position: absolute;
+    left: 0px;
+    top: 30px; /* 최대값 표시 영역 아래 */
+    width: 1016px;
+    height: 280px;
+}
+
+.frame-chart-container-daily canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 범례 영역 (일별 노출인구 페이지) */
+.frame-1686563137-daily {
+    position: absolute;
+    left: 0px;
+    top: 320px; /* 차트 하단 + 간격 */
+    width: 1016px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-separator {
+    display: flex;
+    align-items: center;
+    height: 16px;
+}
+
+/* ============================================
+   주요 광고 성과 4-3 페이지 스타일 (요일별 노출인구 비교)
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 (주요 광고 성과 4-3) */
+.frame-1686563108-performance4-3 {
+    position: absolute;
+    left: 54px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 1016px;
+    height: 392px;
+}
+
+/* Frame 20: 차트 영역 (주요 광고 성과 4-3) */
+.frame-20-performance4-3 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: auto;
+    min-height: 392px;
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance4-3 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 1686563139: 차트 영역 (요일별 노출인구) */
+.frame-1686563139-weekly {
+    position: relative;
+    left: 0px;
+    top: 31px; /* content title (19px) + gap (12px) = 31px */
+    width: 1016px;
+    height: 469px;
+}
+
+/* 총합이 가장 많은 요일의 값 표시 */
+.weekly-chart-max-value {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.25px;
+    color: #000000;
+    text-align: center;
+    z-index: 10;
+}
+
+/* 차트 컨테이너 (요일별 노출인구) */
+.frame-chart-container-weekly {
+    position: absolute;
+    left: 0px;
+    top: 30px; /* 최대값 표시 영역 아래 */
+    width: 1016px;
+    height: 420px;
+}
+
+.frame-chart-container-weekly canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 범례 영역 (요일별 노출인구 페이지) */
+.frame-1686563137-weekly {
+    position: absolute;
+    left: 0px;
+    top: 470px; /* 차트 하단 + 간격 */
+    width: 1016px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================
+   주요 광고 성과 4-4 페이지 스타일 (시간대별 노출인구 비교)
+   ============================================ */
+
+/* Frame 1686563108: 본문 영역 (주요 광고 성과 4-4) */
+.frame-1686563108-performance4-4 {
+    position: absolute;
+    left: 54px;
+    top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    width: 1016px;
+    height: 392px;
+}
+
+/* Frame 20: 차트 영역 (주요 광고 성과 4-4) */
+.frame-20-performance4-4 {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: auto;
+    min-height: 392px;
+}
+
+/* Frame 21: content title (좌측 4px stroke) */
+.frame-20-performance4-4 .frame-content-title {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: 19px;
+    border-left: 4px solid #616161;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Frame 1686563139: 차트 영역 (시간대별 노출인구) */
+.frame-1686563139-hourly {
+    position: relative;
+    left: 0px;
+    top: 31px; /* content title (19px) + gap (12px) = 31px */
+    width: 1016px;
+    height: 469px;
+}
+
+/* 총합이 가장 많은 시간대의 값 표시 */
+.hourly-chart-max-value {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.25px;
+    color: #000000;
+    text-align: center;
+    z-index: 10;
+}
+
+/* 차트 컨테이너 (시간대별 노출인구) */
+.frame-chart-container-hourly {
+    position: absolute;
+    left: 0px;
+    top: 30px; /* 최대값 표시 영역 아래 */
+    width: 1016px;
+    height: 420px;
+}
+
+.frame-chart-container-hourly canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* 범례 영역 (시간대별 노출인구 페이지) */
+.frame-1686563137-hourly {
+    position: absolute;
+    left: 0px;
+    top: 470px; /* 차트 하단 + 간격 */
+    width: 1016px;
+    height: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}

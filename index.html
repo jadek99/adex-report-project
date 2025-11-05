@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>옥외디지털 광고 효과 분석 보고서</title>
+    <meta name="viewport" content="width=1122.52, initial-scale=1.0, user-scalable=no">
+    <title>옥외디지털 효과 분석 보고서</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" as="style" crossorigin>
     <style>
@@ -13,12 +13,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
+    <div class="page-wrapper">
+        <!-- 기존의 <section class="page"> 들이 이 안에 들어갑니다 -->
+      </div>
     <!-- 페이지 1: 표지 (페이지 번호 없음) -->
     <section class="page page-cover">
         <div class="container">
             <div class="header-frame">
                 <div class="title-section">
-                    <h1 class="main-title">ADeX 광고 효과 분석 보고서</h1>
+                    <h1 class="main-title">ADeX 효과 분석 보고서</h1>
                     <h2 class="contract-name">{{광고계약명}}</h2>
                 </div>
                 <div class="icon-group">
@@ -79,7 +82,7 @@
                         <h3 class="text-section-title">1. 미디어그룹 상품 및 주요 광고 성과</h3>
                         <!-- 2. 미디어그룹별 광고 효과 분석: 서브섹션 -->
                         <div class="frame-미디어그룹별광고효과분석">
-                            <h4 class="text-subsection-title">2. 미디어그룹별 광고 효과 분석</h4>
+                            <h4 class="text-subsection-title">2. 미디어그룹별 효과 분석</h4>
                             <ol class="text-subsection-content media-group-list">
                                 <!-- 미디어그룹 리스트는 서버에서 반복문으로 동적 생성 -->
                                 <!-- 정렬 규칙: 유동 대비 노출 비율순으로 정렬 (내림차순), 동일한 비율일 경우 ㄱㄴㄷ, a-z 순으로 정렬 -->
@@ -117,7 +120,8 @@
                     <span class="text-info-title">효과 분석 안내</span>
                 </div>
                 <!-- 내용 텍스트 -->
-                <p class="text-info-content">효과 분석은 공공데이터, 통신사 데이터, 모바일 OD, 자체 수집 데이터를 기반으로 한 엠앤엠네트웍스의 알고리즘 기반 AI 효과 지표 분석 결과입니다. 본 분석은 옥외광고표준화 얼라이언스 가이드를 준수합니다.</p>
+                <p class="text-info-content">효과 분석은 공공데이터, 통신사 데이터, 모바일 OD, 자체 수집 데이터를 기반으로 한 엠앤엠네트웍스의 알고리즘 기반 AI 효과 지표 분석 결과입니다. 
+                    <br>본 분석은 옥외광고표준화 얼라이언스 가이드를 준수합니다.</p>
             </div>
             
             <!-- 페이지 번호: container 기준 -->
@@ -260,7 +264,7 @@
                     </table>
 
                     <!-- pitch 안내 문구: 주석 -->
-                    <p class="text-pitch-note">*간격은 LED만 기입됩니다.</p>
+                    <p class="text-pitch-note">※ 간격은 LED 미디어에 한해 기입됩니다.</p>
                 </div>
             </div>
 
@@ -288,7 +292,7 @@
                 <!-- sub title: 타이틀 영역 -->
                 <div class="frame-sub-title">
                     <h1 class="text-media-title">주요 광고 성과 - Ⅰ</h1>
-                    <p class="text-media-subtitle">광고 기간 동안 수집한 데이터에 기반한 미디어그룹의 효과 지표</p>
+                    <p class="text-media-subtitle">광고 기간 동안 수집된 데이터 기반 미디어그룹 효과 지표</p>
                 </div>
             </div>
 
@@ -301,7 +305,7 @@
                         <h2 class="text-ad-info-title">유동 / 노출인구</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 유동・노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 전체 미디어그룹의 유동・노출인구 총합</span>
                         </div>
                     </div>
 
@@ -351,7 +355,7 @@
                         <h2 class="text-ad-info-title">주요 오디언스 요약</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 전체 미디어그룹의 노출인구 총합, 미디어그룹별 노출인구 총합</span>
                         </div>
                     </div>
 
@@ -413,7 +417,7 @@
                         <h2 class="text-ad-info-title">노출인구 최다 미디어그룹</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 미디어그룹별 노출인구 총합</span>
                         </div>
                     </div>
 
@@ -469,7 +473,6 @@
                 <!-- sub title: 타이틀 영역 (Frame 9) -->
                 <div class="frame-sub-title">
                     <h1 class="text-media-title">주요 광고 성과 - Ⅱ</h1>
-                    <p class="text-media-subtitle">미디어그룹 별 유동인구와 노출인구 비교</p>
                 </div>
             </div>
 
@@ -665,56 +668,6 @@
                                 </tr>
                                 {% endif %}
                             -->
-
-                            <!-- Frame 14: 유사 미디어그룹 행 2 - 상품 카테고리가 유사한 -->
-                            <!-- 서버에서 값이 없으면 invisible 처리: style="display: none;" 또는 class="invisible" 추가 -->
-                            <!-- 예시: {{#if 상품카테고리유사미디어그룹}} 또는 {% if 상품카테고리유사미디어그룹 %} -->
-                            <!-- 서버 측에서 조건부로 렌더링하거나, 값이 없으면 style="display: none;" 또는 class="invisible" 추가 -->
-                            <tr class="frame-14-similar similar-category">
-                                <!-- Frame 16: 미디어그룹명 (2줄) -->
-                                <td class="field field-value field-tall-similar">
-                                    <div class="field-value-item-similar">
-                                        <div class="field-text-small-similar">상품 카테고리가 유사한</div>
-                                        <div class="field-text-normal">{{상품카테고리유사미디어그룹명}}</div>
-                                    </div>
-                                </td>
-                                <td class="field field-value">{{상품카테고리유사미디어그룹유동인구}}명</td>
-                                <td class="field field-value">{{상품카테고리유사미디어그룹노출인구}}명</td>
-                                <td class="field field-value">{{상품카테고리유사미디어그룹유동대비노출비율}}%</td>
-                                <td class="field field-value">{{상품카테고리유사미디어그룹CPM}}원</td>
-                            </tr>
-                            <!-- 서버 측 렌더링 예시 (Handlebars):
-                                {{#if 상품카테고리유사미디어그룹}}
-                                <tr class="frame-14-similar similar-category">
-                                    <td class="field field-value field-tall-similar">
-                                        <div class="field-value-item-similar">
-                                            <div class="field-text-small-similar">상품 카테고리가 유사한</div>
-                                            <div class="field-text-normal">{{상품카테고리유사미디어그룹.이름}}</div>
-                                        </div>
-                                    </td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.유동인구}}명</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.노출인구}}명</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.CPM}}원</td>
-                                </tr>
-                                {{/if}}
-                                
-                                서버 측 렌더링 예시 (Jinja2):
-                                {% if 상품카테고리유사미디어그룹 %}
-                                <tr class="frame-14-similar similar-category">
-                                    <td class="field field-value field-tall-similar">
-                                        <div class="field-value-item-similar">
-                                            <div class="field-text-small-similar">상품 카테고리가 유사한</div>
-                                            <div class="field-text-normal">{{상품카테고리유사미디어그룹.이름}}</div>
-                                        </div>
-                                    </td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.유동인구}}명</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.노출인구}}명</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{상품카테고리유사미디어그룹.CPM}}원</td>
-                                </tr>
-                                {% endif %}
-                            -->
                         </tbody>
                     </table>
                 </div>
@@ -755,8 +708,8 @@
         </div>
     </section>
 
-    <!-- 페이지 8: 주요 광고 성과 - Ⅳ-1 -->
-    <section class="page page-media-info page-performance-4-1">
+    <!-- 페이지 8: 주요 광고 성과 - Ⅳ (인구 피라미드) -->
+    <section class="page page-media-info page-performance-4">
         <div class="container container-media-info">
             <!-- head: 헤더 영역 (Frame 10) -->
             <div class="frame-head">
@@ -774,28 +727,29 @@
                 <!-- sub title: 타이틀 영역 (Frame 9) -->
                 <div class="frame-sub-title">
                     <h1 class="text-media-title">주요 광고 성과 - Ⅳ</h1>
-                    <p class="text-media-subtitle">연령대・성별 분포, 일 별, 요일 별, 시간대 별 노출인구를 미디어그룹 간 비교</p>
                 </div>
             </div>
 
             <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108 frame-1686563108-performance4">
+            <div class="frame-1686563108 frame-1686563108-performance4-pyramid">
                 <!-- Frame 20: 차트 영역 -->
-                <div class="frame-20-performance4">
+                <div class="frame-20-performance4-pyramid">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
-                        <h2 class="text-ad-info-title">연령대・성별 분포 비교</h2>
+                        <h2 class="text-ad-info-title">연령・성별 분포 비교</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 미디어그룹별 노출인구 총합</span>
                         </div>
                     </div>
 
                     <!-- Frame 1686563136: 차트 영역 -->
-                    <div class="frame-1686563136">
-                        <!-- Image: 차트 영역 (차트 라이브러리로 대체될 자리) -->
-                        <div class="frame-chart-container-performance4" id="chart-container-performance4-1">
-                            <canvas id="chart-canvas-performance4-1"></canvas>
+                    <div class="frame-1686563136-pyramid">
+                        <!-- 여러 미디어그룹 비교 차트 컨테이너 -->
+                        <div class="frame-pyramid-comparison-container" id="pyramid-comparison-container">
+                            <!-- 각 미디어그룹별 차트가 동적으로 생성됩니다 -->
+                            <!-- 서버에서 미디어그룹 리스트를 반복문으로 생성 -->
+                            <!-- 예시: {{#each 미디어그룹리스트}} 또는 {% for item in 미디어그룹리스트 %} -->
                         </div>
 
                         <!-- Container: 범례 영역 -->
@@ -813,6 +767,207 @@
                 </div>
             </div>
 
+            <!-- 페이지 번호 -->
+            <div class="page-number"></div>
+        </div>
+    </section>
+
+    <!-- 페이지 9: 주요 광고 성과 - Ⅳ-2 (일별 노출인구 비교) -->
+    <section class="page page-media-info page-performance-4-2">
+        <div class="container container-media-info">
+            <!-- head: 헤더 영역 (Frame 10) -->
+            <div class="frame-head">
+                <!-- top title: 상단 Breadcrumb -->
+                <div class="frame-top-title">
+                    <!-- top title: Breadcrumb 그룹 -->
+                    <div class="frame-top-title-group">
+                        <span class="text-광고계약명-media">{{광고계약명}}</span>
+                        <span class="text-separator-media">|</span>
+                        <span class="text-목차-media">미디어그룹 상품 및 주요 광고 성과</span>
+                    </div>
+                    <!-- adex: 공공 미디어 중개 플랫폼 ADeX -->
+                    <div class="text-platform-media">공공 미디어 중개 플랫폼 ADeX</div>
+                </div>
+                <!-- sub title: 타이틀 영역 (Frame 9) -->
+                <div class="frame-sub-title">
+                    <h1 class="text-media-title">주요 광고 성과 - Ⅳ</h1>
+                </div>
+            </div>
+
+            <!-- Frame 1686563108: 본문 영역 -->
+            <div class="frame-1686563108 frame-1686563108-performance4-2">
+                <!-- Frame 20: 차트 영역 -->
+                <div class="frame-20-performance4-2">
+                    <!-- Frame 21: content title -->
+                    <div class="frame-content-title">
+                        <h2 class="text-ad-info-title">일별 노출인구 비교</h2>
+                        <!-- 데이터 분석 정보 -->
+                        <div class="frame-data-info">
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 미디어그룹별 일별 노출인구</span>
+                        </div>
+                    </div>
+
+                    <!-- Frame 1686563136: 차트 영역 -->
+                    <div class="frame-1686563136-daily">
+                        <!-- 총합이 가장 많은 날의 값 표시 -->
+                        <div class="daily-chart-max-value" id="daily-chart-max-value"></div>
+                        
+                        <!-- 차트 컨테이너 -->
+                        <div class="frame-chart-container-daily" id="chart-container-daily">
+                            <canvas id="chart-canvas-daily"></canvas>
+                        </div>
+
+                        <!-- Container: 범례 영역 -->
+                        <div class="frame-1686563137-daily">
+                            <!-- 범례가 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 번호 -->
+            <div class="page-number"></div>
+        </div>
+    </section>
+
+    <!-- 페이지 10: 주요 광고 성과 - Ⅳ-3 (요일별 노출인구 비교) -->
+    <section class="page page-media-info page-performance-4-3">
+        <div class="container container-media-info">
+            <!-- head: 헤더 영역 (Frame 10) -->
+            <div class="frame-head">
+                <!-- top title: 상단 Breadcrumb -->
+                <div class="frame-top-title">
+                    <!-- top title: Breadcrumb 그룹 -->
+                    <div class="frame-top-title-group">
+                        <span class="text-광고계약명-media">{{광고계약명}}</span>
+                        <span class="text-separator-media">|</span>
+                        <span class="text-목차-media">미디어그룹 상품 및 주요 광고 성과</span>
+                    </div>
+                    <!-- adex: 공공 미디어 중개 플랫폼 ADeX -->
+                    <div class="text-platform-media">공공 미디어 중개 플랫폼 ADeX</div>
+                </div>
+                <!-- sub title: 타이틀 영역 (Frame 9) -->
+                <div class="frame-sub-title">
+                    <h1 class="text-media-title">주요 광고 성과 - Ⅳ</h1>
+                </div>
+            </div>
+
+            <!-- Frame 1686563108: 본문 영역 -->
+            <div class="frame-1686563108 frame-1686563108-performance4-3">
+                <!-- Frame 20: 차트 영역 -->
+                <div class="frame-20-performance4-3">
+                    <!-- Frame 21: content title -->
+                    <div class="frame-content-title">
+                        <h2 class="text-ad-info-title">요일별 노출인구 비교</h2>
+                        <!-- 데이터 분석 정보 -->
+                        <div class="frame-data-info">
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 미디어그룹별 요일별 일 평균 노출인구</span>
+                        </div>
+                    </div>
+
+                    <!-- Frame 1686563139: 차트 영역 -->
+                    <div class="frame-1686563139-weekly">
+                        <!-- 총합이 가장 많은 요일의 값 표시 -->
+                        <div class="weekly-chart-max-value" id="weekly-chart-max-value"></div>
+                        
+                        <!-- 차트 컨테이너 -->
+                        <div class="frame-chart-container-weekly" id="chart-container-weekly">
+                            <canvas id="chart-canvas-weekly"></canvas>
+                        </div>
+
+                        <!-- Container: 범례 영역 -->
+                        <div class="frame-1686563137-weekly">
+                            <!-- 범례가 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 번호 -->
+            <div class="page-number"></div>
+        </div>
+    </section>
+
+    <!-- 페이지 11: 주요 광고 성과 - Ⅳ-4 (시간대별 노출인구 비교) -->
+    <section class="page page-media-info page-performance-4-4">
+        <div class="container container-media-info">
+            <!-- head: 헤더 영역 (Frame 10) -->
+            <div class="frame-head">
+                <!-- top title: 상단 Breadcrumb -->
+                <div class="frame-top-title">
+                    <!-- top title: Breadcrumb 그룹 -->
+                    <div class="frame-top-title-group">
+                        <span class="text-광고계약명-media">{{광고계약명}}</span>
+                        <span class="text-separator-media">|</span>
+                        <span class="text-목차-media">미디어그룹 상품 및 주요 광고 성과</span>
+                    </div>
+                    <!-- adex: 공공 미디어 중개 플랫폼 ADeX -->
+                    <div class="text-platform-media">공공 미디어 중개 플랫폼 ADeX</div>
+                </div>
+                <!-- sub title: 타이틀 영역 (Frame 9) -->
+                <div class="frame-sub-title">
+                    <h1 class="text-media-title">주요 광고 성과 - Ⅳ</h1>
+                </div>
+            </div>
+
+            <!-- Frame 1686563108: 본문 영역 -->
+            <div class="frame-1686563108 frame-1686563108-performance4-4">
+                <!-- Frame 20: 차트 영역 -->
+                <div class="frame-20-performance4-4">
+                    <!-- Frame 21: content title -->
+                    <div class="frame-content-title">
+                        <h2 class="text-ad-info-title">시간대별 노출인구 비교</h2>
+                        <!-- 데이터 분석 정보 -->
+                        <div class="frame-data-info">
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}}, 09시 ~ 22시 | 산출 기준: 미디어그룹별 시간대별 평균 노출인구</span>
+                        </div>
+                    </div>
+
+                    <!-- Frame 차트 영역 -->
+                    <div class="frame-1686563139-hourly">
+                        <!-- 총합이 가장 많은 시간대의 값 표시 -->
+                        <div class="hourly-chart-max-value" id="hourly-chart-max-value"></div>
+                        
+                        <!-- 차트 컨테이너 -->
+                        <div class="frame-chart-container-hourly" id="chart-container-hourly">
+                            <canvas id="chart-canvas-hourly"></canvas>
+                        </div>
+
+                        <!-- Container: 범례 영역 -->
+                        <div class="frame-1686563137-hourly">
+                            <!-- 범례가 동적으로 생성됩니다 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 페이지 번호 -->
+            <div class="page-number"></div>
+        </div>
+    </section>
+
+    <!-- 페이지 12: 간지 2 (미디어그룹별 효과 분석) -->
+    <section class="page page-divider">
+        <div class="container container-divider">
+            <div class="divider-content">
+                <h1 class="divider-title">2. 미디어그룹별 효과 분석</h1>
+                <!-- 분석 미디어그룹 목록 컨테이너 -->
+                <div class="divider-media-group-container">
+                    <!-- 분석 미디어그룹 목록 제목 -->
+                    <div class="divider-media-group-title-frame">
+                        <span class="divider-media-group-title">분석 미디어그룹 목록</span>
+                    </div>
+                    <!-- 미디어그룹 목록 -->
+                    <div class="divider-media-group-list" id="divider-media-group-list">
+                        <!-- 미디어그룹 목록이 동적으로 생성됩니다 -->
+                        <!-- 서버에서 정렬된 미디어그룹 리스트를 반복문으로 생성 -->
+                        <!-- 정렬 규칙: 유동 대비 노출 비율 높은순, 동일한 비율일 경우 ㄱㄴㄷ, a-z 순 -->
+                    </div>
+                </div>
+                <div class="divider-logo">
+                    <img src="logo-black.png" alt="ADeX 로고" class="logo-image">
+                </div>
+            </div>
             <!-- 페이지 번호 -->
             <div class="page-number"></div>
         </div>
@@ -870,6 +1025,61 @@
                 { 이름: '홍대입구역 빌딩', 유동인구: 1600, 노출인구: 900, 유사미디어그룹: false },
                 { 이름: '이대역 빌딩', 유동인구: 1100, 노출인구: 1400, 유사미디어그룹: true }
             ];
+            
+            // 미디어그룹 목록 정렬 함수 (유동 대비 노출 비율순 내림차순, 동일한 비율일 경우 이름순)
+            function 정렬된미디어그룹리스트(리스트) {
+                return 리스트.slice().sort((a, b) => {
+                    // 1순위: 유동 대비 노출 비율 (내림차순)
+                    const ratioA = (a.노출인구 / a.유동인구) * 100;
+                    const ratioB = (b.노출인구 / b.유동인구) * 100;
+                    if (ratioB !== ratioA) {
+                        return ratioB - ratioA; // 내림차순
+                    }
+                    // 2순위: 동일 비율일 경우 이름순 (ㄱㄴㄷ, a-z)
+                    return a.이름.localeCompare(b.이름, 'ko');
+                });
+            }
+            
+            // 목차 섹션에 미디어그룹 목록 동적 생성
+            function 목차미디어그룹목록생성() {
+                const mediaGroupList = document.querySelector('.media-group-list');
+                if (mediaGroupList && 미디어그룹리스트 && 미디어그룹리스트.length > 0) {
+                    // 기존 내용 제거 (템플릿 변수 제거)
+                    mediaGroupList.innerHTML = '';
+                    
+                    // 정렬된 미디어그룹 리스트
+                    const 정렬된리스트 = 정렬된미디어그룹리스트(미디어그룹리스트);
+                    
+                    // 각 미디어그룹을 li 요소로 생성
+                    정렬된리스트.forEach((item) => {
+                        const li = document.createElement('li');
+                        li.textContent = item.이름;
+                        mediaGroupList.appendChild(li);
+                    });
+                }
+            }
+            
+            // Divider 섹션에 미디어그룹 목록 동적 생성
+            function divider미디어그룹목록생성() {
+                const dividerList = document.getElementById('divider-media-group-list');
+                if (dividerList && 미디어그룹리스트 && 미디어그룹리스트.length > 0) {
+                    // 기존 내용 제거
+                    dividerList.innerHTML = '';
+                    
+                    // 정렬된 미디어그룹 리스트
+                    const 정렬된리스트 = 정렬된미디어그룹리스트(미디어그룹리스트);
+                    
+                    // 각 미디어그룹을 요소로 생성 (알파벳 접두사 포함)
+                    정렬된리스트.forEach((item, index) => {
+                        const div = document.createElement('div');
+                        div.className = 'divider-media-group-item';
+                        // 알파벳 접두사 추가 (a., b., c., ...)
+                        const alphabet = String.fromCharCode(97 + index); // 97은 'a'의 ASCII 코드
+                        div.textContent = `${alphabet}. ${item.이름}`;
+                        dividerList.appendChild(div);
+                    });
+                }
+            }
             
             // 동적으로 labels, data, colors 생성
             const labels = 미디어그룹리스트.map(item => item.이름);
@@ -1053,6 +1263,1109 @@
                         });
                     }
                 }]
+            });
+        }
+
+        // 소수점 값 올림 처리 함수
+        function roundUpAllDecimals() {
+            // 모든 텍스트 노드를 순회하면서 % 기호 앞의 소수점 값들을 올림 처리
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+
+            let node;
+            const textNodes = [];
+            while (node = walker.nextNode()) {
+                // 템플릿 변수나 이미 처리된 노드는 제외
+                if (node.textContent && !node.textContent.includes('{{') && !node.textContent.includes('{%')) {
+                    textNodes.push(node);
+                }
+            }
+
+            textNodes.forEach(textNode => {
+                let text = textNode.textContent;
+                
+                // 소수점이 포함된 숫자 패턴 찾기 (예: 58.2%, 45.1% 등)
+                // 정규식: 소수점이 있는 숫자 뒤에 %가 오는 경우
+                text = text.replace(/(\d+\.\d+)%/g, (match, num) => {
+                    const rounded = Math.ceil(parseFloat(num));
+                    return rounded + '%';
+                });
+                
+                // 괄호 안의 소수점 값 (예: (45.1%), (30.1%) 등)
+                text = text.replace(/\((\d+\.\d+)%\)/g, (match, num) => {
+                    const rounded = Math.ceil(parseFloat(num));
+                    return '(' + rounded + '%)';
+                });
+                
+                // 소수점만 있는 숫자 (괄호나 % 없이)
+                text = text.replace(/(\d+\.\d+)/g, (match, num) => {
+                    // 이미 처리된 경우 제외 (다음에 %나 )가 오는 경우)
+                    if (match.includes('%') || match.includes(')')) {
+                        return match;
+                    }
+                    const rounded = Math.ceil(parseFloat(num));
+                    return rounded.toString();
+                });
+
+                if (text !== textNode.textContent) {
+                    textNode.textContent = text;
+                }
+            });
+        }
+
+        // 페이지 로드 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            roundUpAllDecimals();
+            // 미디어그룹 목록 생성
+            목차미디어그룹목록생성();
+            divider미디어그룹목록생성();
+        });
+
+        // 동적 콘텐츠가 추가된 후에도 실행할 수 있도록 MutationObserver 추가
+        const observer = new MutationObserver(function(mutations) {
+            roundUpAllDecimals();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+
+        // 인구 피라미드 차트 (주요 광고 성과 4) - 여러 미디어그룹 비교
+        const pyramidContainer = document.getElementById('pyramid-comparison-container');
+        if (pyramidContainer) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 미디어그룹별연령대데이터 = [
+            //     {
+            //         미디어그룹명: '강남역 2호선 지하철 광고',
+            //         연령대별데이터: [
+            //             { 연령대: '10-14세', 남성: 120, 여성: 110 },
+            //             { 연령대: '15-19세', 남성: 150, 여성: 140 },
+            //             { 연령대: '20-24세', 남성: 200, 여성: 180 },
+            //             { 연령대: '25-29세', 남성: 180, 여성: 190 },
+            //             { 연령대: '30대', 남성: 4200, 여성: 4600 },
+            //             { 연령대: '40대', 남성: 150, 여성: 160 },
+            //             { 연령대: '50대', 남성: 100, 여성: 120 },
+            //             { 연령대: '60대', 남성: 80, 여성: 90 },
+            //             { 연령대: '70대 이상', 남성: 50, 여성: 60 }
+            //         ]
+            //     },
+            //     {
+            //         미디어그룹명: '홍대입구역 빌딩',
+            //         연령대별데이터: [...]
+            //     },
+            //     {
+            //         미디어그룹명: '시청역 빌딩',
+            //         연령대별데이터: [...]
+            //     }
+            // ];
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 미디어그룹별연령대데이터 = [
+                {
+                    미디어그룹명: '강남역 2호선 지하철 광고',
+                    연령대별데이터: [
+                        { 연령대: '10-14세', 남성: 120, 여성: 110 },
+                        { 연령대: '15-19세', 남성: 150, 여성: 140 },
+                        { 연령대: '20-24세', 남성: 200, 여성: 180 },
+                        { 연령대: '25-29세', 남성: 180, 여성: 190 },
+                        { 연령대: '30대', 남성: 4200, 여성: 4600 },
+                        { 연령대: '40대', 남성: 150, 여성: 160 },
+                        { 연령대: '50대', 남성: 100, 여성: 120 },
+                        { 연령대: '60대', 남성: 80, 여성: 90 },
+                        { 연령대: '70대 이상', 남성: 50, 여성: 60 }
+                    ]
+                },
+                {
+                    미디어그룹명: '홍대입구역 빌딩',
+                    연령대별데이터: [
+                        { 연령대: '10-14세', 남성: 100, 여성: 90 },
+                        { 연령대: '15-19세', 남성: 130, 여성: 120 },
+                        { 연령대: '20-24세', 남성: 180, 여성: 170 },
+                        { 연령대: '25-29세', 남성: 4000, 여성: 4200 },
+                        { 연령대: '30대', 남성: 180, 여성: 190 },
+                        { 연령대: '40대', 남성: 140, 여성: 150 },
+                        { 연령대: '50대', 남성: 90, 여성: 110 },
+                        { 연령대: '60대', 남성: 70, 여성: 80 },
+                        { 연령대: '70대 이상', 남성: 40, 여성: 50 }
+                    ]
+                },
+                {
+                    미디어그룹명: '시청역 빌딩',
+                    연령대별데이터: [
+                        { 연령대: '10-14세', 남성: 110, 여성: 100 },
+                        { 연령대: '15-19세', 남성: 140, 여성: 130 },
+                        { 연령대: '20-24세', 남성: 190, 여성: 180 },
+                        { 연령대: '25-29세', 남성: 200, 여성: 210 },
+                        { 연령대: '30대', 남성: 4300, 여성: 5200 },
+                        { 연령대: '40대', 남성: 160, 여성: 170 },
+                        { 연령대: '50대', 남성: 110, 여성: 130 },
+                        { 연령대: '60대', 남성: 90, 여성: 100 },
+                        { 연령대: '70대 이상', 남성: 60, 여성: 70 }
+                    ]
+                }
+            ];
+
+            // 모든 미디어그룹의 최대값 계산
+            const maxValue = Math.max(
+                ...미디어그룹별연령대데이터.flatMap(그룹 =>
+                    그룹.연령대별데이터.map(item => Math.max(item.남성, item.여성))
+                )
+            );
+
+            // 연령대 라벨 (모든 그룹이 동일한 연령대 사용)
+            const 연령대라벨 = ['10-14세', '15-19세', '20-24세', '25-29세', '30대', '40대', '50대', '60대', '70대 이상'];
+
+            // 각 미디어그룹별로 차트 생성
+            미디어그룹별연령대데이터.forEach((그룹, index) => {
+                // 차트 컨테이너 생성
+                const chartWrapper = document.createElement('div');
+                chartWrapper.className = 'pyramid-chart-wrapper';
+                
+                const chartDiv = document.createElement('div');
+                chartDiv.className = 'pyramid-chart-container';
+                const canvas = document.createElement('canvas');
+                canvas.id = `chart-canvas-pyramid-${index}`;
+                chartDiv.appendChild(canvas);
+                chartWrapper.appendChild(chartDiv);
+                
+                // 차트 제목을 하단에 추가
+                const chartTitle = document.createElement('div');
+                chartTitle.className = 'pyramid-chart-title';
+                chartTitle.textContent = 그룹.미디어그룹명;
+                chartWrapper.appendChild(chartTitle);
+                
+                pyramidContainer.appendChild(chartWrapper);
+
+                // 차트 데이터 준비
+                const 남성데이터 = 연령대라벨.map(연령대 => {
+                    const item = 그룹.연령대별데이터.find(d => d.연령대 === 연령대);
+                    return item ? -item.남성 : 0; // 음수로 왼쪽에 표시
+                });
+                
+                const 여성데이터 = 연령대라벨.map(연령대 => {
+                    const item = 그룹.연령대별데이터.find(d => d.연령대 === 연령대);
+                    return item ? item.여성 : 0; // 양수로 오른쪽에 표시
+                });
+
+                // 차트 생성
+                // Y축은 첫 번째 차트(index === 0)에만 표시
+                const showYAxis = index === 0;
+                
+                const pyramidChart = new Chart(canvas, {
+                    type: 'bar',
+                    data: {
+                        labels: 연령대라벨,
+                        datasets: [
+                            {
+                                label: '남성',
+                                data: 남성데이터,
+                                backgroundColor: '#4DADFF',
+                                borderColor: '#4DADFF',
+                                borderWidth: 0
+                            },
+                            {
+                                label: '여성',
+                                data: 여성데이터,
+                                backgroundColor: '#FFA462',
+                                borderColor: '#FFA462',
+                                borderWidth: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        layout: {
+                            padding: {
+                                left: showYAxis ? 0 : -50 // 첫 번째 차트가 아닌 경우 왼쪽 패딩 제거
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: false,
+                                beginAtZero: true,
+                                max: maxValue,
+                                min: -maxValue,
+                                ticks: {
+                                    callback: function(value) {
+                                        return Math.abs(value);
+                                    },
+                                    font: {
+                                        family: 'Pretendard',
+                                        size: 10
+                                    },
+                                    color: '#757575'
+                                },
+                                grid: {
+                                    display: true,
+                                    color: '#e0e0e0'
+                                }
+                            },
+                            y: {
+                                stacked: false,
+                                ticks: {
+                                    display: showYAxis, // 첫 번째 차트에만 Y축 라벨 표시
+                                    font: {
+                                        family: 'Pretendard',
+                                        size: 10
+                                    },
+                                    color: '#616161'
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false // 범례는 HTML로 별도 표시
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.dataset.label || '';
+                                        const value = Math.abs(context.parsed.x);
+                                        return label + ': ' + value + '명';
+                                    }
+                                },
+                                titleFont: {
+                                    family: 'Pretendard',
+                                    size: 12
+                                },
+                                bodyFont: {
+                                    family: 'Pretendard',
+                                    size: 11
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false,
+                        responsive: true
+                    }
+                });
+            });
+        }
+
+        // 미디어그룹별 컬러 팔레트 (순서대로 적용, 밝게 조정)
+        const 미디어그룹컬러팔레트 = [
+            '#0389A1', // MG 1 (밝게 조정)
+            '#00C5D9', // MG 2 (밝게 조정)
+            '#0044C4', // MG 3 (밝게 조정)
+            '#FF5252', // MG 4 (밝게 조정)
+            '#B3D5EB', // MG 5 (밝게 조정)
+            '#C6044B', // MG 6 (밝게 조정)
+            '#0A56FF', // MG 7 (밝게 조정)
+            '#0A7FFF', // MG 8 (밝게 조정)
+            '#00CCFF', // MG 9 (밝게 조정)
+            '#E02F05', // MG 10 (밝게 조정)
+            '#FFE066', // MG 11 (밝게 조정)
+            '#E1FF70', // MG 12 (밝게 조정)
+            '#A8629F', // MG 13 (밝게 조정)
+            '#2AA3D1', // MG 14 (밝게 조정)
+            '#8DD4C6', // MG 15 (밝게 조정)
+            '#F255B3', // MG 16 (밝게 조정)
+            '#D1427F', // MG 17 (밝게 조정)
+            '#2A6FB0', // MG 18 (밝게 조정)
+            '#7A2FC4', // MG 19 (밝게 조정)
+            '#33E5FF'  // MG 20 (밝게 조정)
+        ];
+
+        // 일별 노출인구 비교 차트 (주요 광고 성과 4-2)
+        const dailyCtx = document.getElementById('chart-canvas-daily');
+        const dailyMaxValueEl = document.getElementById('daily-chart-max-value');
+        const dailyLegendEl = document.querySelector('.frame-1686563137-daily');
+        
+        if (dailyCtx) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 미디어그룹별 색상은 미디어그룹컬러팔레트 배열에서 순서대로 가져옵니다
+            // 예시 구조:
+            // const 미디어그룹컬러팔레트 = ['#026E81', '#00ABBD', '#00349B', ...]; // 위에 정의됨
+            // const 일별노출인구데이터 = {
+            //     날짜리스트: ['2025.07.01', '2025.07.02', '2025.07.03', ...],
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '강남역 2호선 지하철 광고',
+            //             일별데이터: [1200, 1500, 1800, ...],
+            //             색상: 미디어그룹컬러팔레트[0] // 첫 번째 미디어그룹은 MG 1 색상
+            //         },
+            //         {
+            //             미디어그룹명: '홍대입구역 빌딩',
+            //             일별데이터: [800, 1000, 2800, ...],
+            //             색상: 미디어그룹컬러팔레트[1] // 두 번째 미디어그룹은 MG 2 색상
+            //         },
+            //         {
+            //             미디어그룹명: '시청역 빌딩',
+            //             일별데이터: [1000, 1200, 3200, ...],
+            //             색상: 미디어그룹컬러팔레트[2] // 세 번째 미디어그룹은 MG 3 색상
+            //         }
+            //         // 색상을 지정하지 않으면 자동으로 팔레트에서 순서대로 할당됩니다
+            //     ],
+            //     일평균: 2500
+            // };
+            // 
+            // 서버 측 렌더링 예시 (Handlebars):
+            // const 미디어그룹컬러팔레트 = ['#026E81', '#00ABBD', '#00349B', ...];
+            // {{#each 미디어그룹리스트}}
+            //   {
+            //     미디어그룹명: '{{this.이름}}',
+            //     일별데이터: [{{#each this.일별데이터}}{{this}}{{#unless @last}},{{/unless}}{{/each}}],
+            //     색상: 미디어그룹컬러팔레트[{{@index}}] // 순서대로 색상 할당
+            //   }{{#unless @last}},{{/unless}}
+            // {{/each}}
+            //
+            // 서버 측 렌더링 예시 (Jinja2):
+            // const 미디어그룹컬러팔레트 = ['#026E81', '#00ABBD', '#00349B', ...];
+            // {% for item in 미디어그룹리스트 %}
+            //   {
+            //     미디어그룹명: '{{item.이름}}',
+            //     일별데이터: [{{item.일별데이터|join(',')}}],
+            //     색상: 미디어그룹컬러팔레트[{{loop.index0}}] // 순서대로 색상 할당
+            //   }{% if not loop.last %},{% endif %}
+            // {% endfor %}
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 일별노출인구데이터 = {
+                날짜리스트: ['07.01', '07.02', '07.03', '07.04', '07.05', '07.06', '07.07', '07.08', '07.09', '07.10', 
+                             '07.11', '07.12', '07.13', '07.14', '07.15', '07.16', '07.17', '07.18', '07.19', '07.20',
+                             '07.21', '07.22', '07.23', '07.24', '07.25', '07.26', '07.27', '07.28', '07.29', '07.30', '07.31'],
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '강남역 2호선 지하철 광고',
+                        일별데이터: [1200, 1500, 1800, 1600, 1400, 1700, 1900, 2100, 2000, 1800,
+                                     1600, 1500, 1700, 1900, 2100, 2000, 1800, 1600, 1500, 1700,
+                                     1900, 2100, 2000, 1800, 1600, 1500, 1700, 1900, 2100, 2000, 1800],
+                        색상: 미디어그룹컬러팔레트[0] // MG 1
+                    },
+                    {
+                        미디어그룹명: '홍대입구역 빌딩',
+                        일별데이터: [800, 1000, 2800, 1200, 1100, 1300, 1500, 1400, 1200, 1100,
+                                     1000, 1200, 1400, 1500, 1300, 1200, 1100, 1000, 1200, 1400,
+                                     1500, 1300, 1200, 1100, 1000, 1200, 1400, 1500, 1300, 1200, 1100],
+                        색상: 미디어그룹컬러팔레트[1] // MG 2
+                    },
+                    {
+                        미디어그룹명: '시청역 빌딩',
+                        일별데이터: [1000, 1200, 3200, 1400, 1300, 1500, 1700, 1600, 1400, 1300,
+                                     1200, 1400, 1600, 1700, 1500, 1400, 1300, 1200, 1400, 1600,
+                                     1700, 1500, 1400, 1300, 1200, 1400, 1600, 1700, 1500, 1400, 1300],
+                        색상: 미디어그룹컬러팔레트[2] // MG 3
+                    }
+                ],
+                일평균: 2500
+            };
+
+            // 각 날짜별 총합 계산
+            const 날짜별총합 = 일별노출인구데이터.날짜리스트.map((날짜, 인덱스) => {
+                return 일별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.일별데이터[인덱스], 0);
+            });
+
+            // 총합이 가장 많은 날 찾기
+            const 최대값인덱스 = 날짜별총합.indexOf(Math.max(...날짜별총합));
+            const 최대총합값 = 날짜별총합[최대값인덱스];
+
+            // 최대값 표시
+            if (dailyMaxValueEl) {
+                dailyMaxValueEl.textContent = `총 ${최대총합값.toLocaleString()} 명`;
+            }
+
+            // 각 미디어그룹별 최대값 찾기
+            const 미디어그룹별최대값 = 일별노출인구데이터.미디어그룹리스트.map(그룹 => {
+                const 최대값 = Math.max(...그룹.일별데이터);
+                const 최대값인덱스 = 그룹.일별데이터.indexOf(최대값);
+                return { 그룹, 최대값, 최대값인덱스 };
+            });
+
+            // 범례 생성 (미디어그룹별 색상 순서대로 적용)
+            if (dailyLegendEl) {
+                일별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                    // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                    const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                    
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    const legendIcon = document.createElement('div');
+                    legendIcon.className = 'legend-icon';
+                    legendIcon.style.backgroundColor = 색상;
+                    legendItem.appendChild(legendIcon);
+                    
+                    const legendText = document.createElement('span');
+                    legendText.className = 'legend-text';
+                    legendText.textContent = 그룹.미디어그룹명;
+                    legendItem.appendChild(legendText);
+                    
+                    dailyLegendEl.appendChild(legendItem);
+                });
+
+                // 평균 범례 추가
+                const legendSeparator = document.createElement('div');
+                legendSeparator.className = 'legend-separator';
+                legendSeparator.innerHTML = '<svg width="20" height="1" viewBox="0 0 20 1"><line x1="0" y1="0.5" x2="20" y2="0.5" stroke="#626262" stroke-width="1"/></svg>';
+                dailyLegendEl.appendChild(legendSeparator);
+
+                const legendItemAvg = document.createElement('div');
+                legendItemAvg.className = 'legend-item';
+                const legendTextAvg = document.createElement('span');
+                legendTextAvg.className = 'legend-text';
+                legendTextAvg.textContent = '평균';
+                legendItemAvg.appendChild(legendTextAvg);
+                dailyLegendEl.appendChild(legendItemAvg);
+            }
+
+            // 차트 데이터셋 생성 (미디어그룹별 색상 순서대로 적용)
+            const datasets = 일별노출인구데이터.미디어그룹리스트.map((그룹, index) => {
+                const 최대값정보 = 미디어그룹별최대값[index];
+                // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                return {
+                    label: 그룹.미디어그룹명,
+                    data: 그룹.일별데이터,
+                    backgroundColor: 색상,
+                    borderColor: 색상,
+                    borderWidth: 0,
+                    maxValue: 최대값정보.최대값,
+                    maxValueIndex: 최대값정보.최대값인덱스
+                };
+            });
+
+            // 평균선 데이터셋 추가
+            datasets.push({
+                label: '평균',
+                data: Array(일별노출인구데이터.날짜리스트.length).fill(일별노출인구데이터.일평균),
+                type: 'line',
+                borderColor: '#626262',
+                borderWidth: 1,
+                borderDash: [5, 5],
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0
+            });
+
+            const dailyChart = new Chart(dailyCtx, {
+                type: 'bar',
+                data: {
+                    labels: 일별노출인구데이터.날짜리스트,
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#616161',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // 범례는 HTML로 별도 표시
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        onComplete: function() {
+                            // 각 미디어그룹별 최대값을 막대 위에 표시
+                            const ctx = dailyChart.ctx;
+                            미디어그룹별최대값.forEach((정보, index) => {
+                                const meta = dailyChart.getDatasetMeta(index);
+                                
+                                meta.data.forEach((bar, barIndex) => {
+                                    if (barIndex === 정보.최대값인덱스) {
+                                        const x = bar.x;
+                                        // 누적된 높이 계산
+                                        let 누적높이 = 0;
+                                        for (let i = 0; i < index; i++) {
+                                            const prevMeta = dailyChart.getDatasetMeta(i);
+                                            누적높이 += prevMeta.data[barIndex].height;
+                                        }
+                                        const y = bar.y - 누적높이 - bar.height / 2;
+                                        
+                                        ctx.save();
+                                        ctx.fillStyle = '#000000';
+                                        ctx.font = '700 11px Pretendard';
+                                        ctx.textAlign = 'center';
+                                        ctx.textBaseline = 'middle';
+                                        ctx.fillText(정보.최대값.toLocaleString() + '명', x, y);
+                                        ctx.restore();
+                                    }
+                                });
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+        // 요일별 노출인구 비교 차트 (주요 광고 성과 4-3)
+        const weeklyCtx = document.getElementById('chart-canvas-weekly');
+        const weeklyMaxValueEl = document.getElementById('weekly-chart-max-value');
+        const weeklyLegendEl = document.querySelector('.frame-1686563137-weekly');
+        
+        if (weeklyCtx) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 요일별노출인구데이터 = {
+            //     요일리스트: ['월', '화', '수', '목', '금', '토', '일'],
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '강남역 2호선 지하철 광고',
+            //             요일별데이터: [8500, 9000, 9200, 8800, 9100, 7200, 6500], // 월~일
+            //             색상: 미디어그룹컬러팔레트[0] // 순서대로 적용
+            //         },
+            //         {
+            //             미디어그룹명: '홍대입구역 빌딩',
+            //             요일별데이터: [6000, 6500, 6800, 6400, 6700, 5500, 4800],
+            //             색상: 미디어그룹컬러팔레트[1]
+            //         },
+            //         {
+            //             미디어그룹명: '시청역 빌딩',
+            //             요일별데이터: [7500, 7800, 8000, 7700, 7900, 6200, 5500],
+            //             색상: 미디어그룹컬러팔레트[2]
+            //         }
+            //     ],
+            //     일평균: 8800 // 전체 미디어그룹의 요일별 일 평균 노출인구
+            // };
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 요일별노출인구데이터 = {
+                요일리스트: ['월', '화', '수', '목', '금', '토', '일'],
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '강남역 2호선 지하철 광고',
+                        요일별데이터: [8500, 9000, 9200, 8800, 9100, 7200, 6500],
+                        색상: 미디어그룹컬러팔레트[0] // MG 1
+                    },
+                    {
+                        미디어그룹명: '홍대입구역 빌딩',
+                        요일별데이터: [6000, 6500, 6800, 6400, 6700, 5500, 4800],
+                        색상: 미디어그룹컬러팔레트[1] // MG 2
+                    },
+                    {
+                        미디어그룹명: '시청역 빌딩',
+                        요일별데이터: [7500, 7800, 8000, 7700, 7900, 6200, 5500],
+                        색상: 미디어그룹컬러팔레트[2] // MG 3
+                    }
+                ],
+                일평균: 8800
+            };
+
+            // 각 요일별 총합 계산
+            const 요일별총합 = 요일별노출인구데이터.요일리스트.map((요일, 인덱스) => {
+                return 요일별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.요일별데이터[인덱스], 0);
+            });
+
+            // 총합이 가장 많은 요일 찾기
+            const 최대값인덱스 = 요일별총합.indexOf(Math.max(...요일별총합));
+            const 최대총합값 = 요일별총합[최대값인덱스];
+            const 최대요일 = 요일별노출인구데이터.요일리스트[최대값인덱스];
+
+            // 최대값 표시
+            if (weeklyMaxValueEl) {
+                weeklyMaxValueEl.textContent = `평균 ${최대총합값.toLocaleString()} 명`;
+            }
+
+            // 각 미디어그룹별 최대값 찾기
+            const 미디어그룹별최대값 = 요일별노출인구데이터.미디어그룹리스트.map(그룹 => {
+                const 최대값 = Math.max(...그룹.요일별데이터);
+                const 최대값인덱스 = 그룹.요일별데이터.indexOf(최대값);
+                return { 그룹, 최대값, 최대값인덱스 };
+            });
+
+            // 범례 생성
+            if (weeklyLegendEl) {
+                요일별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                    // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                    const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                    
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    const legendIcon = document.createElement('div');
+                    legendIcon.className = 'legend-icon';
+                    legendIcon.style.backgroundColor = 색상;
+                    legendItem.appendChild(legendIcon);
+                    
+                    const legendText = document.createElement('span');
+                    legendText.className = 'legend-text';
+                    legendText.textContent = 그룹.미디어그룹명;
+                    legendItem.appendChild(legendText);
+                    
+                    weeklyLegendEl.appendChild(legendItem);
+                });
+
+                // 일평균 범례 추가
+                const legendSeparator = document.createElement('div');
+                legendSeparator.className = 'legend-separator';
+                legendSeparator.innerHTML = '<svg width="20" height="1" viewBox="0 0 20 1"><line x1="0" y1="0.5" x2="20" y2="0.5" stroke="#626262" stroke-width="1"/></svg>';
+                weeklyLegendEl.appendChild(legendSeparator);
+
+                const legendItemAvg = document.createElement('div');
+                legendItemAvg.className = 'legend-item';
+                const legendTextAvg = document.createElement('span');
+                legendTextAvg.className = 'legend-text';
+                legendTextAvg.textContent = '일평균 노출인구수';
+                legendItemAvg.appendChild(legendTextAvg);
+                weeklyLegendEl.appendChild(legendItemAvg);
+            }
+
+            // 차트 데이터셋 생성 (누적 막대그래프)
+            const datasets = 요일별노출인구데이터.미디어그룹리스트.map((그룹, index) => {
+                const 최대값정보 = 미디어그룹별최대값[index];
+                // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                return {
+                    label: 그룹.미디어그룹명,
+                    data: 그룹.요일별데이터,
+                    backgroundColor: 색상,
+                    borderColor: 색상,
+                    borderWidth: 0,
+                    maxValue: 최대값정보.최대값,
+                    maxValueIndex: 최대값정보.최대값인덱스
+                };
+            });
+
+            // 일평균선 데이터셋 추가 (꺾은선) - 막대 뒤에 그리기 위해 먼저 추가
+            datasets.unshift({
+                label: '일평균 노출인구수',
+                data: Array(요일별노출인구데이터.요일리스트.length).fill(요일별노출인구데이터.일평균),
+                type: 'line',
+                borderColor: '#008aff',
+                borderWidth: 2,
+                borderDash: [],
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+                order: 1 // 선을 막대 뒤에 그리기
+            });
+
+            const weeklyChart = new Chart(weeklyCtx, {
+                type: 'bar',
+                data: {
+                    labels: 요일별노출인구데이터.요일리스트,
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 12
+                                },
+                                color: '#616161',
+                                maxRotation: 0,
+                                minRotation: 0
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // 범례는 HTML로 별도 표시
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        onComplete: function() {
+                            // 각 미디어그룹별 최대값을 막대 위에 표시
+                            const ctx = weeklyChart.ctx;
+                            미디어그룹별최대값.forEach((정보, index) => {
+                                const meta = weeklyChart.getDatasetMeta(index);
+                                
+                                meta.data.forEach((bar, barIndex) => {
+                                    if (barIndex === 정보.최대값인덱스) {
+                                        const x = bar.x;
+                                        // 누적된 높이 계산
+                                        let 누적높이 = 0;
+                                        for (let i = 0; i < index; i++) {
+                                            const prevMeta = weeklyChart.getDatasetMeta(i);
+                                            누적높이 += prevMeta.data[barIndex].height;
+                                        }
+                                        const y = bar.y - 누적높이 - bar.height / 2;
+                                        
+                                        ctx.save();
+                                        ctx.fillStyle = '#FFFFFF';
+                                        ctx.font = '700 11px Pretendard';
+                                        ctx.textAlign = 'center';
+                                        ctx.textBaseline = 'middle';
+                                        ctx.fillText(정보.최대값.toLocaleString() + '명', x, y);
+                                        ctx.restore();
+                                    }
+                                });
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+        // 시간대별 노출인구 비교 차트 (주요 광고 성과 4-4)
+        const hourlyCtx = document.getElementById('chart-canvas-hourly');
+        const hourlyMaxValueEl = document.getElementById('hourly-chart-max-value');
+        const hourlyLegendEl = document.querySelector('.frame-1686563137-hourly');
+        
+        if (hourlyCtx) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 시간대별노출인구데이터 = {
+            //     시간대리스트: ['09시', '10시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시'],
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '강남역 2호선 지하철 광고',
+            //             시간대별데이터: [2400, 2800, 3200, 3800, 3500, 3300, 3400, 3600, 4000, 4200, 3800, 3200, 2800, 2400],
+            //             색상: 미디어그룹컬러팔레트[0] // 순서대로 적용
+            //         },
+            //         {
+            //             미디어그룹명: '홍대입구역 빌딩',
+            //             시간대별데이터: [1800, 2100, 2400, 2800, 2600, 2500, 2600, 2700, 3000, 3200, 2900, 2400, 2100, 1800],
+            //             색상: 미디어그룹컬러팔레트[1]
+            //         },
+            //         {
+            //             미디어그룹명: '시청역 빌딩',
+            //             시간대별데이터: [2000, 2300, 2700, 3200, 3000, 2900, 3000, 3100, 3400, 3600, 3300, 2800, 2400, 2000],
+            //             색상: 미디어그룹컬러팔레트[2]
+            //         }
+            //     ],
+            //     시간대평균: 8800 // 전체 미디어그룹의 시간대별 평균 노출인구
+            // };
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 시간대별노출인구데이터 = {
+                시간대리스트: ['09시', '10시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시'],
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '강남역 2호선 지하철 광고',
+                        시간대별데이터: [2400, 2800, 3200, 3800, 3500, 3300, 3400, 3600, 4000, 4200, 3800, 3200, 2800, 2400],
+                        색상: 미디어그룹컬러팔레트[0] // MG 1
+                    },
+                    {
+                        미디어그룹명: '홍대입구역 빌딩',
+                        시간대별데이터: [1800, 2100, 2400, 2800, 2600, 2500, 2600, 2700, 3000, 3200, 2900, 2400, 2100, 1800],
+                        색상: 미디어그룹컬러팔레트[1] // MG 2
+                    },
+                    {
+                        미디어그룹명: '시청역 빌딩',
+                        시간대별데이터: [2000, 2300, 2700, 3200, 3000, 2900, 3000, 3100, 3400, 3600, 3300, 2800, 2400, 2000],
+                        색상: 미디어그룹컬러팔레트[2] // MG 3
+                    }
+                ],
+                시간대평균: 8800
+            };
+
+            // 각 시간대별 총합 계산
+            const 시간대별총합 = 시간대별노출인구데이터.시간대리스트.map((시간대, 인덱스) => {
+                return 시간대별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.시간대별데이터[인덱스], 0);
+            });
+
+            // 총합이 가장 많은 시간대 찾기
+            const 최대값인덱스 = 시간대별총합.indexOf(Math.max(...시간대별총합));
+            const 최대총합값 = 시간대별총합[최대값인덱스];
+            const 최대시간대 = 시간대별노출인구데이터.시간대리스트[최대값인덱스];
+
+            // 최대값 표시
+            if (hourlyMaxValueEl) {
+                hourlyMaxValueEl.textContent = `평균 ${최대총합값.toLocaleString()} 명`;
+            }
+
+            // 각 미디어그룹별 최대값 찾기
+            const 미디어그룹별최대값 = 시간대별노출인구데이터.미디어그룹리스트.map(그룹 => {
+                const 최대값 = Math.max(...그룹.시간대별데이터);
+                const 최대값인덱스 = 그룹.시간대별데이터.indexOf(최대값);
+                return { 그룹, 최대값, 최대값인덱스 };
+            });
+
+            // 범례 생성
+            if (hourlyLegendEl) {
+                시간대별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                    // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                    const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                    
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    const legendIcon = document.createElement('div');
+                    legendIcon.className = 'legend-icon';
+                    legendIcon.style.backgroundColor = 색상;
+                    legendItem.appendChild(legendIcon);
+                    
+                    const legendText = document.createElement('span');
+                    legendText.className = 'legend-text';
+                    legendText.textContent = 그룹.미디어그룹명;
+                    legendItem.appendChild(legendText);
+                    
+                    hourlyLegendEl.appendChild(legendItem);
+                });
+
+                // 시간대 평균 범례 추가
+                const legendSeparator = document.createElement('div');
+                legendSeparator.className = 'legend-separator';
+                legendSeparator.innerHTML = '<svg width="20" height="1" viewBox="0 0 20 1"><line x1="0" y1="0.5" x2="20" y2="0.5" stroke="#626262" stroke-width="1"/></svg>';
+                hourlyLegendEl.appendChild(legendSeparator);
+
+                const legendItemAvg = document.createElement('div');
+                legendItemAvg.className = 'legend-item';
+                const legendTextAvg = document.createElement('span');
+                legendTextAvg.className = 'legend-text';
+                legendTextAvg.textContent = '시간대 평균 노출인구수';
+                legendItemAvg.appendChild(legendTextAvg);
+                hourlyLegendEl.appendChild(legendItemAvg);
+            }
+
+            // 차트 데이터셋 생성 (누적 꺾은선 그래프)
+            // 각 미디어그룹의 데이터를 누적 계산
+            const 누적데이터 = [];
+            시간대별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                if (index === 0) {
+                    // 첫 번째 그룹은 그대로
+                    누적데이터.push([...그룹.시간대별데이터]);
+                } else {
+                    // 이전 그룹들의 누적값에 현재 그룹 데이터 추가
+                    const 이전누적 = 누적데이터[index - 1];
+                    누적데이터.push(이전누적.map((값, i) => 값 + 그룹.시간대별데이터[i]));
+                }
+            });
+            
+            const datasets = 시간대별노출인구데이터.미디어그룹리스트.map((그룹, index) => {
+                const 최대값정보 = 미디어그룹별최대값[index];
+                // 색상이 지정되지 않은 경우 팔레트에서 순서대로 가져오기
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                return {
+                    label: 그룹.미디어그룹명,
+                    data: 누적데이터[index], // 누적된 데이터 사용
+                    backgroundColor: 색상 + '80', // 투명도 추가
+                    borderColor: 색상,
+                    borderWidth: 2,
+                    fill: index === 0 ? true : '-1', // 첫 번째는 0부터, 나머지는 이전 데이터셋 위에
+                    tension: 0.4, // 부드러운 곡선
+                    maxValue: 최대값정보.최대값,
+                    maxValueIndex: 최대값정보.최대값인덱스
+                };
+            });
+
+            // 시간대 평균선 데이터셋 추가 (보조선)
+            datasets.push({
+                label: '시간대 평균 노출인구수',
+                data: Array(시간대별노출인구데이터.시간대리스트.length).fill(시간대별노출인구데이터.시간대평균),
+                type: 'line',
+                borderColor: '#008aff',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+                order: 0 // 선을 막대 뒤에 그리기
+            });
+
+            const hourlyChart = new Chart(hourlyCtx, {
+                type: 'line',
+                data: {
+                    labels: 시간대별노출인구데이터.시간대리스트,
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: true, // 누적 그래프
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#616161',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: false, // 수동으로 누적 계산했으므로 false
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // 범례는 HTML로 별도 표시
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        onComplete: function() {
+                            // 각 미디어그룹별 최대값에 라벨 표시
+                            const ctx = hourlyChart.ctx;
+                            미디어그룹별최대값.forEach((정보, index) => {
+                                const meta = hourlyChart.getDatasetMeta(index);
+                                if (meta && meta.data && meta.data[정보.최대값인덱스]) {
+                                    const point = meta.data[정보.최대값인덱스];
+                                    const x = point.x;
+                                    // 누적된 높이 계산
+                                    let 누적높이 = 0;
+                                    for (let i = 0; i < index; i++) {
+                                        const prevMeta = hourlyChart.getDatasetMeta(i);
+                                        if (prevMeta && prevMeta.data && prevMeta.data[정보.최대값인덱스]) {
+                                            const prevPoint = prevMeta.data[정보.최대값인덱스];
+                                            누적높이 += prevPoint.y;
+                                        }
+                                    }
+                                    const y = point.y - 누적높이;
+                                    
+                                    ctx.save();
+                                    ctx.fillStyle = '#000000';
+                                    ctx.font = '400 11px Pretendard';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+                                    ctx.fillText(정보.최대값.toLocaleString() + '명', x, y - 5);
+                                    ctx.restore();
+                                }
+                            });
+                            
+                            // 누적 합계가 가장 높은 시간대 강조 (배경색 추가)
+                            const maxTotalMeta = hourlyChart.getDatasetMeta(시간대별노출인구데이터.미디어그룹리스트.length - 1);
+                            if (maxTotalMeta && maxTotalMeta.data && maxTotalMeta.data[최대값인덱스]) {
+                                const maxPoint = maxTotalMeta.data[최대값인덱스];
+                                const x = maxPoint.x;
+                                const y = maxPoint.y;
+                                
+                                // 강조 박스 그리기
+                                ctx.save();
+                                ctx.fillStyle = 'rgba(182, 167, 255, 0.5)';
+                                ctx.strokeStyle = '#6f47ff';
+                                ctx.lineWidth = 1;
+                                ctx.fillRect(x - 38, 0, 76, y);
+                                ctx.strokeRect(x - 38, 0, 76, y);
+                                ctx.restore();
+                            }
+                        }
+                    }
+                }
             });
         }
     </script>
