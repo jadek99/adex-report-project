@@ -12,10 +12,9 @@
     <!-- Chart.js 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
-<body>
+<body data-kakao-app-key="{{카카오맵API키}}">
     <div class="page-wrapper">
         <!-- 기존의 <section class="page"> 들이 이 안에 들어갑니다 -->
-      </div>
     <!-- 페이지 1: 표지 (페이지 번호 없음) -->
     <section class="page page-cover">
         <div class="container">
@@ -57,10 +56,10 @@
     <!-- 페이지 2: 목차 -->
     <section class="page">
         <div class="container">
-            <!-- Frame 8: 상단 헤더 -->
-            <div class="frame-8">
-                <!-- Frame 1686563114: Breadcrumb -->
-                <div class="frame-1686563114">
+            <!-- 상단 헤더 -->
+            <div class="toc-header">
+                <!-- Breadcrumb 그룹 -->
+                <div class="breadcrumb-group">
                     <span class="text-광고계약명">{{광고계약명}}</span>
                     <span class="text-separator">|</span>
                     <span class="text-목차">목차</span>
@@ -90,8 +89,8 @@
                                     예시 정렬 로직 (JavaScript):
                                     미디어그룹리스트.sort((a, b) => {
                                         // 1순위: 유동 대비 노출 비율 (내림차순)
-                                        const ratioA = (a.노출인구 / a.유동인구) * 100;
-                                        const ratioB = (b.노출인구 / b.유동인구) * 100;
+                                        const ratioA = (a.ots / a.circulation) * 100;
+                                        const ratioB = (b.ots / b.circulation) * 100;
                                         if (ratioB !== ratioA) {
                                             return ratioB - ratioA; // 내림차순
                                         }
@@ -100,7 +99,7 @@
                                     });
                                     
                                     예시 정렬 로직 (Python):
-                                    sorted(미디어그룹리스트, key=lambda x: (-(x.노출인구 / x.유동인구 * 100), x.이름))
+                                    sorted(미디어그룹리스트, key=lambda x: (-(x.ots / x.circulation * 100), x.이름))
                                 -->
                                 <!-- Handlebars: {{#each (sortByRatio 미디어그룹리스트)}}<li>{{this.이름}}</li>{{/each}} -->
                                 <!-- Jinja2: {% for item in 미디어그룹리스트|sort(attribute='노출비율', reverse=True)|sort(attribute='이름') %}<li>{{item.이름}}</li>{% endfor %} -->
@@ -114,8 +113,8 @@
 
             <!-- 효과 분석 안내: 하단 안내 박스 -->
             <div class="frame-효과분석안내">
-                <!-- Frame 24: 헤더 -->
-                <div class="frame-24">
+                <!-- 정보 박스 헤더 -->
+                <div class="info-box-header">
                     <img src="icon1.svg" alt="아이콘" class="frame-icon">
                     <span class="text-info-title">효과 분석 안내</span>
                 </div>
@@ -144,7 +143,7 @@
     </section>
 
     <!-- 페이지 4: 미디어그룹 상품 정보 -->
-    <section class="page page-media-info">
+    <section class="page page-media-info page-performance-2">
         <div class="container container-media-info">
             <!-- head: 헤더 영역 (Frame 10) -->
             <div class="frame-head">
@@ -166,8 +165,8 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563146: 래퍼 프레임 -->
-            <div class="frame-1686563146">
+            <!-- 콘텐츠 래퍼 -->
+            <div class="content-wrapper">
                 <!-- 내용: 본문 영역 (Frame 내용) -->
                 <div class="frame-내용">
                     <!-- content title: 광고 정보 헤더 -->
@@ -176,9 +175,10 @@
                     </div>
 
                     <!-- table: 테이블 영역 (Frame table) -->
-                    <table class="frame-table">
-                        <!-- Frame 18: 첫 번째 행 -->
-                        <tr class="frame-18">
+                    <div class="table-frame frame-table-container">
+                        <table class="frame-table">
+                        <!-- 첫 번째 행 -->
+                        <tr class="table-row-first">
                             <td class="field field-label">
                                 <span class="field-text">광고주</span>
                             </td>
@@ -193,10 +193,10 @@
                             </td>
                         </tr>
 
-                        <!-- Frame 14: 두 번째 행 (동적 항목 반복 가능) -->
+                        <!-- 두 번째 행 (동적 항목 반복 가능) -->
                         <!-- 서버에서 미디어그룹 상품과 미디어 정보를 반복문으로 생성 -->
                         <!-- 예시: {{#each 미디어그룹리스트}} 또는 {% for item in 미디어그룹리스트 %} -->
-                        <tr class="frame-14">
+                        <tr class="table-row-middle">
                             <td class="field field-label field-tall">
                                 <span class="field-text">미디어그룹 상품</span>
                             </td>
@@ -246,8 +246,8 @@
                             </td>
                         </tr>
 
-                        <!-- Frame 19: 세 번째 행 -->
-                        <tr class="frame-19">
+                        <!-- 세 번째 행 -->
+                        <tr class="table-row-last">
                             <td class="field field-label">
                                 <span class="field-text">광고 기간</span>
                             </td>
@@ -261,7 +261,8 @@
                                 <span class="field-text">{{보고서발행일}}</span>
                             </td>
                         </tr>
-                    </table>
+                        </table>
+                    </div>
 
                     <!-- pitch 안내 문구: 주석 -->
                     <p class="text-pitch-note">※ 간격은 LED 미디어에 한해 기입됩니다.</p>
@@ -298,49 +299,51 @@
 
             <!-- contents: 본문 영역 (Frame contents) -->
             <div class="frame-contents">
-                <!-- 유동/ 노출 인구: Frame 유동/노출 인구 -->
-                <div class="frame-유동노출인구">
-                    <!-- content title: 유동 / 노출인구 헤더 -->
+                <!-- circulation/ots: Frame circulation/ots -->
+                <div class="frame-circulation-ots">
+                    <!-- content title: circulation / ots 헤더 -->
                     <div class="frame-content-title">
-                        <h2 class="text-ad-info-title">유동 / 노출인구</h2>
+                        <h2 class="text-ad-info-title">유동인구 / 노출인구</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 전체 미디어그룹의 유동・노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 전체 미디어그룹의 유동인구・노출인구 총합</span>
                         </div>
                     </div>
 
-                    <!-- table: 유동/노출 인구 테이블 -->
-                    <table class="frame-table frame-table-performance">
-                        <tr class="frame-18">
+                    <!-- table: circulation/ots 테이블 -->
+                    <div class="table-frame frame-table-performance-container">
+                        <table class="frame-table frame-table-performance">
+                        <tr class="table-row-first">
                             <td class="field field-label">
                                 <span class="field-text">유동인구</span>
                             </td>
                             <td class="field field-value">
-                                <span class="field-text">{{유동인구}}명</span>
+                                <span class="field-text">{{circulation}}명</span>
                             </td>
                             <td class="field field-label">
                                 <span class="field-text">노출인구</span>
                             </td>
                             <td class="field field-value">
-                                <span class="field-text">{{노출인구}}명</span>
+                                <span class="field-text">{{ots}}명</span>
                             </td>
                         </tr>
-                    </table>
+                        </table>
+                    </div>
 
                     <!-- insight: 인사이트 박스 -->
                     <div class="frame-insight">
                         <!-- Auto awesome: 아이콘 -->
                         <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                         <!-- Frame 1686563118: 인사이트 텍스트 컨테이너 -->
-                        <div class="frame-1686563118-insight">
+                        <div class="frame-insight-text-container">
                                 <span>유동 대비 노출 비율은 </span>
                                 <!-- Frame 1686563120: 비율 텍스트 -->
-                                <span class="frame-1686563120-insight">
+                                <span class="frame-insight-ratio-text">
                                     <span class="insight-value">{{노출비율}}%</span>
                                     <span>로 </span>
                                 </span>
                                 <!-- Frame 1686563119: 효과 수준 텍스트 -->
-                                <span class="frame-1686563119-insight">
+                                <span class="frame-insight-effect-level">
                                     <span class="insight-highlight">{{광고효과수준}} 수준의 효과</span>
                                     <span>를 보였습니다.</span>
                                 </span>
@@ -349,7 +352,7 @@
                 </div>
 
                 <!-- Frame 21: 주요 오디언스 요약 -->
-                <div class="frame-21">
+                <div class="frame-audience-summary">
                     <!-- content title: 주요 오디언스 요약 헤더 -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">주요 오디언스 요약</h2>
@@ -360,43 +363,43 @@
                     </div>
 
                     <!-- Frame 23: 인사이트 컨테이너 -->
-                    <div class="frame-23">
+                    <div class="frame-insight-container">
                         <!-- insight: 인사이트 박스 -->
                         <div class="frame-insight frame-insight-large">
                             <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                            <div class="frame-24-insight">
+                            <div class="frame-insight-header">
                                 <!-- Auto awesome: 아이콘 -->
                                 <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                                 <!-- Frame 1686563123: 다중 줄 텍스트 컨테이너 -->
-                                <div class="frame-1686563123-insight">
+                                <div class="frame-insight-multiline">
                                     <!-- Frame 1686563118: 첫 번째 줄 -->
-                                    <div class="frame-1686563118-insight">
+                                    <div class="frame-insight-text-container">
                                         <span>주요 오디언스 </span>
                                         <span class="insight-highlight">1위는 </span>
                                         <!-- Frame 1686563120: 1위 정보 -->
-                                        <span class="frame-1686563120-insight">
+                                        <span class="frame-insight-rank-1">
                                             <span class="insight-highlight">{{오디언스1위}}</span>
                                             <span class="insight-highlight">({{오디언스1위비율}}%), </span>
                                         </span>
                                         <span class="insight-highlight">2위는 </span>
                                         <!-- Frame 1686563121: 2위 정보 -->
-                                        <span class="frame-1686563121-insight">
+                                        <span class="frame-insight-rank-2">
                                             <span class="insight-highlight">{{오디언스2위}}</span>
                                             <span class="insight-highlight">({{오디언스2위비율}}%), </span>
                                         </span>
                                         <span class="insight-highlight">3위는 </span>
                                         <!-- Frame 1686563122: 3위 정보 -->
-                                        <span class="frame-1686563122-insight">
+                                        <span class="frame-insight-rank-3">
                                             <span class="insight-highlight">{{오디언스3위}}</span>
                                             <span class="insight-highlight">({{오디언스3위비율}}%)</span>
                                         </span>
                                         <span>입니다.</span>
                                     </div>
                                     <!-- Frame 1686563119: 두 번째 줄 -->
-                                    <div class="frame-1686563119-insight">
+                                    <div class="frame-insight-effect-level">
                                         <!-- Frame 1686563120: 오디언스 정보 -->
-                                        <span class="frame-1686563120-insight">
-                                            <span class="frame-1686563122-insight">
+                                        <span class="frame-insight-audience-info">
+                                            <span class="frame-insight-rank-3">
                                                 <span class="insight-highlight">{{오디언스1위}}</span>
                                                 <span>이 가장 많은 미디어그룹은 </span>
                                             </span>
@@ -411,7 +414,7 @@
                 </div>
 
                 <!-- Frame 22: 노출인구 최다 미디어그룹 -->
-                <div class="frame-22">
+                <div class="frame-max-exposure-group">
                     <!-- content title: 노출인구 최다 미디어그룹 헤더 -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">노출인구 최다 미디어그룹</h2>
@@ -424,26 +427,27 @@
                     <!-- insight: 인사이트 박스 (Frame 22 안에 직접 위치) -->
                     <div class="frame-insight">
                         <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                        <div class="frame-24-insight">
+                        <div class="frame-insight-header">
                             <!-- Auto awesome: 아이콘 -->
                             <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                             <!-- Frame 1686563118: 인사이트 텍스트 -->
-                            <div class="frame-1686563118-insight">
+                            <div class="frame-insight-text-container">
                                 <span>노출인구가 가장 많은 미디어그룹은 </span>
                                 <!-- Frame 1686563120: 미디어그룹 정보 -->
-                                <span class="frame-1686563120-insight">
+                                <span class="frame-insight-media-group-info">
                                     <span class="insight-highlight">{{최다미디어그룹}}</span>
                                     <span>이며, 노출인구 수는 </span>
                                 </span>
-                                <!-- Frame 1686563121: 노출인구 수 정보 -->
-                                <span class="frame-1686563121-insight">
-                                    <span class="insight-highlight">{{최다노출인구수}}명</span>
+                                <!-- Frame 1686563121: ots 수 정보 -->
+                                <span class="frame-insight-ots-count">
+                                    <span class="insight-highlight">{{최다ots수}}명</span>
                                     <span>입니다.</span>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <!-- 페이지 번호 -->
@@ -473,49 +477,44 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563133: 주요 광고 성과2 contents 영역 -->
-            <div class="frame-1686563133">
-                <!-- Frame 1686563131: 차트 영역 -->
-                <div class="frame-1686563131">
-                    <!-- Frame 21: content title -->
-                    <div class="frame-content-title">
-                        <h2 class="text-ad-info-title">미디어그룹 별 유동인구와 노출인구</h2>
+            <!-- 주요 광고 성과2 차트 섹션 -->
+            <div class="performance-chart-section">
+                <!-- content title -->
+                <div class="frame-content-title">
+                    <h2 class="text-ad-info-title">미디어그룹별 유동인구와 노출인구</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 유동・노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 미디어그룹별 유동인구・노출인구 총합</span>
                         </div>
+                </div>
+
+                <!-- 차트 영역 -->
+                <div class="frame-chart-area">
+                    <canvas id="chart-canvas-media-group-population"></canvas>
+                </div>
+
+                <!-- tips: 인사이트 박스 (유사 미디어그룹 선별 안내) -->
+                <div class="frame-insight frame-insight-notice">
+                    <!-- tip title: 아이콘 + 제목 텍스트 -->
+                    <div class="insight-header frame-tip-title">
+                        <!-- tip icon: 아이콘 -->
+                        <img src="tips icon.svg" alt="인사이트 아이콘" class="insight-icon tip-icon">
+                        <!-- 유사 미디어그룹 선별 안내: 제목 텍스트 -->
+                        <span class="insight-notice-title">유사 미디어그룹 선별 안내 ({{유사미디어그룹명}})</span>
                     </div>
-
-                    <!-- Frame 1686563153: 차트 영역 (피그마 프레임 구조) -->
-                    <div class="frame-1686563153">
-                        <!-- 차트 컨테이너 -->
-                        <div class="frame-chart-container" id="chart-container-1686563131">
-                            <canvas id="chart-canvas-1686563131"></canvas>
-                        </div>
-
-                        <!-- tips: 인사이트 박스 (유사 미디어그룹 선별 안내) -->
-                        <div class="frame-insight frame-insight-notice">
-                            <!-- tip title: 아이콘 + 제목 텍스트 -->
-                            <div class="frame-24-insight frame-tip-title">
-                                <!-- tip icon: 아이콘 -->
-                                <img src="tips icon.svg" alt="인사이트 아이콘" class="insight-icon tip-icon">
-                                <!-- 유사 미디어그룹 선별 안내: 제목 텍스트 -->
-                                <span class="insight-notice-title">유사 미디어그룹 선별 안내 ({{유사미디어그룹명}})</span>
-                            </div>
-                            <!-- Frame 1686563118: 인사이트 텍스트 -->
-                            <div class="frame-1686563118-insight frame-1686563118-notice">
-                                <!-- 주요 오디언스 텍스트 -->
-                                <span>주요 오디언스</span>
-                                <!-- Frame 1686563120: 오디언스 정보 -->
-                                <span class="frame-1686563120-insight">
-                                    <span class="insight-highlight">({{주요오디언스}})</span>
-                                </span>
-                                <!-- Frame 1686563119: 설명 텍스트 -->
-                                <span class="frame-1686563119-insight">
-                                    <span>와 유사한 미디어그룹 중 '유동 대비 노출 비율' 이 가장 높은 상품이 선정됩니다. (해당 광고에 운영된 미디어그룹 제외)</span>
-                                </span>
-                            </div>
-                        </div>
+                    <!-- 인사이트 텍스트 -->
+                    <div class="insight-text frame-insight-notice-text">
+                        <!-- 주요 오디언스 텍스트 -->
+                        <span>주요 오디언스</span>
+                        <!-- 오디언스 정보 -->
+                        <span class="insight-text-group">
+                            <span class="insight-highlight">({{주요오디언스}})</span>
+                        </span>
+                        <span>와 </span>
+                        <!-- 설명 텍스트 -->
+                        <span class="insight-text-line">
+                            <span>유사한 미디어그룹 중 '유동 대비 노출 비율' 이 가장 높은 상품이 선정됩니다. (해당 광고에 운영된 미디어그룹 제외)</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -547,55 +546,56 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108">
-                <!-- Frame 20: 테이블 영역 -->
-                <div class="frame-20-performance3">
+            <!-- 성과 테이블 섹션 -->
+            <div class="performance-table-section">
+                <!-- 성과 테이블 래퍼 -->
+                <div class="performance-table-wrapper">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
-                        <h2 class="text-ad-info-title">미디어그룹 별 광고 성과</h2>
+                        <h2 class="text-ad-info-title">미디어그룹별 광고 성과</h2>
                         <!-- 데이터 분석 정보 -->
                         <div class="frame-data-info">
-                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 유동・노출인구 총합</span>
+                            <span class="data-info-text">수집 기간: {{광고시작일}} ~ {{광고종료일}} | 산출 기준: 유동인구・노출인구 총합</span>
                         </div>
                     </div>
 
                     <!-- Frame 28: 테이블 -->
-                    <table class="frame-table-performance3">
-                        <!-- Frame 27: 테이블 헤더 -->
+                    <div class="table-frame frame-table-performance3-container">
+                        <table class="frame-table-performance3">
+                        <!-- 테이블 헤더 -->
                         <thead>
-                            <tr class="frame-27">
+                            <tr class="table-header-row">
                                 <th class="field field-label">미디어그룹명</th>
                                 <th class="field field-label">유동인구</th>
                                 <th class="field field-label">노출인구</th>
-                                <th class="field field-label">유동 대비 노출 비율</th>
+                                <th class="field field-label">유동인구 대비 노출인구 비율</th>
                                 <th class="field field-label">CPM (노출인구 기준)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Frame 13: 일반 미디어그룹 행들 (서버에서 반복문으로 동적 생성) -->
+                            <!-- 일반 미디어그룹 행들 (서버에서 반복문으로 동적 생성) -->
                             <!-- 미디어그룹 수만큼 행이 동적으로 생성됩니다 -->
                             <!-- 예시: {{#each 미디어그룹리스트}} 또는 {% for item in 미디어그룹리스트 %} -->
                             <!-- 
                                 서버 측 렌더링 예시 (Handlebars):
                                 {{#each 미디어그룹리스트}}
-                                <tr class="frame-13">
+                                <tr class="table-data-row">
                                     <td class="field field-value">{{this.이름}}</td>
-                                    <td class="field field-value">{{this.유동인구}}명</td>
-                                    <td class="field field-value">{{this.노출인구}}명</td>
-                                    <td class="field field-value">{{this.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{this.CPM}}원</td>
+                                    <td class="field field-value">{{this.circulation}}명</td>
+                                    <td class="field field-value">{{this.ots}}명</td>
+                                    <td class="field field-value">{{this.circulation대비ots비율}}%</td>
+                                    <td class="field field-value field-value-currency">{{this.CPM}}원</td>
                                 </tr>
                                 {{/each}}
                                 
                                 서버 측 렌더링 예시 (Jinja2):
                                 {% for item in 미디어그룹리스트 %}
-                                <tr class="frame-13">
+                                <tr class="table-data-row">
                                     <td class="field field-value">{{item.이름}}</td>
-                                    <td class="field field-value">{{item.유동인구}}명</td>
-                                    <td class="field field-value">{{item.노출인구}}명</td>
-                                    <td class="field field-value">{{item.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{item.CPM}}원</td>
+                                    <td class="field field-value">{{item.circulation}}명</td>
+                                    <td class="field field-value">{{item.ots}}명</td>
+                                    <td class="field field-value">{{item.circulation대비ots비율}}%</td>
+                                    <td class="field field-value field-value-currency">{{item.CPM}}원</td>
                                 </tr>
                                 {% endfor %}
                             -->
@@ -604,30 +604,22 @@
                             <!-- Jinja2 예시: {% for item in 미디어그룹리스트 %} -->
                             <!-- 현재는 임시로 하나의 행으로 표시 (서버에서 동적 생성 필요) -->
                             <!-- 서버 측에서 아래 행을 미디어그룹 수만큼 반복 생성해야 합니다 -->
-                            <tr class="frame-13">
+                            <tr class="table-data-row">
                                 <td class="field field-value">{{미디어그룹명}}</td>
-                                <td class="field field-value">{{유동인구}}명</td>
-                                <td class="field field-value">{{노출인구}}명</td>
-                                <td class="field field-value">{{유동대비노출비율}}%</td>
-                                <td class="field field-value">{{CPM}}원</td>
+                                <td class="field field-value">{{circulation}}명</td>
+                                <td class="field field-value">{{ots}}명</td>
+                                <td class="field field-value">{{circulation대비ots비율}}%</td>
+                                <td class="field field-value field-value-currency">{{CPM}}원</td>
+                            </tr>
+                            <!-- 유사 미디어그룹 헤더 -->
+                            <tr class="similar-media-group-header-row">
+                                <td class="field field-label similar-media-group-header-field" colspan="5">유사 미디어그룹</td>
                             </tr>
                             <!-- 반복 종료: {{/each}} 또는 {% endfor %} -->
-                        </tbody>
-                    </table>
-
-                    <!-- Frame 29: 유사 미디어그룹 헤더 -->
-                    <div class="frame-29">
-                        <div class="field field-label frame-29-field">유사 미디어그룹</div>
-                    </div>
-
-                    <!-- Frame 28: 유사 미디어그룹 테이블 -->
-                    <table class="frame-table-performance3 frame-table-similar">
-                        <tbody>
-                            <!-- Frame 14: 유사 미디어그룹 행 1 - 주요 오디언스가 유사한 -->
+                            <!-- 유사 미디어그룹 행 1 - 주요 오디언스가 유사한 -->
                             <!-- 서버에서 값이 없으면 invisible 처리: style="display: none;" 또는 class="invisible" 추가 -->
                             <!-- 예시: {{#if 주요오디언스유사미디어그룹}} 또는 {% if 주요오디언스유사미디어그룹 %} -->
-                            <!-- 서버 측에서 조건부로 렌더링하거나, 값이 없으면 style="display: none;" 또는 class="invisible" 추가 -->
-                            <tr class="frame-14-similar similar-audience">
+                            <tr class="similar-media-group-row similar-audience">
                                 <!-- Frame 16: 미디어그룹명 (2줄) -->
                                 <td class="field field-value field-tall-similar">
                                     <div class="field-value-item-similar">
@@ -635,72 +627,73 @@
                                         <div class="field-text-normal">{{주요오디언스유사미디어그룹명}}</div>
                                     </div>
                                 </td>
-                                <td class="field field-value">{{주요오디언스유사미디어그룹유동인구}}명</td>
-                                <td class="field field-value">{{주요오디언스유사미디어그룹노출인구}}명</td>
-                                <td class="field field-value">{{주요오디언스유사미디어그룹유동대비노출비율}}%</td>
-                                <td class="field field-value">{{주요오디언스유사미디어그룹CPM}}원</td>
+                                <td class="field field-value">{{주요오디언스유사미디어그룹circulation}}명</td>
+                                <td class="field field-value">{{주요오디언스유사미디어그룹ots}}명</td>
+                                <td class="field field-value">{{주요오디언스유사미디어그룹circulation대비ots비율}}%</td>
+                                <td class="field field-value field-value-currency">{{주요오디언스유사미디어그룹CPM}}원</td>
                             </tr>
                             <!-- 서버 측 렌더링 예시 (Handlebars):
                                 {{#if 주요오디언스유사미디어그룹}}
-                                <tr class="frame-14-similar similar-audience">
+                                <tr class="similar-media-group-row similar-audience">
                                     <td class="field field-value field-tall-similar">
                                         <div class="field-value-item-similar">
                                             <div class="field-text-small-similar">주요 오디언스가 유사한</div>
                                             <div class="field-text-normal">{{주요오디언스유사미디어그룹.이름}}</div>
                                         </div>
                                     </td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.유동인구}}명</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.노출인구}}명</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.CPM}}원</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.circulation}}명</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.ots}}명</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.circulation대비ots비율}}%</td>
+                                    <td class="field field-value field-value-currency">{{주요오디언스유사미디어그룹.CPM}}원</td>
                                 </tr>
                                 {{/if}}
                                 
                                 서버 측 렌더링 예시 (Jinja2):
                                 {% if 주요오디언스유사미디어그룹 %}
-                                <tr class="frame-14-similar similar-audience">
+                                <tr class="similar-media-group-row similar-audience">
                                     <td class="field field-value field-tall-similar">
                                         <div class="field-value-item-similar">
                                             <div class="field-text-small-similar">주요 오디언스가 유사한</div>
                                             <div class="field-text-normal">{{주요오디언스유사미디어그룹.이름}}</div>
                                         </div>
                                     </td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.유동인구}}명</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.노출인구}}명</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.유동대비노출비율}}%</td>
-                                    <td class="field field-value">{{주요오디언스유사미디어그룹.CPM}}원</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.circulation}}명</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.ots}}명</td>
+                                    <td class="field field-value">{{주요오디언스유사미디어그룹.circulation대비ots비율}}%</td>
+                                    <td class="field field-value field-value-currency">{{주요오디언스유사미디어그룹.CPM}}원</td>
                                 </tr>
                                 {% endif %}
                             -->
                         </tbody>
-                    </table>
-                </div>
+                        </table>
+                    </div>
 
-                <!-- CPM 계산 공식 안내 -->
-                <div class="frame-cpm-formula">
-                    <span class="cpm-formula-text">주요 오디언스가 동일한 미디어그룹의 CPM = [(해당 미디어그룹의 일 기준 대표 광고료 × 광고 기간 일 수) ÷ 광고 기간동안의 노출인구 수] × 1,000</span>
+                    <!-- CPM 계산 공식 안내 -->
+                    <div class="frame-cpm-formula">
+                        <span class="cpm-formula-text">* 주요 오디언스가 동일한 미디어그룹의 CPM = [(해당 미디어그룹의 일 기준 대표 광고료 × 광고 기간 일 수) ÷ 광고 기간동안의 노출인구 수] × 1,000</span>
+                    </div>
                 </div>
 
                 <!-- tips: 인사이트 박스 (유사 미디어그룹 선별 안내) -->
                 <div class="frame-insight frame-insight-notice">
                     <!-- tip title: 아이콘 + 제목 텍스트 -->
-                    <div class="frame-24-insight frame-tip-title">
+                    <div class="insight-header frame-tip-title">
                         <!-- tip icon: 아이콘 -->
                         <img src="tips icon.svg" alt="인사이트 아이콘" class="insight-icon tip-icon">
                         <!-- 유사 미디어그룹 선별 안내: 제목 텍스트 -->
                         <span class="insight-notice-title">유사 미디어그룹 선별 안내 ({{유사미디어그룹명}})</span>
                     </div>
-                    <!-- Frame 1686563118: 인사이트 텍스트 -->
-                    <div class="frame-1686563118-insight frame-1686563118-notice">
+                    <!-- 인사이트 텍스트 -->
+                    <div class="insight-text frame-insight-notice-text">
                         <!-- 주요 오디언스 텍스트 -->
                         <span>주요 오디언스</span>
-                        <!-- Frame 1686563120: 오디언스 정보 -->
-                        <span class="frame-1686563120-insight">
+                        <!-- 오디언스 정보 -->
+                        <span class="insight-text-group">
                             <span class="insight-highlight">({{주요오디언스}})</span>
                         </span>
                         <span>와 </span>
-                        <!-- Frame 1686563119: 설명 텍스트 -->
-                        <span class="frame-1686563119-insight">
+                        <!-- 설명 텍스트 -->
+                        <span class="insight-text-line">
                             <span>유사한 미디어그룹 중 '유동 대비 노출 비율' 이 가장 높은 상품이 선정됩니다. (해당 광고에 운영된 미디어그룹 제외)</span>
                         </span>
                     </div>
@@ -712,7 +705,7 @@
         </div>
     </section>
 
-    <!-- 페이지 8: 주요 광고 성과 - Ⅳ (인구 피라미드) -->
+            <!-- 페이지 8: 주요 광고 성과 - Ⅳ (인구 피라미드) -->
     <section class="page page-media-info page-performance-4">
         <div class="container container-media-info">
             <!-- head: 헤더 영역 (Frame 10) -->
@@ -734,10 +727,10 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108 frame-1686563108-performance4-pyramid">
+            <!-- Performance chart: 연령·성별 비교 -->
+            <div class="performance-chart-container performance-chart-age-gender-section">
                 <!-- Frame 20: 차트 영역 -->
-                <div class="frame-20-performance4-pyramid">
+                <div class="frame-chart-age-gender">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">노출인구 연령・성별 분포 비교</h2>
@@ -747,15 +740,8 @@
                         </div>
                     </div>
 
-                    <!-- Frame 1686563136: 차트 영역 -->
-                    <div class="frame-1686563136-pyramid">
-                        <!-- 여러 미디어그룹 비교 차트 컨테이너 -->
-                        <div class="frame-pyramid-comparison-container" id="pyramid-comparison-container">
-                            <!-- 각 미디어그룹별 차트가 동적으로 생성됩니다 -->
-                            <!-- 서버에서 미디어그룹 리스트를 반복문으로 생성 -->
-                            <!-- 예시: {{#each 미디어그룹리스트}} 또는 {% for item in 미디어그룹리스트 %} -->
-                        </div>
-                    </div>
+                    <!-- 차트 -->
+                    <canvas id="chart-canvas-performance4-1"></canvas>
                 </div>
             </div>
 
@@ -786,10 +772,10 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108 frame-1686563108-performance4-2">
+            <!-- Performance chart: 일별 비교 -->
+            <div class="performance-chart-container performance-chart-daily-section">
                 <!-- Frame 20: 차트 영역 -->
-                <div class="frame-20-performance4-2">
+                <div class="frame-chart-daily">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">일별 노출인구 비교</h2>
@@ -799,20 +785,8 @@
                         </div>
                     </div>
 
-                    <!-- Frame 1686563136: 차트 영역 -->
-                    <div class="frame-1686563136-daily">
-
-                        
-                        <!-- 차트 컨테이너 -->
-                        <div class="frame-chart-container-daily" id="chart-container-daily">
-                            <canvas id="chart-canvas-daily"></canvas>
-                        </div>
-
-                        <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-daily">
-                            <!-- 범례가 동적으로 생성됩니다 -->
-                        </div>
-                    </div>
+                    <!-- 차트 -->
+                    <canvas id="chart-canvas-daily"></canvas>
                 </div>
             </div>
 
@@ -843,10 +817,10 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108 frame-1686563108-performance4-3">
+            <!-- Performance chart: 요일별 비교 -->
+            <div class="performance-chart-container performance-chart-weekly-section">
                 <!-- Frame 20: 차트 영역 -->
-                <div class="frame-20-performance4-3">
+                <div class="frame-chart-weekly">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">요일별 노출인구 비교</h2>
@@ -856,20 +830,15 @@
                         </div>
                     </div>
 
-                    <!-- Frame 1686563139: 차트 영역 -->
-                    <div class="frame-1686563139-weekly">
-                        <!-- 총합이 가장 많은 요일의 값 표시 -->
-                        <div class="weekly-chart-max-value" id="weekly-chart-max-value"></div>
-                        
-                        <!-- 차트 컨테이너 -->
-                        <div class="frame-chart-container-weekly" id="chart-container-weekly">
-                            <canvas id="chart-canvas-weekly"></canvas>
-                        </div>
+                    <!-- 총합이 가장 많은 요일의 값 표시 -->
+                    <div class="weekly-chart-max-value" id="weekly-chart-max-value"></div>
+                    
+                    <!-- 차트 -->
+                    <canvas id="chart-canvas-weekly"></canvas>
 
-                        <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-weekly">
-                            <!-- 범례가 동적으로 생성됩니다 -->
-                        </div>
+                    <!-- Container: 범례 영역 -->
+                    <div class="weekly-chart-legend">
+                        <!-- 범례가 동적으로 생성됩니다 -->
                     </div>
                 </div>
             </div>
@@ -901,10 +870,10 @@
                 </div>
             </div>
 
-            <!-- Frame 1686563108: 본문 영역 -->
-            <div class="frame-1686563108 frame-1686563108-performance4-4">
+            <!-- Performance chart: 시간대별 비교 -->
+            <div class="performance-chart-container performance-chart-hourly-section">
                 <!-- Frame 20: 차트 영역 -->
-                <div class="frame-20-performance4-4">
+                <div class="frame-chart-hourly">
                     <!-- Frame 21: content title -->
                     <div class="frame-content-title">
                         <h2 class="text-ad-info-title">시간대별 노출인구 비교</h2>
@@ -915,17 +884,15 @@
                     </div>
 
                     <!-- Frame 차트 영역 -->
-                    <div class="frame-1686563139-hourly">
+                        <div class="hourly-chart-wrapper">
                         <!-- 총합이 가장 많은 시간대의 값 표시 -->
                         <div class="hourly-chart-max-value" id="hourly-chart-max-value"></div>
                         
-                        <!-- 차트 컨테이너 -->
-                        <div class="frame-chart-container-hourly" id="chart-container-hourly">
-                            <canvas id="chart-canvas-hourly"></canvas>
-                        </div>
+                        <!-- 차트 -->
+                        <canvas id="chart-canvas-hourly"></canvas>
 
                         <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-hourly">
+                        <div class="hourly-chart-legend">
                             <!-- 범례가 동적으로 생성됩니다 -->
                         </div>
                     </div>
@@ -950,31 +917,10 @@
                     </div>
                     <!-- 미디어그룹 목록 -->
                     <div class="divider-media-group-list" id="divider-media-group-list">
-                        <!-- 미디어그룹 목록이 동적으로 생성됩니다 -->
-                        <!-- 서버에서 정렬된 미디어그룹 리스트를 반복문으로 생성 -->
-                        <!-- 정렬 규칙: 유동 대비 노출 비율 높은순, 동일한 비율일 경우 ㄱㄴㄷ, a-z 순 -->
-                        
-                        <!-- 참고사항: -->
-                        <!-- 1. 미디어그룹 리스트는 서버에서 동적으로 생성되어야 합니다 -->
-                        <!-- 2. 각 미디어그룹은 알파벳 순서(a, b, c...)로 번호가 매겨집니다 -->
-                        <!-- 3. 텍스트 색상은 #053fb2 (파란색)입니다 -->
-                        <!-- 4. 폰트는 Pretendard, SemiBold (600), 21.33px입니다 -->
-                        <!-- 5. 각 항목은 세로로 배치되며, 적절한 간격을 유지합니다 -->
-                        
-                        <!-- 서버 측 렌더링 예시 (Handlebars): -->
-                        <!-- {{#each 미디어그룹리스트}} -->
-                        <!--     <div class="divider-media-group-item">{{@index}}. {{this.이름}}</div> -->
-                        <!-- {{/each}} -->
-                        
-                        <!-- 서버 측 렌더링 예시 (Jinja2): -->
-                        <!-- {% for item in 미디어그룹리스트 %} -->
-                        <!--     <div class="divider-media-group-item">{{ loop.index0|string|lower }}. {{ item.이름 }}</div> -->
-                        <!-- {% endfor %} -->
-                        
-                        <!-- 현재는 임시로 예시 항목 표시 (서버에서 동적 생성 필요) -->
-                        <div class="divider-media-group-item">a. {{미디어그룹명1}}</div>
-                        <div class="divider-media-group-item">b. {{미디어그룹명2}}</div>
-                        <div class="divider-media-group-item">c. {{미디어그룹명3}}</div>
+                        <!-- 서버에서 제공하는 미디어그룹 키(a, b, c 등)에 따라 목록이 생성됩니다 -->
+                        <div class="divider-media-group-item" data-media-group-key="a">a. {{미디어그룹명_a}}</div>
+                        <div class="divider-media-group-item" data-media-group-key="b">b. {{미디어그룹명_b}}</div>
+                        <div class="divider-media-group-item" data-media-group-key="c">c. {{미디어그룹명_c}}</div>
                     </div>
                 </div>
                 <div class="divider-logo">
@@ -998,7 +944,7 @@
                         <span class="text-광고계약명-media">{{광고계약명}}</span>
                         <span class="text-separator-media">|</span>
                         <span class="text-목차-media">미디어그룹별 효과 분석</span>
-                        <span class="text-separator-media">|</span>
+                        <span class="text-separator-media">></span>
                         <span class="text-미디어그룹명-media">{{미디어그룹명}}</span>
                     </div>
                     <!-- adex: 공공 미디어 중개 플랫폼 ADeX -->
@@ -1008,113 +954,28 @@
                 <div class="frame-sub-title frame-sub-title-media-group">
                     <h1 class="text-media-title text-media-group-title">{{미디어그룹명}}</h1>
                     <!-- Frame 1686563118: 서브타이틀 -->
-                    <div class="frame-1686563118">
-                        <div class="frame-1686563120">
+                    <div class="frame-media-subtitle">
+                        <div class="frame-subtitle-line-1">
                             <span class="text-media-group-subtitle">{{광고물유형}}</span>
                             <span class="text-media-group-subtitle-separator">이며, </span>
                         </div>
-                        <div class="frame-1686563119">
-                            <div class="frame-1686563121">
+                        <div class="frame-subtitle-line-2">
+                            <div class="frame-subtitle-location">
                                 <span class="text-media-group-subtitle"> <p> {{장소적 특징}} </span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Frame 29: 이미지 영역 -->
-                    <div class="frame-29-media-group">
+                    <div class="frame-media-image-area">
                 <!-- Frame 30: 이미지 1 (미디어그룹 지도) -->
-                <div class="frame-30-media-group">
-                    <!-- 
-                        ============================================
-                        지도 표시 가이드
-                        ============================================
-                        
-                        서비스에서 지도를 가져오는 방법:
-                        
-                        1. 정적 지도 이미지 URL 사용 (권장):
-                           - Naver Maps Static Map API
-                           - Kakao Maps Static Map API
-                           - Google Maps Static Map API
-                           
-                           예시 (Naver Maps):
-                           <img src="https://naveropenapi.apigw.ntruss.com/map-static/v2/raster?w=321&h=245&markers=type:d|size:mid|color:0x616161|{{위도}},{{경도}}&center={{위도}},{{경도}}&level=16" 
-                                alt="미디어그룹 지도" 
-                                class="media-group-image">
-                           
-                           예시 (Kakao Maps):
-                           <img src="https://dapi.kakao.com/v2/maps/staticimage?w=321&h=245&markers={{위도}},{{경도}}&center={{위도}},{{경도}}&level=3" 
-                                alt="미디어그룹 지도" 
-                                class="media-group-image">
-                           
-                           예시 (Google Maps):
-                           <img src="https://maps.googleapis.com/maps/api/staticmap?center={{위도}},{{경도}}&zoom=16&size=321x245&markers=color:0x616161|{{위도}},{{경도}}&key={{API키}}" 
-                                alt="미디어그룹 지도" 
-                                class="media-group-image">
-                        
-                        2. 동적 지도 API 사용 (JavaScript):
-                           - Naver Maps JavaScript API
-                           - Kakao Maps JavaScript API
-                           - Google Maps JavaScript API
-                           
-                           예시 (Naver Maps):
-                           <div id="map-{{미디어그룹번호}}" class="media-group-map"></div>
-                           <script>
-                               var map = new naver.maps.Map('map-{{미디어그룹번호}}', {
-                                   center: new naver.maps.LatLng({{위도}}, {{경도}}),
-                                   zoom: 16
-                               });
-                               var marker = new naver.maps.Marker({
-                                   position: new naver.maps.LatLng({{위도}}, {{경도}}),
-                                   map: map
-                               });
-                           </script>
-                           
-                           예시 (Kakao Maps):
-                           <div id="map-{{미디어그룹번호}}" class="media-group-map"></div>
-                           <script>
-                               var container = document.getElementById('map-{{미디어그룹번호}}');
-                               var options = {
-                                   center: new kakao.maps.LatLng({{위도}}, {{경도}}),
-                                   level: 3
-                               };
-                               var map = new kakao.maps.Map(container, options);
-                               var marker = new kakao.maps.Marker({
-                                   position: new kakao.maps.LatLng({{위도}}, {{경도}})
-                               });
-                               marker.setMap(map);
-                           </script>
-                        
-                        3. iframe으로 지도 임베드:
-                           <iframe src="https://map.naver.com/v5/entry/place/{{장소ID}}?c={{위도}},{{경도}},16,0,0,0,dh" 
-                                   class="media-group-map" 
-                                   frameborder="0" 
-                                   allowfullscreen></iframe>
-                        
-                        필요한 변수:
-                        - {{위도}}: 미디어그룹의 위도 (latitude)
-                        - {{경도}}: 미디어그룹의 경도 (longitude)
-                        - {{미디어그룹번호}}: 미디어그룹 번호 (Pin 표시용)
-                        - {{API키}}: 지도 API 키 (필요한 경우)
-                        - {{장소ID}}: 장소 ID (iframe 사용 시)
-                        
-                        현재는 정적 이미지로 표시:
-                    -->
-                    <img src="{{미디어그룹지도이미지}}" alt="미디어그룹 지도" class="media-group-image">
-                    <!-- 
-                        또는 동적 지도 사용 시:
-                        <div id="map-{{미디어그룹번호}}" class="media-group-map"></div>
-                    -->
-                    <!-- Pin(ADE/MEM) -->
-                    <div class="pin-ade-mem">
-                        <div class="group-179181">
-                            <div class="media-group-pin">
-                                <div class="subtract"></div>
-                                <div class="rectangle-509142"></div>
-                            </div>
-                            <div class="media-group-pin-number">
-                                <span class="pin-number">{{미디어그룹번호}}</span>
-                            </div>
-                        </div>
+                <div class="frame-media-map-image">
+                    <div
+                        id="map-{{미디어그룹번호}}"
+                        class="media-group-map"
+                        data-lat="{{위도}}"
+                        data-lng="{{경도}}"
+                        aria-label="미디어그룹 지도">
                     </div>
                 </div>
                 <!-- img_mediapillar_02 1: 이미지 2 (운영 현장 이미지 1) -->
@@ -1130,22 +991,22 @@
             </div>
 
             <!-- Frame 20: 미디어그룹 광고 개요 -->
-            <div class="frame-20-media-group">
+            <div class="frame-media-overview">
                 <!-- Frame 21: 제목 + 광고 기간 정보 -->
-                <div class="frame-21-media-group">
+                <div class="frame-media-overview-header">
                     <h2 class="text-media-group-overview-title">미디어그룹 광고 개요</h2>
                     <!-- Frame 1686563134: 광고 기간 정보 -->
-                    <div class="frame-1686563134">
+                    <div class="data-period-wrapper">
                         <span class="data-info-text">광고 기간: </span>
-                        <div class="frame-1686563115">
-                            <div class="frame-1686563115-inner">
-                                <div class="frame-1686563116">
+                        <div class="data-period-range">
+                            <div class="data-period-range-inner">
+                                <div class="data-period-start">
                                     <span class="data-info-text">{{광고시작일}}</span>
                                 </div>
                                 <span class="data-info-text">~</span>
                                 <span class="data-info-text">{{광고종료일}}</span>
                             </div>
-                            <div class="frame-1686563117">
+                            <div class="data-info-group">
                                 <span class="data-info-text">(총 {{운영일수}}</span>
                                 <span class="data-info-text">일)</span>
                             </div>
@@ -1154,9 +1015,9 @@
                 </div>
 
                 <!-- Frame 13: 테이블 형태의 정보들 -->
-                <div class="frame-13-media-group">
+                <div class="frame-media-info-table">
                     <!-- Frame 18: 첫 번째 행 -->
-                    <div class="frame-18-media-group">
+                    <div class="frame-media-info-row-1">
                         <div class="field field-label field-media-group">
                             <span class="field-text">미디어 위치</span>
                         </div>
@@ -1166,7 +1027,7 @@
                     </div>
 
                     <!-- Frame 20: 두 번째 행 -->
-                    <div class="frame-20-media-group-row">
+                    <div class="frame-media-info-row-2">
                         <div class="field field-label field-media-group field-tall">
                             <span class="field-text">미디어 대수</span>
                         </div>
@@ -1183,7 +1044,7 @@
                     </div>
 
                     <!-- Frame 13: 세 번째 행 -->
-                    <div class="frame-13-media-group-row">
+                    <div class="frame-media-info-row-3">
                         <div class="field field-label field-media-group">
                             <span class="field-text">콘텐츠 정보</span>
                         </div>
@@ -1209,15 +1070,15 @@
     <section class="page page-media-info page-media-group-detail">
         <div class="container container-media-info">
             <!-- Frame 8: 헤더 영역 -->
-            <div class="frame-8-header">
-                <!-- Frame 1686563112: Breadcrumb 그룹 -->
-                <div class="frame-1686563112">
-                    <!-- Frame 1686563114: Breadcrumb 내부 -->
-                    <div class="frame-1686563114">
+            <div class="chapter-2-header">
+                <!-- Breadcrumb 그룹 -->
+                <div class="breadcrumb-bar">
+                    <!-- Breadcrumb 내부 -->
+                    <div class="breadcrumb-items">
                         <span class="text-광고계약명-media">{{광고계약명}}</span>
                         <span class="text-separator-media">|</span>
                         <span class="text-목차-media">미디어그룹별 효과 분석</span>
-                        <span class="text-separator-media">|</span>
+                        <span class="text-separator-media">></span>
                         <span class="text-미디어그룹명-media">{{미디어그룹명}}</span>
                     </div>
                 </div>
@@ -1226,18 +1087,18 @@
             </div>
 
             <!-- Frame 1686563155: 콘텐츠 영역 -->
-            <div class="frame-1686563155">
+            <div class="media-detail-content">
                 <!-- 노출 효과 분석 -->
                 <div class="frame-exposure-analysis">
                     <!-- content title -->
                     <div class="frame-content-title">
                         <h2 class="text-media-group-overview-title">노출 효과 분석</h2>
-                        <!-- Frame 1686563135: 수집 기간 정보 -->
-                        <div class="frame-1686563135">
+                        <!-- 수집 기간 정보 -->
+                        <div class="data-info-meta">
                             <span class="data-info-text">수집 기간: </span>
-                            <div class="frame-1686563115">
-                                <div class="frame-1686563115-inner">
-                                    <div class="frame-1686563116">
+                            <div class="data-period-range">
+                                <div class="data-period-range-inner">
+                                    <div class="data-period-start">
                                         <span class="data-info-text">{{광고시작일}}</span>
                                     </div>
                                     <span class="data-info-text">~</span>
@@ -1245,8 +1106,8 @@
                                 </div>
                             </div>
                             <span class="data-info-text">| 산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">유동・노출인구 총합</span>
                                 </div>
                             </div>
@@ -1256,39 +1117,39 @@
                     <!-- 노출 효과 분석 테이블 -->
                     <div class="frame-exposure-analysis-table">
                         <!-- Frame 18: 첫 번째 행 -->
-                        <div class="frame-18-media-group">
+                        <div class="frame-media-info-row-1">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">유동인구</span>
                             </div>
                             <div class="field field-value field-media-group field-bg-light">
-                                <span class="field-text">{{유동인구}}명</span>
+                                <span class="field-text">{{circulation}}명</span>
                             </div>
                             <div class="field field-label field-media-group">
                                 <span class="field-text">노출인구</span>
                             </div>
                             <div class="field field-value field-media-group field-bg-light">
-                                <span class="field-text">{{노출인구}}명</span>
+                                <span class="field-text">{{ots}}명</span>
                             </div>
                         </div>
 
                         <!-- Frame 20: 두 번째 행 -->
-                        <div class="frame-20-media-group-row">
+                        <div class="frame-media-info-row-2">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">유동 대비 노출 비율</span>
                             </div>
                             <div class="field field-value field-media-group field-bg-light">
-                                <span class="field-text">{{유동대비노출비율}}%</span>
+                                <span class="field-text">{{circulation대비ots비율}}%</span>
                             </div>
                             <div class="field field-label field-media-group">
                                 <span class="field-text">CPM<span class="field-text-small"> (노출인구 기준) </span></span>
                             </div>
-                            <div class="field field-value field-media-group field-bg-light">
-                                <span class="field-text">{{CPM}}원 <span class="field-text-small field-text-blue">(광고비 {{광고비}} 만원 기준)</span></span>
+                            <div class="field field-value field-media-group field-bg-light field-value-currency">
+                                <span class="field-text-small field-text-blue">(광고비 {{광고비}} 만원 기준)</span><span class="field-text">{{CPM}}원</span>
                             </div>
                         </div>
 
                         <!-- Frame 21: 세 번째 행 -->
-                        <div class="frame-13-media-group-row">
+                        <div class="frame-media-info-row-3">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">주요 오디언스</span>
                             </div>
@@ -1311,11 +1172,11 @@
                     <div class="frame-content-title">
                         <h2 class="text-media-group-overview-title">광고 송출 분석</h2>
                         <!-- Frame 1686563134: 수집 기간 정보 -->
-                        <div class="frame-1686563134">
+                        <div class="data-period-wrapper">
                             <span class="data-info-text">수집 기간: </span>
-                            <div class="frame-1686563115">
-                                <div class="frame-1686563115-inner">
-                                    <div class="frame-1686563116">
+                                <div class="data-period-range">
+                                    <div class="data-period-range-inner">
+                                        <div class="data-period-start">
                                         <span class="data-info-text">{{광고시작일}}</span>
                                     </div>
                                     <span class="data-info-text">~</span>
@@ -1325,8 +1186,8 @@
                             <span class="data-info-text">| 데이터 출처: </span>
                             <span class="data-info-text">재생 로그 및 미디어사 제공 데이터</span>
                             <span class="data-info-text">| 산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">전체 일반・싱크 스케줄/ 일 평균 계산 기준</span>
                                 </div>
                             </div>
@@ -1336,7 +1197,7 @@
                     <!-- 광고 송출 분석 테이블 -->
                     <div class="frame-ad-delivery-analysis-table">
                         <!-- Frame 18: 첫 번째 행 -->
-                        <div class="frame-18-media-group">
+                        <div class="frame-media-info-row-1">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">총 송출 횟수</span>
                             </div>
@@ -1346,7 +1207,7 @@
                         </div>
 
                         <!-- Frame 20: 두 번째 행 -->
-                        <div class="frame-20-media-group-row">
+                        <div class="frame-media-info-row-2">
                             <div class="field field-label field-media-group field-tall">
                                 <span class="field-text field-text-14">일 평균 송출 횟수<br>/ 일 최소 송출 보장수</span>
                             </div>
@@ -1356,7 +1217,7 @@
                         </div>
 
                         <!-- Frame 13: 세 번째 행 -->
-                        <div class="frame-13-media-group-row">
+                        <div class="frame-media-info-row-3">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">송출 보장 달성률</span>
                             </div>
@@ -1366,7 +1227,7 @@
                         </div>
 
                         <!-- Frame 21: 네 번째 행 -->
-                        <div class="frame-13-media-group-row">
+                        <div class="frame-media-info-row-3">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">평균 송출 주기</span>
                             </div>
@@ -1386,11 +1247,11 @@
                     <div class="frame-content-title">
                         <h2 class="text-media-group-overview-title">타임 광고 송출 분석</h2>
                         <!-- Frame 1686563134: 수집 기간 정보 -->
-                        <div class="frame-1686563134">
+                        <div class="data-period-wrapper">
                             <span class="data-info-text">수집 기간: </span>
-                            <div class="frame-1686563115">
-                                <div class="frame-1686563115-inner">
-                                    <div class="frame-1686563116">
+                            <div class="data-period-range">
+                                <div class="data-period-range-inner">
+                                    <div class="data-period-start">
                                         <span class="data-info-text">{{광고시작일}}</span>
                                     </div>
                                     <span class="data-info-text">~</span>
@@ -1400,8 +1261,8 @@
                             <span class="data-info-text">| 데이터 출처: </span>
                             <span class="data-info-text">재생 로그 및 미디어사 제공 데이터</span>
                             <span class="data-info-text">| 산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">전체 타임 스케줄/ 총 노출 시간 기준</span>
                                 </div>
                             </div>
@@ -1411,7 +1272,7 @@
                     <!-- 타임 광고 송출 분석 테이블 -->
                     <div class="frame-time-ad-delivery-analysis-table">
                         <!-- Frame 20: 첫 번째 행 -->
-                        <div class="frame-20-media-group-row">
+                        <div class="frame-media-info-row-2">
                             <div class="field field-label field-media-group field-tall">
                                 <span class="field-text field-text-14">총 노출 시간<br>/ 총 노출 보장 시간</span>
                             </div>
@@ -1421,7 +1282,7 @@
                         </div>
 
                         <!-- Frame 13: 두 번째 행 -->
-                        <div class="frame-13-media-group-row">
+                        <div class="frame-media-info-row-3">
                             <div class="field field-label field-media-group">
                                 <span class="field-text">송출 보장 달성률</span>
                             </div>
@@ -1442,15 +1303,15 @@
     <section class="page page-media-info page-exposure-visualization">
         <div class="container container-media-info">
             <!-- Frame 8: 헤더 영역 -->
-            <div class="frame-8-header">
-                <!-- Frame 1686563112: Breadcrumb 그룹 -->
-                <div class="frame-1686563112">
-                    <!-- Frame 1686563114: Breadcrumb 내부 -->
-                    <div class="frame-1686563114">
+            <div class="chapter-2-header">
+                <!-- Breadcrumb 그룹 -->
+                <div class="breadcrumb-bar">
+                    <!-- Breadcrumb 내부 -->
+                    <div class="breadcrumb-items">
                         <span class="text-광고계약명-media">{{광고계약명}}</span>
                         <span class="text-separator-media">|</span>
                         <span class="text-목차-media">미디어그룹별 효과 분석</span>
-                        <span class="text-separator-media">|</span>
+                        <span class="text-separator-media">></span>
                         <span class="text-미디어그룹명-media">{{미디어그룹명}}</span>
                     </div>
                 </div>
@@ -1461,12 +1322,12 @@
             <!-- Container: 제목 영역 -->
             <div class="frame-exposure-visualization-title">
                 <h2 class="text-media-group-overview-title">노출 효과 시각화</h2>
-                <!-- Frame 1686563135: 수집 기간 정보 -->
-                <div class="frame-1686563135">
+                <!-- 수집 기간 정보 -->
+                <div class="data-info-meta">
                     <span class="data-info-text">수집 기간: </span>
-                    <div class="frame-1686563115">
-                        <div class="frame-1686563115-inner">
-                            <div class="frame-1686563116">
+                    <div class="data-period-range">
+                        <div class="data-period-range-inner">
+                            <div class="data-period-start">
                                 <span class="data-info-text">{{광고시작일}}</span>
                             </div>
                             <span class="data-info-text">~</span>
@@ -1477,20 +1338,20 @@
             </div>
 
             <!-- Frame 1686563156: 차트 영역 컨테이너 -->
-            <div class="frame-1686563156">
+            <div class="visualization-section">
                 <!-- Frame 1686563158: 연령・성별 분포 차트 -->
-                <div class="frame-1686563158-visualization">
+                <div class="frame-visualization-age-gender">
                     <!-- Container: 차트 제목 -->
                     <div class="frame-visualization-chart-title">
                         <div class="frame-visualization-icon">
                             <img src="agegender icon.svg" alt="차트 아이콘" class="visualization-icon">
                         </div>
                         <h3 class="text-visualization-chart-title">연령・성별 분포</h3>
-                        <!-- Frame 1686563135: 산출 기준 -->
-                        <div class="frame-1686563135">
+                        <!-- 산출 기준 -->
+                        <div class="data-info-meta">
                             <span class="data-info-text">산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">노출인구 총합</span>
                                 </div>
                             </div>
@@ -1498,26 +1359,24 @@
                     </div>
 
                     <!-- Frame 1686563126: 차트 컨테이너 -->
-                    <div class="frame-1686563126-visualization">
-                        <div class="frame-chart-container-visualization-pyramid">
-                            <canvas id="chart-canvas-visualization-pyramid"></canvas>
-                        </div>
+                    <div class="frame-visualization">
+                        <canvas id="chart-canvas-mediagroup-ots-pyramid"></canvas>
 
                         <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-visualization-pyramid">
+                        <div class="visualization-legend-age-gender">
                             <!-- 범례가 동적으로 생성됩니다 -->
                         </div>
 
                         <!-- Frame 22: 인사이트 -->
                         <div class="frame-insight frame-insight-visualization">
                             <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                            <div class="frame-24-insight">
+                            <div class="frame-insight-header">
                                 <!-- Auto awesome: 아이콘 -->
                                 <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                                 <!-- Frame 1686563124: 텍스트 컨테이너 -->
-                                <div class="frame-1686563124">
+                                <div class="visualization-insight-text">
                                     <span>노출인구가 가장 많은 연령・성별은 </span>
-                                    <span class="frame-1686563125">
+                                    <span class="visualization-insight-highlight">
                                         <span class="insight-value">{{최다연령성별}}</span>
                                         <span>입니다.</span>
                                     </span>
@@ -1528,18 +1387,18 @@
                 </div>
 
                 <!-- Frame 1686563129: 일별 노출인구 차트 -->
-                <div class="frame-1686563129-visualization">
+                <div class="frame-visualization-daily">
                     <!-- Container: 차트 제목 -->
                     <div class="frame-visualization-chart-title">
                         <div class="frame-visualization-icon">
                             <img src="daily icon.svg" alt="차트 아이콘" class="visualization-icon">
                         </div>
                         <h3 class="text-visualization-chart-title">일별 노출인구</h3>
-                        <!-- Frame 1686563135: 산출 기준 -->
-                        <div class="frame-1686563135">
+                        <!-- 산출 기준 -->
+                        <div class="data-info-meta">
                             <span class="data-info-text">산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">일별 노출인구</span>
                                 </div>
                             </div>
@@ -1547,29 +1406,27 @@
                     </div>
 
                     <!-- Frame 1686563126: 차트 컨테이너 -->
-                    <div class="frame-1686563126-visualization">
+                    <div class="frame-visualization">
                         <!-- 총합이 가장 많은 날의 값 표시 -->
                         <div class="daily-chart-total" id="daily-chart-total-visualization"></div>
                         
-                        <div class="frame-chart-container-visualization-daily">
-                            <canvas id="chart-canvas-visualization-daily"></canvas>
-                        </div>
+                        <canvas id="chart-canvas-mediagroup-ots-daily"></canvas>
 
                         <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-visualization-daily">
+                        <div class="visualization-legend-daily">
                             <!-- 범례가 동적으로 생성됩니다 -->
                         </div>
 
                         <!-- Frame 22: 인사이트 -->
                         <div class="frame-insight frame-insight-visualization">
                             <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                            <div class="frame-24-insight">
+                            <div class="frame-insight-header">
                                 <!-- Auto awesome: 아이콘 -->
                                 <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                                 <!-- Frame 1686563124: 텍스트 컨테이너 -->
-                                <div class="frame-1686563124">
+                                <div class="visualization-insight-text">
                                     <span>노출인구가 가장 많은 날은 </span>
-                                    <span class="frame-1686563125">
+                                    <span class="visualization-insight-highlight">
                                         <span class="insight-value">{{최다날짜}}</span>
                                         <span>입니다.</span>
                                     </span>
@@ -1585,19 +1442,19 @@
         </div>
     </section>
 
-    <!-- 페이지 16: 노출 효과 시각화 2 -->
-    <section class="page page-media-info page-exposure-visualization-2">
+    <!-- 페이지 16: 요일별/시간대별 노출인구 비교 -->
+    <section class="page page-media-info page-exposure-visualization">
         <div class="container container-media-info">
             <!-- Frame 8: 헤더 영역 -->
-            <div class="frame-8-header">
-                <!-- Frame 1686563112: Breadcrumb 그룹 -->
-                <div class="frame-1686563112">
-                    <!-- Frame 1686563114: Breadcrumb 내부 -->
-                    <div class="frame-1686563114">
+            <div class="chapter-2-header">
+                <!-- Breadcrumb 그룹 -->
+                <div class="breadcrumb-bar">
+                    <!-- Breadcrumb 내부 -->
+                    <div class="breadcrumb-items">
                         <span class="text-광고계약명-media">{{광고계약명}}</span>
                         <span class="text-separator-media">|</span>
                         <span class="text-목차-media">미디어그룹별 효과 분석</span>
-                        <span class="text-separator-media">|</span>
+                        <span class="text-separator-media">></span>
                         <span class="text-미디어그룹명-media">{{미디어그룹명}}</span>
                     </div>
                 </div>
@@ -1608,12 +1465,12 @@
             <!-- Container: 제목 영역 -->
             <div class="frame-exposure-visualization-title">
                 <h2 class="text-media-group-overview-title">노출 효과 시각화</h2>
-                <!-- Frame 1686563135: 수집 기간 정보 -->
-                <div class="frame-1686563135">
+                <!-- 수집 기간 정보 -->
+                <div class="data-info-meta">
                     <span class="data-info-text">수집 기간: </span>
-                    <div class="frame-1686563115">
-                        <div class="frame-1686563115-inner">
-                            <div class="frame-1686563116">
+                    <div class="data-period-range">
+                        <div class="data-period-range-inner">
+                            <div class="data-period-start">
                                 <span class="data-info-text">{{광고시작일}}</span>
                             </div>
                             <span class="data-info-text">~</span>
@@ -1624,20 +1481,20 @@
             </div>
 
             <!-- Frame 1686563156: 차트 영역 컨테이너 -->
-            <div class="frame-1686563156">
-                <!-- Frame 1686563158: 연령・성별 분포 차트 -->
-                <div class="frame-1686563158-visualization">
+            <div class="visualization-section">
+                <!-- Frame 1686563158: 요일별 노출인구 차트 -->
+                <div class="frame-visualization-weekly">
                     <!-- Container: 차트 제목 -->
                     <div class="frame-visualization-chart-title">
                         <div class="frame-visualization-icon">
                             <img src="day icon.svg" alt="차트 아이콘" class="visualization-icon">
                         </div>
                         <h3 class="text-visualization-chart-title">요일별 노출인구</h3>
-                        <!-- Frame 1686563135: 산출 기준 -->
-                        <div class="frame-1686563135">
+                        <!-- 산출 기준 -->
+                        <div class="data-info-meta">
                             <span class="data-info-text">산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
                                     <span class="data-info-text">요일별 일 평균 노출인구</span>
                                 </div>
                             </div>
@@ -1645,27 +1502,28 @@
                     </div>
 
                     <!-- Frame 1686563126: 차트 컨테이너 -->
-                    <div class="frame-1686563126-visualization">
-                        <div class="frame-chart-container-visualization-pyramid">
-                            <canvas id="chart-canvas-visualization-pyramid-2"></canvas>
-                        </div>
+                    <div class="frame-visualization">
+                        <!-- 총합이 가장 많은 요일의 값 표시 -->
+                        <div class="weekly-chart-max-value" id="weekly-chart-max-value-visualization"></div>
+                        
+                        <canvas id="chart-canvas-mediagroup-ots-weekly"></canvas>
 
                         <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-visualization-pyramid">
+                        <div class="visualization-legend-weekly">
                             <!-- 범례가 동적으로 생성됩니다 -->
                         </div>
 
                         <!-- Frame 22: 인사이트 -->
                         <div class="frame-insight frame-insight-visualization">
                             <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                            <div class="frame-24-insight">
+                            <div class="frame-insight-header">
                                 <!-- Auto awesome: 아이콘 -->
                                 <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                                 <!-- Frame 1686563124: 텍스트 컨테이너 -->
-                                <div class="frame-1686563124">
+                                <div class="visualization-insight-text">
                                     <span>노출인구가 가장 많은 요일은 </span>
-                                    <span class="frame-1686563125">
-                                        <span class="insight-value"> {{최다요일}} </span>
+                                    <span class="visualization-insight-highlight">
+                                        <span class="insight-value">{{최다요일}}</span>
                                         <span>입니다.</span>
                                     </span>
                                 </div>
@@ -1674,50 +1532,48 @@
                     </div>
                 </div>
 
-                <!-- Frame 1686563129: 일별 노출인구 차트 -->
-                <div class="frame-1686563129-visualization">
+                <!-- Frame 1686563129: 시간대별 노출인구 차트 -->
+                <div class="frame-visualization-hourly">
                     <!-- Container: 차트 제목 -->
                     <div class="frame-visualization-chart-title">
                         <div class="frame-visualization-icon">
                             <img src="time icon.svg" alt="차트 아이콘" class="visualization-icon">
                         </div>
                         <h3 class="text-visualization-chart-title">시간대별 노출인구</h3>
-                        <!-- Frame 1686563135: 산출 기준 -->
-                        <div class="frame-1686563135">
+                        <!-- 산출 기준 -->
+                        <div class="data-info-meta">
                             <span class="data-info-text">산출 기준: </span>
-                            <div class="frame-1686563114">
-                                <div class="frame-1686563117">
-                                    <span class="data-info-text">시간대별 일 평균 노출인구</span>
+                            <div class="data-info-wrapper">
+                                <div class="data-info-group">
+                                    <span class="data-info-text">시간대별 평균 노출인구</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Frame 1686563126: 차트 컨테이너 -->
-                    <div class="frame-1686563126-visualization">
-                        <!-- 총합이 가장 많은 날의 값 표시 -->
-                        <div class="daily-chart-total" id="daily-chart-total-visualization-2"></div>
+                    <div class="frame-visualization">
+                        <!-- 총합이 가장 많은 시간대의 값 표시 -->
+                        <div class="hourly-chart-max-value" id="hourly-chart-max-value-visualization"></div>
                         
-                        <div class="frame-chart-container-visualization-daily">
-                            <canvas id="chart-canvas-visualization-daily-2"></canvas>
-                        </div>
+                        <canvas id="chart-canvas-mediagroup-ots-hourly"></canvas>
 
                         <!-- Container: 범례 영역 -->
-                        <div class="frame-1686563137-visualization-daily">
+                        <div class="visualization-legend-hourly">
                             <!-- 범례가 동적으로 생성됩니다 -->
                         </div>
 
                         <!-- Frame 22: 인사이트 -->
                         <div class="frame-insight frame-insight-visualization">
                             <!-- Frame 24: 아이콘 + 텍스트 컨테이너 -->
-                            <div class="frame-24-insight">
+                            <div class="frame-insight-header">
                                 <!-- Auto awesome: 아이콘 -->
                                 <img src="insight icon.svg" alt="인사이트 아이콘" class="insight-icon">
                                 <!-- Frame 1686563124: 텍스트 컨테이너 -->
-                                <div class="frame-1686563124">
+                                <div class="visualization-insight-text">
                                     <span>노출인구가 가장 많은 시간대는 </span>
-                                    <span class="frame-1686563125">
-                                        <span class="insight-value"> {{최다시간대}} </span>
+                                    <span class="visualization-insight-highlight">
+                                        <span class="insight-value">{{최다시간대}}</span>
                                         <span>입니다.</span>
                                     </span>
                                 </div>
@@ -1735,10 +1591,10 @@
     <!-- 끝 표지 페이지 -->
     <section class="page page-media-info page-back-cover">
         <div class="container container-media-info">
-            <!-- Frame 1686563101: 메인 컨테이너 -->
-            <div class="frame-1686563101-back-cover">
-                <!-- Frame 1686563102: 로고 및 서비스 운영팀 -->
-                <div class="frame-1686563102-back-cover">
+            <!-- Back cover main 컨테이너 -->
+            <div class="back-cover-container">
+                <!-- 로고 및 서비스 운영팀 -->
+                <div class="back-cover-header">
                     <!-- 로고 이미지 -->
                     <div class="frame-logo-back-cover">
                         <img src="icon-group.png" alt="ADeX 로고" class="logo-back-cover">
@@ -1750,14 +1606,14 @@
                 <!-- Rectangle 14: 구분선 -->
                 <div class="rectangle-14-back-cover"></div>
 
-                <!-- Frame 1686563103: 문의 안내 -->
-                <div class="frame-1686563103-back-cover">
+                <!-- 문의 안내 -->
+                <div class="back-cover-contact">
                     <div class="text-inquiry-back-cover">추가 문의 사항이 있으시다면 아래 이메일을 통해 문의를 남겨주시기 바랍니다.</div>
                     <div class="text-email-back-cover">contact@mnmnetworks.com</div>
                 </div>
 
                 <!-- Frame 7: 하단 로고 및 저작권 -->
-                <div class="frame-7-back-cover">
+                <div class="frame-back-cover-footer">
                     <!-- 로고 이미지 -->
                     <div class="frame-logo-bottom-back-cover">
                         <img src="mnm logo.svg" alt="M&M Networks 로고" class="logo-bottom-back-cover">
@@ -1771,24 +1627,17 @@
 
 
     <script>
-        // frame-20-performance3 높이 감지 및 페이지 분할 처리
+        // 성과 테이블 높이 감지 및 페이지 분할 처리
         function handlePerformance3PageBreak() {
-            const frame20Elements = document.querySelectorAll('.frame-20-performance3');
-            frame20Elements.forEach((frame20) => {
-                // frame20의 실제 높이 계산
-                const rect = frame20.getBoundingClientRect();
+            const performanceTables = document.querySelectorAll('.frame-table-performance3');
+            performanceTables.forEach((table) => {
+                const rect = table.getBoundingClientRect();
                 const actualHeight = rect.height;
                 
-                // 349px 이상이면 페이지 분할 처리
                 if (actualHeight >= 349) {
-                    // frame-20-performance3에 클래스 추가하여 스타일 적용
-                    frame20.classList.add('frame-20-performance3-extended');
-                    
-                    // 페이지 분할을 위한 처리
-                    // CSS에서 max-height를 제거하고 page-break를 적용
-                    frame20.style.maxHeight = 'none';
-                    frame20.style.pageBreakInside = 'auto';
-                    frame20.style.breakInside = 'auto';
+                    table.style.maxHeight = 'none';
+                    table.style.pageBreakInside = 'auto';
+                    table.style.breakInside = 'auto';
                 }
             });
         }
@@ -1799,8 +1648,8 @@
         
         // field-label field-tall의 높이를 field-value-item들의 총 높이에 맞추기
         function syncFieldTallHeight() {
-            const frame14Rows = document.querySelectorAll('.frame-14');
-            frame14Rows.forEach((row) => {
+            const detailRows = document.querySelectorAll('.frame-media-info-row-2, .frame-media-info-row-3');
+            detailRows.forEach((row) => {
                 const fieldValueTalls = row.querySelectorAll('.field-value.field-tall');
                 const fieldLabelTalls = row.querySelectorAll('.field-label.field-tall');
                 
@@ -1853,14 +1702,14 @@
         
         // frame-insight의 위치를 상단 요소 아래 12px 간격으로 설정
         function syncInsightPosition() {
-            const insights = document.querySelectorAll('.frame-유동노출인구 .frame-insight');
+            const insights = document.querySelectorAll('.frame-circulation-ots .frame-insight');
             insights.forEach((insight) => {
-                const frame유동노출인구 = insight.closest('.frame-유동노출인구');
-                if (frame유동노출인구) {
-                    const table = frame유동노출인구.querySelector('.frame-table');
+                const frameCirculationOts = insight.closest('.frame-circulation-ots');
+                if (frameCirculationOts) {
+                    const table = frameCirculationOts.querySelector('.frame-table');
                     if (table) {
                         const tableRect = table.getBoundingClientRect();
-                        const frameRect = frame유동노출인구.getBoundingClientRect();
+                        const frameRect = frameCirculationOts.getBoundingClientRect();
                         const tableBottom = tableRect.bottom - frameRect.top;
                         // 테이블 하단 + 12px 간격
                         insight.style.top = (tableBottom + 12) + 'px';
@@ -1869,14 +1718,14 @@
             });
         }
 
-        // Frame 21을 유동/노출인구 인사이트 아래 40px에 동적으로 배치
+        // Frame 21을 circulation/ots 인사이트 아래 40px에 동적으로 배치
         function syncFrame21Position() {
-            const frame유동노출인구 = document.querySelector('.frame-유동노출인구');
-            const frame21 = document.querySelector('.frame-21');
-            if (frame유동노출인구 && frame21) {
-                const insight = frame유동노출인구.querySelector('.frame-insight');
+            const frameCirculationOts = document.querySelector('.frame-circulation-ots');
+            const frame21 = document.querySelector('.frame-audience-summary');
+            if (frameCirculationOts && frame21) {
+                const insight = frameCirculationOts.querySelector('.frame-insight');
                 if (insight) {
-                    const frameContents = frame유동노출인구.closest('.frame-contents');
+                    const frameContents = frameCirculationOts.closest('.frame-contents');
                     if (frameContents) {
                         const frameContentsRect = frameContents.getBoundingClientRect();
                         const insightRect = insight.getBoundingClientRect();
@@ -1890,8 +1739,8 @@
 
         // Frame 22를 Frame 21 아래 80px에 동적으로 배치
         function syncFrame22Position() {
-            const frame21 = document.querySelector('.frame-21');
-            const frame22 = document.querySelector('.frame-22');
+            const frame21 = document.querySelector('.frame-audience-summary');
+            const frame22 = document.querySelector('.frame-max-exposure-group');
             if (frame21 && frame22) {
                 const frameContents = frame21.closest('.frame-contents');
                 if (frameContents) {
@@ -1906,17 +1755,17 @@
         
         // frame-insight-notice를 주요 광고 성과 3의 마지막 페이지 하단에 배치 (원칙: 항상 페이지 하단)
         function syncInsightNoticePosition() {
-            const frame1686563108 = document.querySelector('.page-performance-3 .frame-1686563108');
-            const frame20Performance3 = frame1686563108 ? frame1686563108.querySelector('.frame-20-performance3') : null;
-            const frameInsightNotice = frame1686563108 ? frame1686563108.querySelector('.frame-insight-notice') : null;
+            const performanceChartContainer = document.querySelector('.page-performance-3 .performance-chart-container');
+            const performanceTable = performanceChartContainer ? performanceChartContainer.querySelector('.frame-table-performance3') : null;
+            const frameInsightNotice = performanceChartContainer ? performanceChartContainer.querySelector('.frame-insight-notice') : null;
             
-            if (frame1686563108 && frame20Performance3 && frameInsightNotice) {
-                const container = frame1686563108.closest('.container');
+            if (performanceChartContainer && performanceTable && frameInsightNotice) {
+                const container = performanceChartContainer.closest('.container');
                 if (!container) return;
                 
                 const containerRect = container.getBoundingClientRect();
-                const frame20Rect = frame20Performance3.getBoundingClientRect();
-                const frame1686563108Rect = frame1686563108.getBoundingClientRect();
+                const frame20Rect = performanceTable.getBoundingClientRect();
+                const performanceChartRect = performanceChartContainer.getBoundingClientRect();
                 const frameInsightNoticeRect = frameInsightNotice.getBoundingClientRect();
                 
                 // 페이지 높이 (A4 가로: 794px)
@@ -1925,44 +1774,44 @@
                 // container의 시작 위치 (페이지 내에서)
                 const containerStart = containerRect.top;
                 
-                // frame-1686563108의 시작 위치 (container 기준)
-                const frame1686563108Top = frame1686563108Rect.top - containerStart;
+                // performance-chart-container의 시작 위치 (container 기준)
+                const performanceChartTop = performanceChartRect.top - containerStart;
                 
-                // frame-1686563108의 실제 높이 (여러 페이지에 걸쳐 있을 수 있음)
-                const frame1686563108Height = frame1686563108Rect.height;
+                // performance-chart-container의 실제 높이 (여러 페이지에 걸쳐 있을 수 있음)
+                const performanceChartHeight = performanceChartRect.height;
                 
-                // frame-1686563108의 끝나는 위치 (container 기준)
-                const frame1686563108EndInPage = frame1686563108Top + frame1686563108Height;
+                // performance-chart-container의 끝나는 위치 (container 기준)
+                const performanceChartEndInPage = performanceChartTop + performanceChartHeight;
                 
-                // frame-1686563108가 끝나는 페이지의 하단 계산
-                const frame1686563108LastPageBottom = Math.ceil(frame1686563108EndInPage / pageHeight) * pageHeight;
+                // performance-chart-container가 끝나는 페이지의 하단 계산
+                const performanceChartLastPageBottom = Math.ceil(performanceChartEndInPage / pageHeight) * pageHeight;
                 
                 // container의 하단 위치
                 const containerBottomValue = containerRect.height;
                 
                 // 마지막 페이지의 하단이 container의 하단보다 아래면 container의 하단 사용
-                const targetBottomValue = Math.min(frame1686563108LastPageBottom, containerBottomValue);
+                const targetBottomValue = Math.min(performanceChartLastPageBottom, containerBottomValue);
                 
-                // frame-1686563108 내에서 frame-insight-notice를 마지막 페이지 하단에 배치 (54px 여백)
-                // targetBottomValue는 container 기준이므로, frame-1686563108 기준으로 변환
-                const bottomPosition = (targetBottomValue - frame1686563108Top) - 54;
+                // performance-chart-container 내에서 frame-insight-notice를 마지막 페이지 하단에 배치 (54px 여백)
+                // targetBottomValue는 container 기준이므로, performance-chart-container 기준으로 변환
+                const bottomPosition = (targetBottomValue - performanceChartTop) - 54;
                 frameInsightNotice.style.bottom = Math.max(0, bottomPosition) + 'px';
                 frameInsightNotice.style.position = 'absolute';
                 frameInsightNotice.style.left = '0px';
             }
         }
 
-        // CPM 공식 텍스트를 frame-20-performance3 테이블 하단에 12px 여백을 두고 배치
+        // CPM 공식 텍스트를 성과 테이블 하단에 12px 여백을 두고 배치
         function syncCpmFormulaPosition() {
-            const frame1686563108 = document.querySelector('.frame-1686563108');
-            const frame20Performance3 = frame1686563108 ? frame1686563108.querySelector('.frame-20-performance3') : null;
-            const frameCpmFormula = frame1686563108 ? frame1686563108.querySelector('.frame-cpm-formula') : null;
+            const performanceChartContainer = document.querySelector('.performance-chart-container');
+            const performanceTable = performanceChartContainer ? performanceChartContainer.querySelector('.frame-table-performance3') : null;
+            const frameCpmFormula = performanceChartContainer ? performanceChartContainer.querySelector('.frame-cpm-formula') : null;
             
-            if (frame1686563108 && frame20Performance3 && frameCpmFormula) {
-                const frameRect = frame1686563108.getBoundingClientRect();
-                const frame20Rect = frame20Performance3.getBoundingClientRect();
+            if (performanceChartContainer && performanceTable && frameCpmFormula) {
+                const frameRect = performanceChartContainer.getBoundingClientRect();
+                const frame20Rect = performanceTable.getBoundingClientRect();
                 const frame20Bottom = frame20Rect.bottom - frameRect.top;
-                // frame-20-performance3 테이블 하단 + 12px 여백
+                // 성과 테이블 하단 + 12px 여백
                 frameCpmFormula.style.top = (frame20Bottom + 12) + 'px';
                 frameCpmFormula.style.position = 'absolute';
                 frameCpmFormula.style.left = '0px';
@@ -1971,18 +1820,12 @@
 
         // frame-insight-notice를 주요 광고 성과 2 페이지의 마지막 페이지 하단에 배치 (원칙: 항상 페이지 하단)
         function syncInsightNoticePosition2() {
-            const frame1686563133 = document.querySelector('.frame-1686563133');
-            const frame1686563131 = frame1686563133 ? frame1686563133.querySelector('.frame-1686563131') : null;
-            const frameInsightNotice = frame1686563133 ? frame1686563133.querySelector('.frame-insight-notice') : null;
+            const performanceChartSection = document.querySelector('.page-performance-2 .performance-chart-section');
+            const frameInsightNotice = performanceChartSection ? performanceChartSection.querySelector('.frame-insight-notice') : null;
             
-            if (frame1686563133 && frame1686563131 && frameInsightNotice) {
-                const container = frame1686563133.closest('.container');
-                if (!container) return;
-                
+            if (performanceChartSection && frameInsightNotice) {
                 // frame-insight-notice를 페이지 하단에 배치 (54px 여백)
-                // frame-1686563133 기준으로 계산
-                const bottomPosition = 54; // 페이지 하단에서 54px 여백
-                frameInsightNotice.style.bottom = bottomPosition + 'px';
+                frameInsightNotice.style.bottom = '54px';
                 frameInsightNotice.style.position = 'absolute';
                 frameInsightNotice.style.left = '0px';
             }
@@ -2103,9 +1946,152 @@
             characterData: true
         });
 
-        // 미디어그룹 별 유동인구와 노출인구 차트 (주요 광고 성과 2)
+        // 미디어그룹 별 circulation과 ots 차트 (주요 광고 성과 2)
         const chartCtx1686563131 = document.getElementById('chart-canvas-1686563131');
         if (chartCtx1686563131) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 미디어그룹별유동노출인구데이터 = {
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '강남역 2호선 지하철 광고',
+            //             유동인구: 120000,
+            //             노출인구: 85000,
+            //             색상: 미디어그룹컬러팔레트[0],
+            //             유사미디어그룹: false
+            //         },
+            //         {
+            //             미디어그룹명: '홍대입구역 빌딩',
+            //             유동인구: 80000,
+            //             노출인구: 60000,
+            //             색상: 미디어그룹컬러팔레트[1],
+            //             유사미디어그룹: true // 유사 미디어그룹은 색상을 연하게
+            //         }
+            //     ]
+            // };
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 미디어그룹별circulationots데이터 = {
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '강남역 2호선 지하철 광고',
+                        circulation: 120000,
+                        ots: 85000,
+                        색상: 미디어그룹컬러팔레트[0],
+                        유사미디어그룹: false
+                    },
+                    {
+                        미디어그룹명: '홍대입구역 빌딩',
+                        circulation: 80000,
+                        ots: 60000,
+                        색상: 미디어그룹컬러팔레트[1],
+                        유사미디어그룹: true
+                    },
+                    {
+                        미디어그룹명: '시청역 빌딩',
+                        circulation: 100000,
+                        ots: 75000,
+                        색상: 미디어그룹컬러팔레트[2],
+                        유사미디어그룹: false
+                    }
+                ]
+            };
+
+            const datasets = 미디어그룹별circulationots데이터.미디어그룹리스트.map((그룹, index) => {
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                // 유사 미디어그룹은 색상을 연하게
+                const circulation색상 = 그룹.유사미디어그룹 ? '#D0E8F5' : '#4DADFF';
+                const ots색상 = 그룹.유사미디어그룹 ? '#B3E6CC' : '#00C5A3';
+                
+                return [
+                    {
+                        label: `${그룹.미디어그룹명} - circulation`,
+                        data: [그룹.circulation],
+                        backgroundColor: circulation색상,
+                        borderColor: circulation색상,
+                        borderWidth: 0
+                    },
+                    {
+                        label: `${그룹.미디어그룹명} - ots`,
+                        data: [그룹.ots],
+                        backgroundColor: ots색상,
+                        borderColor: ots색상,
+                        borderWidth: 0
+                    }
+                ];
+            }).flat();
+
+            const chart1686563131 = new Chart(chartCtx1686563131, {
+                type: 'bar',
+                data: {
+                    labels: 미디어그룹별circulationots데이터.미디어그룹리스트.map(g => g.미디어그룹명),
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: false,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#616161'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString() + '명';
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false // 범례는 HTML로 별도 표시
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true
+                }
+            });
+        }
+
+        // 미디어그룹별 유동인구와 노출인구 막대그래프 차트 (주요 광고 성과 2 - 페이지 6)
+        const mediaGroupPopulationCtx = document.getElementById('chart-canvas-media-group-population');
+        if (mediaGroupPopulationCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
             // 예시 구조:
             // const 미디어그룹별유동노출인구데이터 = {
@@ -2150,39 +2136,40 @@
                         노출인구: 75000,
                         색상: 미디어그룹컬러팔레트[2],
                         유사미디어그룹: false
+                    },
+                    {
+                        미디어그룹명: '명동역 지하상가',
+                        유동인구: 95000,
+                        노출인구: 70000,
+                        색상: 미디어그룹컬러팔레트[3],
+                        유사미디어그룹: false
                     }
                 ]
             };
 
-            const datasets = 미디어그룹별유동노출인구데이터.미디어그룹리스트.map((그룹, index) => {
-                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
-                // 유사 미디어그룹은 색상을 연하게
-                const 유동인구색상 = 그룹.유사미디어그룹 ? '#D0E8F5' : '#4DADFF';
-                const 노출인구색상 = 그룹.유사미디어그룹 ? '#B3E6CC' : '#00C5A3';
-                
-                return [
-                    {
-                        label: `${그룹.미디어그룹명} - 유동인구`,
-                        data: [그룹.유동인구],
-                        backgroundColor: 유동인구색상,
-                        borderColor: 유동인구색상,
-                        borderWidth: 0
-                    },
-                    {
-                        label: `${그룹.미디어그룹명} - 노출인구`,
-                        data: [그룹.노출인구],
-                        backgroundColor: 노출인구색상,
-                        borderColor: 노출인구색상,
-                        borderWidth: 0
-                    }
-                ];
-            }).flat();
+            // 유동인구 데이터셋
+            const 유동인구데이터셋 = {
+                label: '유동인구',
+                data: 미디어그룹별유동노출인구데이터.미디어그룹리스트.map(g => g.유동인구),
+                backgroundColor: '#4DADFF',
+                borderColor: '#4DADFF',
+                borderWidth: 0
+            };
 
-            const chart1686563131 = new Chart(chartCtx1686563131, {
+            // 노출인구 데이터셋
+            const 노출인구데이터셋 = {
+                label: '노출인구',
+                data: 미디어그룹별유동노출인구데이터.미디어그룹리스트.map(g => g.노출인구),
+                backgroundColor: '#00C5A3',
+                borderColor: '#00C5A3',
+                borderWidth: 0
+            };
+
+            const mediaGroupPopulationChart = new Chart(mediaGroupPopulationCtx, {
                 type: 'bar',
                 data: {
                     labels: 미디어그룹별유동노출인구데이터.미디어그룹리스트.map(g => g.미디어그룹명),
-                    datasets: datasets
+                    datasets: [유동인구데이터셋, 노출인구데이터셋]
                 },
                 options: {
                     indexAxis: 'x',
@@ -2194,7 +2181,9 @@
                                     family: 'Pretendard',
                                     size: 10
                                 },
-                                color: '#616161'
+                                color: '#616161',
+                                maxRotation: 45,
+                                minRotation: 45
                             },
                             grid: {
                                 display: false
@@ -2600,7 +2589,7 @@
         // 일별 노출인구 비교 차트 (주요 광고 성과 4-2)
         const dailyCtx = document.getElementById('chart-canvas-daily');
         const dailyAverageEl = document.getElementById('daily-chart-average');
-        const dailyLegendEl = document.querySelector('.frame-1686563137-daily');
+        const dailyLegendEl = document.querySelector('.daily-chart-legend');
         
         if (dailyCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
@@ -2876,7 +2865,7 @@
         // 요일별 노출인구 비교 차트 (주요 광고 성과 4-3)
         const weeklyCtx = document.getElementById('chart-canvas-weekly');
         const weeklyMaxValueEl = document.getElementById('weekly-chart-max-value');
-        const weeklyLegendEl = document.querySelector('.frame-1686563137-weekly');
+        const weeklyLegendEl = document.querySelector('.weekly-chart-legend');
         
         if (weeklyCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
@@ -3168,7 +3157,7 @@
         // 시간대별 노출인구 비교 차트 (주요 광고 성과 4-4)
         const hourlyCtx = document.getElementById('chart-canvas-hourly');
         const hourlyMaxValueEl = document.getElementById('hourly-chart-max-value');
-        const hourlyLegendEl = document.querySelector('.frame-1686563137-hourly');
+        const hourlyLegendEl = document.querySelector('.hourly-chart-legend');
         
         if (hourlyCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
@@ -3444,8 +3433,8 @@
 
         // 노출 효과 시각화 차트 (페이지 15)
         // 연령・성별 분포 차트 (피라미드)
-        const visualizationPyramidCtx = document.getElementById('chart-canvas-visualization-pyramid');
-        const visualizationPyramidLegendEl = document.querySelector('.frame-1686563158-visualization .frame-1686563137-visualization-pyramid');
+        const visualizationPyramidCtx = document.getElementById('chart-canvas-mediagroup-ots-pyramid');
+        const visualizationPyramidLegendEl = document.querySelector('.frame-visualization-age-gender .visualization-legend-age-gender');
         
         if (visualizationPyramidCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
@@ -3675,9 +3664,9 @@
         }
 
         // 일별 노출인구 차트 (페이지 15)
-        const visualizationDailyCtx = document.getElementById('chart-canvas-visualization-daily');
+        const visualizationDailyCtx = document.getElementById('chart-canvas-mediagroup-ots-daily');
         const visualizationDailyTotalEl = document.getElementById('daily-chart-total-visualization');
-        const visualizationDailyLegendEl = document.querySelector('.frame-1686563129-visualization .frame-1686563137-visualization-daily');
+        const visualizationDailyLegendEl = document.querySelector('.frame-visualization-daily .visualization-legend-daily');
         
         if (visualizationDailyCtx) {
             // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
@@ -3829,7 +3818,531 @@
                 }
             });
         }
+
+        // 요일별 노출인구 차트 (페이지 16)
+        const visualizationWeeklyCtx = document.getElementById('chart-canvas-mediagroup-ots-weekly');
+        const visualizationWeeklyMaxValueEl = document.getElementById('weekly-chart-max-value-visualization');
+        const visualizationWeeklyLegendEl = document.querySelector('.visualization-legend-weekly');
+        
+        if (visualizationWeeklyCtx) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 요일별노출인구데이터 = {
+            //     요일리스트: ['월', '화', '수', '목', '금', '토', '일'],
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '강남역 2호선 지하철 광고',
+            //             요일별데이터: [8500, 9000, 9200, 8800, 9100, 7200, 6500],
+            //             색상: 미디어그룹컬러팔레트[0]
+            //         },
+            //         ...
+            //     ],
+            //     일평균: 8800
+            // };
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 요일별노출인구데이터 = {
+                요일리스트: ['월', '화', '수', '목', '금', '토', '일'],
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '{{미디어그룹명1}}',
+                        요일별데이터: [8500, 9000, 9200, 8800, 9100, 7200, 6500],
+                        색상: 미디어그룹컬러팔레트[0]
+                    },
+                    {
+                        미디어그룹명: '{{미디어그룹명2}}',
+                        요일별데이터: [6000, 6500, 6800, 6400, 6700, 5500, 4800],
+                        색상: 미디어그룹컬러팔레트[1]
+                    },
+                    {
+                        미디어그룹명: '{{미디어그룹명3}}',
+                        요일별데이터: [7500, 7800, 8000, 7700, 7900, 6200, 5500],
+                        색상: 미디어그룹컬러팔레트[2]
+                    }
+                ],
+                일평균: 8800
+            };
+
+            // 각 요일별 총합 계산
+            const 요일별총합 = 요일별노출인구데이터.요일리스트.map((요일, 인덱스) => {
+                return 요일별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.요일별데이터[인덱스], 0);
+            });
+
+            // 총합이 가장 많은 요일 찾기
+            const 최대값인덱스 = 요일별총합.indexOf(Math.max(...요일별총합));
+            const 최대총합값 = 요일별총합[최대값인덱스];
+            const 최대요일 = 요일별노출인구데이터.요일리스트[최대값인덱스];
+
+            // 각 미디어그룹별 최대값 찾기
+            const 미디어그룹별최대값 = 요일별노출인구데이터.미디어그룹리스트.map(그룹 => {
+                const 최대값 = Math.max(...그룹.요일별데이터);
+                const 최대값인덱스 = 그룹.요일별데이터.indexOf(최대값);
+                return { 그룹, 최대값, 최대값인덱스 };
+            });
+
+            // 범례 생성
+            if (visualizationWeeklyLegendEl) {
+                요일별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                    const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                    
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    const legendIcon = document.createElement('div');
+                    legendIcon.className = 'legend-icon';
+                    legendIcon.style.backgroundColor = 색상;
+                    legendItem.appendChild(legendIcon);
+                    
+                    const legendText = document.createElement('span');
+                    legendText.className = 'legend-text';
+                    legendText.textContent = 그룹.미디어그룹명;
+                    legendItem.appendChild(legendText);
+                    
+                    visualizationWeeklyLegendEl.appendChild(legendItem);
+                });
+
+                // 일평균 범례 추가
+                const legendSeparator = document.createElement('div');
+                legendSeparator.className = 'legend-separator';
+                legendSeparator.innerHTML = '<svg width="20" height="1" viewBox="0 0 20 1"><line x1="0" y1="0.5" x2="20" y2="0.5" stroke="#626262" stroke-width="1"/></svg>';
+                visualizationWeeklyLegendEl.appendChild(legendSeparator);
+
+                const legendItemAvg = document.createElement('div');
+                legendItemAvg.className = 'legend-item';
+                const legendTextAvg = document.createElement('span');
+                legendTextAvg.className = 'legend-text';
+                legendTextAvg.textContent = '일평균 노출인구수';
+                legendItemAvg.appendChild(legendTextAvg);
+                visualizationWeeklyLegendEl.appendChild(legendItemAvg);
+            }
+
+            // 차트 데이터셋 생성 (누적 막대그래프)
+            const datasets = 요일별노출인구데이터.미디어그룹리스트.map((그룹, index) => {
+                const 최대값정보 = 미디어그룹별최대값[index];
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                return {
+                    label: 그룹.미디어그룹명,
+                    data: 그룹.요일별데이터,
+                    backgroundColor: 색상,
+                    borderColor: 색상,
+                    borderWidth: 0,
+                    maxValue: 최대값정보.최대값,
+                    maxValueIndex: 최대값정보.최대값인덱스
+                };
+            });
+
+            // 일평균선 데이터셋 추가 (꺾은선)
+            const 요일별일평균 = 요일별노출인구데이터.요일리스트.map((요일, 인덱스) => {
+                const 요일별합계 = 요일별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.요일별데이터[인덱스], 0);
+                return 요일별합계 / 요일별노출인구데이터.미디어그룹리스트.length;
+            });
+            
+            datasets.unshift({
+                label: '일평균 노출인구수',
+                data: 요일별일평균,
+                type: 'line',
+                borderColor: '#008aff',
+                borderWidth: 2,
+                borderDash: [],
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+                order: 1
+            });
+
+            const visualizationWeeklyChart = new Chart(visualizationWeeklyCtx, {
+                type: 'bar',
+                data: {
+                    labels: 요일별노출인구데이터.요일리스트,
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 12
+                                },
+                                color: '#616161',
+                                maxRotation: 0,
+                                minRotation: 0
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        onComplete: function() {
+                            const ctx = visualizationWeeklyChart.ctx;
+                            
+                            // 총합이 가장 높은 요일의 값을 막대 상단에 표시
+                            const 최대총합요일인덱스 = 최대값인덱스;
+                            const 최대총합요일막대 = visualizationWeeklyChart.getDatasetMeta(1).data[최대총합요일인덱스];
+                            
+                            if (최대총합요일막대) {
+                                let 총누적높이 = 0;
+                                for (let i = 1; i < datasets.length; i++) {
+                                    const meta = visualizationWeeklyChart.getDatasetMeta(i);
+                                    if (meta.data[최대총합요일인덱스]) {
+                                        총누적높이 += meta.data[최대총합요일인덱스].height;
+                                    }
+                                }
+                                
+                                const x = 최대총합요일막대.x;
+                                const y = 최대총합요일막대.y - 총누적높이 - 10;
+                                
+                                ctx.save();
+                                ctx.fillStyle = '#000000';
+                                ctx.font = '700 11px Pretendard';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText(`총 ${최대총합값.toLocaleString()}명`, x, y);
+                                ctx.restore();
+                            }
+                            
+                            // 각 미디어그룹별 최대값 표시
+                            미디어그룹별최대값.forEach((정보, index) => {
+                                const meta = visualizationWeeklyChart.getDatasetMeta(index + 1);
+                                
+                                meta.data.forEach((bar, barIndex) => {
+                                    if (barIndex === 정보.최대값인덱스) {
+                                        const x = bar.x;
+                                        let 누적높이 = 0;
+                                        for (let i = 1; i <= index; i++) {
+                                            const prevMeta = visualizationWeeklyChart.getDatasetMeta(i);
+                                            누적높이 += prevMeta.data[barIndex].height;
+                                        }
+                                        
+                                        const y = bar.y - 누적높이 - bar.height / 2;
+                                        
+                                        ctx.save();
+                                        ctx.font = '700 11px Pretendard';
+                                        const text = 정보.최대값.toLocaleString() + '명';
+                                        const textMetrics = ctx.measureText(text);
+                                        const textWidth = textMetrics.width;
+                                        const barWidth = Math.abs(bar.width);
+                                        
+                                        if (textWidth < barWidth - 4) {
+                                            ctx.fillStyle = '#000000';
+                                            ctx.textAlign = 'center';
+                                            ctx.textBaseline = 'middle';
+                                            ctx.fillText(text, x, y);
+                                        }
+                                        ctx.restore();
+                                    }
+                                });
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+        // 시간대별 노출인구 차트 (페이지 16)
+        const visualizationHourlyCtx = document.getElementById('chart-canvas-mediagroup-ots-hourly');
+        const visualizationHourlyMaxValueEl = document.getElementById('hourly-chart-max-value-visualization');
+        const visualizationHourlyLegendEl = document.querySelector('.visualization-legend-hourly');
+        
+        if (visualizationHourlyCtx) {
+            // 서버 측에서 템플릿 변수를 실제 데이터로 치환해야 합니다
+            // 예시 구조:
+            // const 시간대별노출인구데이터 = {
+            //     시간대리스트: ['09시', '10시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시'],
+            //     미디어그룹리스트: [
+            //         {
+            //             미디어그룹명: '{{미디어그룹명1}}',
+            //             시간대별데이터: [2400, 2800, 3200, 3800, 3500, 3300, 3400, 3600, 4000, 4200, 3800, 3200, 2800, 2400],
+            //             색상: 미디어그룹컬러팔레트[0]
+            //         },
+            //         ...
+            //     ],
+            //     시간대평균: 8800
+            // };
+            
+            // 임시 데이터 (서버에서 위의 템플릿으로 치환)
+            const 시간대별노출인구데이터 = {
+                시간대리스트: ['09시', '10시', '11시', '12시', '13시', '14시', '15시', '16시', '17시', '18시', '19시', '20시', '21시', '22시'],
+                미디어그룹리스트: [
+                    {
+                        미디어그룹명: '{{미디어그룹명1}}',
+                        시간대별데이터: [2400, 2800, 3200, 3800, 3500, 3300, 3400, 3600, 4000, 4200, 3800, 3200, 2800, 2400],
+                        색상: 미디어그룹컬러팔레트[0]
+                    },
+                    {
+                        미디어그룹명: '{{미디어그룹명2}}',
+                        시간대별데이터: [1800, 2100, 2400, 2800, 2600, 2500, 2600, 2700, 3000, 3200, 2900, 2400, 2100, 1800],
+                        색상: 미디어그룹컬러팔레트[1]
+                    },
+                    {
+                        미디어그룹명: '{{미디어그룹명3}}',
+                        시간대별데이터: [2000, 2300, 2700, 3200, 3000, 2900, 3000, 3100, 3400, 3600, 3300, 2800, 2400, 2000],
+                        색상: 미디어그룹컬러팔레트[2]
+                    }
+                ],
+                시간대평균: 8800
+            };
+
+            // 각 시간대별 총합 계산
+            const 시간대별총합 = 시간대별노출인구데이터.시간대리스트.map((시간대, 인덱스) => {
+                return 시간대별노출인구데이터.미디어그룹리스트.reduce((합, 그룹) => 합 + 그룹.시간대별데이터[인덱스], 0);
+            });
+
+            // 총합이 가장 많은 시간대 찾기
+            const 최대값인덱스 = 시간대별총합.indexOf(Math.max(...시간대별총합));
+            const 최대총합값 = 시간대별총합[최대값인덱스];
+            const 최대시간대 = 시간대별노출인구데이터.시간대리스트[최대값인덱스];
+
+            // 각 미디어그룹별 최대값 찾기
+            const 미디어그룹별최대값 = 시간대별노출인구데이터.미디어그룹리스트.map(그룹 => {
+                const 최대값 = Math.max(...그룹.시간대별데이터);
+                const 최대값인덱스 = 그룹.시간대별데이터.indexOf(최대값);
+                return { 그룹, 최대값, 최대값인덱스 };
+            });
+
+            // 범례 생성
+            if (visualizationHourlyLegendEl) {
+                시간대별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                    const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                    
+                    const legendItem = document.createElement('div');
+                    legendItem.className = 'legend-item';
+                    
+                    const legendIcon = document.createElement('div');
+                    legendIcon.className = 'legend-icon';
+                    legendIcon.style.backgroundColor = 색상;
+                    legendItem.appendChild(legendIcon);
+                    
+                    const legendText = document.createElement('span');
+                    legendText.className = 'legend-text';
+                    legendText.textContent = 그룹.미디어그룹명;
+                    legendItem.appendChild(legendText);
+                    
+                    visualizationHourlyLegendEl.appendChild(legendItem);
+                });
+
+                // 시간대 평균 범례 추가
+                const legendSeparator = document.createElement('div');
+                legendSeparator.className = 'legend-separator';
+                legendSeparator.innerHTML = '<svg width="20" height="1" viewBox="0 0 20 1"><line x1="0" y1="0.5" x2="20" y2="0.5" stroke="#626262" stroke-width="1"/></svg>';
+                visualizationHourlyLegendEl.appendChild(legendSeparator);
+
+                const legendItemAvg = document.createElement('div');
+                legendItemAvg.className = 'legend-item';
+                const legendTextAvg = document.createElement('span');
+                legendTextAvg.className = 'legend-text';
+                legendTextAvg.textContent = '시간대 평균 노출인구수';
+                legendItemAvg.appendChild(legendTextAvg);
+                visualizationHourlyLegendEl.appendChild(legendItemAvg);
+            }
+
+            // 차트 데이터셋 생성 (누적 꺾은선 그래프)
+            const 누적데이터 = [];
+            시간대별노출인구데이터.미디어그룹리스트.forEach((그룹, index) => {
+                if (index === 0) {
+                    누적데이터.push([...그룹.시간대별데이터]);
+                } else {
+                    const 이전누적 = 누적데이터[index - 1];
+                    누적데이터.push(이전누적.map((값, i) => 값 + 그룹.시간대별데이터[i]));
+                }
+            });
+            
+            const datasets = 시간대별노출인구데이터.미디어그룹리스트.map((그룹, index) => {
+                const 최대값정보 = 미디어그룹별최대값[index];
+                const 색상 = 그룹.색상 || 미디어그룹컬러팔레트[index % 미디어그룹컬러팔레트.length];
+                return {
+                    label: 그룹.미디어그룹명,
+                    data: 누적데이터[index],
+                    backgroundColor: 색상 + '80',
+                    borderColor: 색상,
+                    borderWidth: 2,
+                    fill: index === 0 ? true : '-1',
+                    tension: 0.4,
+                    maxValue: 최대값정보.최대값,
+                    maxValueIndex: 최대값정보.최대값인덱스
+                };
+            });
+
+            // 시간대 평균선 데이터셋 추가 (보조선)
+            datasets.push({
+                label: '시간대 평균 노출인구수',
+                data: Array(시간대별노출인구데이터.시간대리스트.length).fill(시간대별노출인구데이터.시간대평균),
+                type: 'line',
+                borderColor: '#008aff',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                fill: false,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+                order: 0
+            });
+
+            const visualizationHourlyChart = new Chart(visualizationHourlyCtx, {
+                type: 'line',
+                data: {
+                    labels: 시간대별노출인구데이터.시간대리스트,
+                    datasets: datasets
+                },
+                options: {
+                    indexAxis: 'x',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#616161',
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: false,
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    family: 'Pretendard',
+                                    size: 10
+                                },
+                                color: '#757575',
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                display: true,
+                                color: '#e0e0e0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.y;
+                                    return label + ': ' + value.toLocaleString() + '명';
+                                }
+                            },
+                            titleFont: {
+                                family: 'Pretendard',
+                                size: 12
+                            },
+                            bodyFont: {
+                                family: 'Pretendard',
+                                size: 11
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    animation: {
+                        onComplete: function() {
+                            const ctx = visualizationHourlyChart.ctx;
+                            
+                            // 각 미디어그룹별 최대값에 라벨 표시
+                            미디어그룹별최대값.forEach((정보, index) => {
+                                const meta = visualizationHourlyChart.getDatasetMeta(index);
+                                if (meta && meta.data && meta.data[정보.최대값인덱스]) {
+                                    const point = meta.data[정보.최대값인덱스];
+                                    const x = point.x;
+                                    let 누적높이 = 0;
+                                    for (let i = 0; i < index; i++) {
+                                        const prevMeta = visualizationHourlyChart.getDatasetMeta(i);
+                                        if (prevMeta && prevMeta.data && prevMeta.data[정보.최대값인덱스]) {
+                                            const prevPoint = prevMeta.data[정보.최대값인덱스];
+                                            누적높이 += prevPoint.y;
+                                        }
+                                    }
+                                    const y = point.y - 누적높이;
+                                    
+                                    ctx.save();
+                                    ctx.fillStyle = '#000000';
+                                    ctx.font = '400 11px Pretendard';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+                                    ctx.fillText(정보.최대값.toLocaleString() + '명', x, y - 5);
+                                    ctx.restore();
+                                }
+                            });
+                            
+                            // 누적 합계가 가장 높은 시간대 강조
+                            const maxTotalMeta = visualizationHourlyChart.getDatasetMeta(시간대별노출인구데이터.미디어그룹리스트.length - 1);
+                            if (maxTotalMeta && maxTotalMeta.data && maxTotalMeta.data[최대값인덱스]) {
+                                const maxPoint = maxTotalMeta.data[최대값인덱스];
+                                const x = maxPoint.x;
+                                const y = maxPoint.y;
+                                
+                                ctx.save();
+                                ctx.fillStyle = 'rgba(182, 167, 255, 0.5)';
+                                ctx.strokeStyle = '#6f47ff';
+                                ctx.lineWidth = 1;
+                                ctx.fillRect(x - 38, 0, 76, y);
+                                ctx.strokeRect(x - 38, 0, 76, y);
+                                ctx.restore();
+                            }
+                        }
+                    }
+                }
+            });
+        }
     </script>
+    </div> <!-- page-wrapper 닫기 -->
 </body>
 </html>
 

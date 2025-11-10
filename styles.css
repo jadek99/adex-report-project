@@ -437,8 +437,8 @@ section.page:last-child {
 
 /* 목차 페이지 스타일 - Figma 프레임 구조 반영 */
 
-/* Frame 8: 상단 헤더 */
-.frame-8 {
+/* 목차 상단 헤더 */
+.toc-header {
     position: absolute;
     left: 54px;
     top: 54px;
@@ -459,7 +459,7 @@ section.page:last-child {
     z-index: 2;
 }
 
-.frame-1686563114 {
+.breadcrumb-group {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -542,7 +542,7 @@ section.page:last-child {
     left: 54px;
     top: 72px;
     width: 1016px;
-    height: hugo;
+    height: auto; /* hug: 내용에 맞춤 */
     border-radius: var(--border-radius);
     background: transparent;
     z-index: 2;
@@ -554,7 +554,7 @@ section.page:last-child {
     left: 20px;
     top: 20px;
     width: 722px;
-    height: 385px;
+    height: auto; /* hug: 내용에 맞춤 */
 }
 
 /* 타이틀-목차: 목차 제목 프레임 */
@@ -615,13 +615,21 @@ section.page:last-child {
 .frame-미디어그룹별광고효과분석 {
     position: absolute;
     left: 0px;
-    top: 31px;
+    top: 41px; /* text-section-title 높이(26px) + margin-bottom(15px) = 41px */
     width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* 좌측 정렬 */
-    justify-content: flex-start; /* 상단 정렬 */
+    height: auto !important; /* hug: 내용에 맞춤 */
+    min-height: 0 !important; /* 최소 높이 제거 */
+    max-height: none !important; /* 최대 높이 제한 제거 */
+    display: flex !important; /* 세로 배치 */
+    flex-direction: column !important; /* 세로 배치 */
+    justify-content: flex-start !important; /* 상단 정렬 */
+    align-items: flex-start !important; /* 좌측 정렬 */
+    align-content: flex-start !important; /* Grid일 경우 대비: end/space-between → start */
+    gap: 0px !important; /* 간격 제거 - 제목과 리스트가 바로 붙도록 */
+    box-sizing: border-box; /* 패딩과 보더를 높이에 포함 */
+    overflow: visible !important; /* 넘치는 부분 표시 */
+    padding: 0 !important; /* 모든 패딩 제거 */
+    margin: 0 !important; /* 모든 마진 제거 */
 }
 
 .text-subsection-title {
@@ -632,10 +640,25 @@ section.page:last-child {
     line-height: 26px;
     letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-light);
-    margin: 0;
-    margin-bottom: 0; /* 미디어그룹 리스트와 붙임 */
+    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important; /* 미디어그룹 리스트와 붙임 */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0 !important; /* 모든 패딩 제거 */
     width: fit-content; /* 가로 hug */
+    height: 26px !important; /* line-height와 동일 - 명시적으로 설정 */
+    min-height: 26px !important; /* 최소 높이 설정 */
+    max-height: 26px !important; /* 최대 높이 설정 */
     white-space: nowrap; /* 줄 바꿈 방지 */
+    display: block !important; /* 블록 요소로 명시 */
+    order: 1 !important; /* flex 컨테이너에서 첫 번째 요소 */
+    flex-shrink: 0 !important; /* flex 컨테이너에서 축소되지 않도록 */
+    flex-grow: 0 !important; /* flex 컨테이너에서 확장되지 않도록 */
+    flex-basis: 26px !important; /* 기본 크기 명시 (높이와 동일) */
+    align-self: flex-start !important; /* 상단 정렬 */
+    position: relative !important; /* 상대 위치 */
+    top: 0 !important; /* 상단에 위치 */
 }
 
 .text-subsection-content {
@@ -650,23 +673,66 @@ section.page:last-child {
     margin: 0;
 }
 
+/* ol 요소에 대한 기본 스타일 리셋 */
+ol.text-subsection-content {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
 /* text-subsection-content.media-group-list 좌측 상단 정렬 */
 .text-subsection-content.media-group-list {
     text-align: left !important; /* 좌측 정렬 */
-    align-self: flex-start !important; /* 상단 정렬 */
     width: fit-content !important; /* 내용에 맞춤 */
+    height: auto !important; /* hug: 내용에 맞춤 */
     margin-left: 0 !important; /* 좌측 마진 제거 */
     margin-top: 0 !important; /* 상단 마진 제거하여 텍스트를 상단으로 */
     margin-bottom: 0 !important; /* 하단 마진 제거 */
+    padding-top: 0 !important; /* 상단 패딩 제거 */
+    padding-bottom: 0 !important; /* 하단 패딩 제거 */
+    padding-left: 0 !important; /* 좌측 패딩 제거 */
+    padding-right: 0 !important; /* 우측 패딩 제거 */
+}
+
+ol.text-subsection-content.media-group-list {
+    display: flex !important; /* flex item으로 설정 */
+    flex-direction: column !important; /* 세로 방향 */
+    height: fit-content !important; /* hug: 내용에 맞춤 */
+    min-height: 0 !important;
+    max-height: none !important; /* 최대 높이 제한 제거 */
+    flex-shrink: 0 !important; /* flex 컨테이너에서 축소되지 않도록 */
+    flex-grow: 0 !important; /* flex 컨테이너에서 확장되지 않도록 */
+    flex-basis: auto !important; /* 기본 크기 자동 */
+    order: 2 !important; /* 제목 다음에 오도록 명시 */
+    align-self: flex-start !important; /* 상단 정렬 */
+    margin: 0 !important; /* 모든 마진 제거 */
+    margin-top: 0 !important; /* 상단 마진 명시적 제거 */
+    margin-bottom: 0 !important; /* 하단 마진 명시적 제거 */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
     padding: 0 !important; /* 모든 패딩 제거 */
-    display: block !important; /* 블록 요소로 설정 */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    position: static !important; /* 정적 위치 - flex 컨테이너 내에서 정상 흐름 */
+    top: auto !important; /* top 속성 제거 */
+    box-sizing: border-box !important; /* 패딩과 보더를 높이에 포함 */
+    visibility: visible !important; /* 보이도록 설정 */
+    opacity: 1 !important; /* 불투명도 설정 */
 }
 
 .media-group-list {
     list-style: none;
     padding: 0 !important; /* 모든 패딩 제거하여 상단 정렬 */
     margin: 0 !important; /* 모든 마진 제거 */
+    margin-top: 0 !important; /* 상단 마진 명시적 제거 */
     counter-reset: media-group-counter;
+    height: auto !important; /* hug: 내용에 맞춤 */
+    min-height: 0 !important; /* 최소 높이 제거 */
+    text-align: left !important; /* 좌측 정렬 - center 리셋 */
+    align-items: flex-start !important; /* flex 컨테이너 내 상단 정렬 */
+    justify-content: flex-start !important; /* flex 컨테이너 내 상단 정렬 */
 }
 
 .media-group-list li {
@@ -680,8 +746,14 @@ section.page:last-child {
     letter-spacing: -0.25px; /* -1px * 1.33333 */
     color: var(--color-toc-text-medium);
     margin: 0;
+    margin-top: 0 !important; /* 상단 마진 제거 */
+    margin-bottom: 0 !important; /* 하단 마진 제거 */
+    margin-left: 0 !important; /* 좌측 마진 제거 */
     padding: 0;
+    padding-top: 0 !important; /* 상단 패딩 제거 */
+    padding-left: 0 !important; /* 좌측 패딩 제거 */
     white-space: pre-line;
+    text-align: left !important; /* 좌측 정렬 */
 }
 
 .media-group-list li::before {
@@ -697,13 +769,13 @@ section.page:last-child {
     bottom: 54px;
     width: 1016px;
     height: 102px;
-    padding: 20px 20px;
+    padding: 20px;
     background: var(--color-info-box-bg);
     border-radius: var(--border-radius);
     z-index: 100;
 }
 
-.frame-24 {
+.info-box-header {
     position: absolute;
     left: 14px;
     top: 14px;
@@ -716,8 +788,8 @@ section.page:last-child {
 
 .frame-icon {
     position: absolute;
-    left: 0px;
     top: 0px;
+    left: 10px;
     width: 19px;
     height: 19px;
     object-fit: contain;
@@ -726,8 +798,9 @@ section.page:last-child {
 
 .text-info-title {
     position: absolute;
-    left: 24px;
     top: 0px;
+    width: 500px;
+    left: 40px;
     font-family: var(--font-family);
     font-style: normal;
     font-weight: var(--font-weight-medium);
@@ -739,8 +812,8 @@ section.page:last-child {
 
 .text-info-content {
     position: absolute;
-    left: 14px;
     top: 43px;
+    left: 20px;
     width: 916px;
     height: 46px;
     font-family: var(--font-family);
@@ -877,7 +950,7 @@ section.page:last-child {
     font-weight: 600; /* SemiBold */
     font-size: 27px;
     line-height: 35px;
-    letter-spacing: -0.10665274206776532px;
+    letter-spacing: -0.25px;
     color: #757575;
     padding-left: 16px;
     padding-right: 16px;
@@ -897,9 +970,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600; /* SemiBold */
-    font-size: 21.33px;
-    line-height: 25.6px;
-    letter-spacing: -0.085px;
+    font-size: 22px;
+    line-height: 26px;
+    letter-spacing: -0.25px;
     color: #053fb2;
     width: fit-content;
     height: auto;
@@ -940,7 +1013,7 @@ section.page:last-child {
     padding: 0px;
     gap: 2px;
     width: fit-content;
-    height: 14px;
+    height: 20px;
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -952,11 +1025,12 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 16px; /* 15.997910499572754px */
-    line-height: 19px; /* 19.197492599487305px */
-    letter-spacing: -0.064px; /* -0.06399164295184079px */
+    font-size: 16px; /* 16px */
+    line-height: 19px; /* 20px */
+    letter-spacing: -0.25px; /* -1px */
     color: #9e9e9e;
     height: 19px;
+    align-items: center;
     width: fit-content;
 }
 
@@ -964,9 +1038,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600; /* SemiBold */
-    font-size: 16px; /* 15.997910499572754px */
-    line-height: 19px; /* 19.197492599487305px */
-    letter-spacing: -0.064px; /* -0.06399164295184079px */
+    font-size: 16px; /* 16px */
+    line-height: 19px; /* 20px */
+    letter-spacing: -0.25px; /* -1px */
     color: #616161;
     height: 19px;
     width: fit-content;
@@ -978,9 +1052,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 16px; /* 15.997910499572754px */
-    line-height: 19px; /* 19.197492599487305px */
-    letter-spacing: -0.064px; /* -0.06399164295184079px */
+    font-size: 16px; /* 16px */
+    line-height: 19px; /* 20px */
+    letter-spacing: -0.25px; /* -1px */
     color: #1462ff;
     flex: none;
     order: 1;
@@ -1007,9 +1081,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 800; /* ExtraBold */
-    font-size: 37px; /* 37.32845687866211px */
-    line-height: 52px; /* 52.25983810424805px */
-    letter-spacing: -0.149px; /* -0.14931382973959786px */
+    font-size: 37px; /* 38px */
+    line-height: 52px; /* 53px */
+    letter-spacing: -0.25px; /* -1px */
     color: #1462ff;
     margin: 0;
     padding: 0;
@@ -1024,9 +1098,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 19px; /* 18.664228439331055px */
-    line-height: 22px; /* 22.397075653076172px */
-    letter-spacing: -0.075px; /* -0.07465691486979893px */
+    font-size: 19px; /* 19px */
+    line-height: 22px; /* 23px */
+    letter-spacing: -0.25px; /* -1px */
     color: #222222;
     margin: 0;
     padding: 0;
@@ -1034,8 +1108,8 @@ section.page:last-child {
     margin-bottom: 46px; /* 아래 콘텐츠와의 간격 */
 }
 
-/* Frame 1686563146: 래퍼 프레임 */
-.frame-1686563146 {
+/* 콘텐츠 래퍼 */
+.content-wrapper {
     position: absolute;
     left: 54px;
     top: 222px;
@@ -1057,13 +1131,13 @@ section.page:last-child {
     flex-direction: column;
 }
 
-/* 확장 페이지: sub title이 없을 때 frame-1686563146 위치 조정 */
-.frame-head:not(:has(.frame-sub-title)) + .frame-1686563146 {
+/* 확장 페이지: sub title이 없을 때 content-wrapper 위치 조정 */
+.frame-head:not(:has(.frame-sub-title)) + .content-wrapper {
     top: 110px; /* 40px + 34px + 36px (여유 공간) */
 }
 
 /* 확장 페이지: content title 숨김 */
-.frame-head:not(:has(.frame-sub-title)) + .frame-1686563146 .frame-content-title {
+.frame-head:not(:has(.frame-sub-title)) + .content-wrapper .frame-content-title {
     display: none;
 }
 
@@ -1079,7 +1153,7 @@ section.page:last-child {
     left: 0px;
     top: 0px; /* frame-내용 기준 */
     width: 1016px;
-    height: 26px; /* Figma 디자인 높이 */
+    height: 24px;
     border-left: 4px solid #616161; /* 좌측 4px stroke */
     border-top: none;
     border-right: none;
@@ -1097,57 +1171,66 @@ section.page:last-child {
     font-weight: 600; /* SemiBold */
     font-size: 20px;
     line-height: 24px; /* font-size * 1.2 */
-    letter-spacing: -0.08px;
+    letter-spacing: -0.25px;
     color: #616161;
     margin: 0;
     padding: 0;
 }
 
-/* table: 테이블 영역 (Frame table) - 표준 HTML table */
-.frame-내용 .frame-table {
+/* table 공통 래퍼 */
+.table-frame {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+/* 페이지 4 테이블 래퍼 */
+.frame-table-container {
     position: absolute;
     left: 0px;
     top: 46px; /* content title (26px) + 여백 (20px) = 46px, frame-내용 기준 */
     width: 1016px;
     min-height: 200px;
     max-height: calc(100% - 50px); /* 프레임 영역을 벗어나지 않도록 (여유 공간 확보) */
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    background-color: #ffffff;
-    border-collapse: collapse; /* 테이블 라이브러리 표준: border-collapse */
-    border-spacing: 0;
-    overflow: visible; /* 동적 항목이 늘어날 수 있도록 */
-    box-shadow: none; /* Figma 디자인에 shadow 없음 */
     page-break-inside: auto; /* 페이지 분할 허용 */
-    /* 행이 페이지를 넘어갈 경우 자동으로 다음 페이지로 이동 */
-    page-break-after: auto;
+    page-break-after: auto; /* 행이 페이지를 넘어갈 경우 자동으로 다음 페이지로 이동 */
+}
+
+/* table: 테이블 영역 (Frame table) - 표준 HTML table */
+.frame-내용 .frame-table {
+    width: 100%;
+    border-collapse: collapse; /* 선을 중앙에 맞춰 겹치도록 */
+    border-spacing: 0;
     table-layout: fixed; /* 테이블 레이아웃 고정 */
+    background-color: transparent;
 }
 
 /* 기본 페이지: 테이블 좌상단 정렬 */
-.frame-내용:has(.frame-content-title) .frame-table {
+.frame-내용:has(.frame-content-title) .frame-table-container {
     margin-left: 0; /* 좌측 정렬 */
     margin-right: auto;
 }
 
-/* Frame 18, 14, 19: 테이블 행 */
-.frame-18,
-.frame-14,
-.frame-19 {
+/* 테이블 행 */
+.table-row-first,
+.table-row-middle,
+.table-row-last {
     width: 1016px;
     page-break-inside: avoid; /* 페이지 분할 시 행이 잘리지 않도록 */
     break-inside: avoid; /* 페이지 분할 방지 */
 }
 
-.frame-18 {
+.table-row-first {
     height: 40px;
 }
 
-.frame-14 {
+.table-row-middle {
     min-height: 120px;
 }
 
-.frame-19 {
+.table-row-last {
     height: 40px;
 }
 
@@ -1160,6 +1243,23 @@ section.page:last-child {
     vertical-align: middle; /* 수직 가운데 정렬 */
     text-align: left; /* 좌측 정렬 */
     display: table-cell; /* 테이블 셀 표시 */
+}
+
+/* 테이블 외곽선 제거 (래퍼 border와 겹치지 않도록) */
+.frame-table .table-row-first td.field {
+    border-top: none;
+}
+
+.frame-table .table-row-last td.field {
+    border-bottom: none;
+}
+
+.frame-table tr td.field:first-child {
+    border-left: none;
+}
+
+.frame-table tr td.field:last-child {
+    border-right: none;
 }
 
 /* field field-value field-tall: 여백 제거 */
@@ -1199,11 +1299,26 @@ section.page:last-child {
     width: 100%; /* 가로 fill */
 }
 
+.field.field-value.field-value-currency,
+.field-value.field-value-currency {
+    text-align: right;
+}
+
+.field-value.field-media-group.field-value-currency {
+    justify-content: flex-end;
+}
+
+.field-value.field-value-currency .field-text {
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
 .field.field-value.field-bg-light {
     background-color: #ffffff;
 }
 
-.frame-19 .field-value {
+.table-row-last .field-value {
     background-color: #ffffff; /* 테이블 배경 색상 흰색으로 조정 */
 }
 
@@ -1229,8 +1344,8 @@ section.page:last-child {
     font-style: normal;
     font-weight: 500; /* Medium */
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
-    letter-spacing: -0.064px;
+    line-height: 20px; /* font-size * 1.2 */
+    letter-spacing: -0.25px;
     color: #012672; /* 피그마 디자인과 동일한 색상 */
     word-break: break-word;
     width: 100%; /* 가로 fill */
@@ -1244,56 +1359,56 @@ section.page:last-child {
 
 
 /* Field 크기 설정 - 테이블 셀(td) 크기 */
-/* Frame 18: 첫 번째 행 */
-.frame-18 td.field:nth-child(1) {
+/* 첫 번째 행 */
+.table-row-first td.field:nth-child(1) {
     /* 광고주 라벨 */
     width: 120px;
 }
-.frame-18 td.field:nth-child(2) {
+.table-row-first td.field:nth-child(2) {
     /* 광고주 값 */
     width: 261px;
 }
-.frame-18 td.field:nth-child(3) {
+.table-row-first td.field:nth-child(3) {
     /* 광고 계약명 라벨 */
     width: 120px;
 }
-.frame-18 td.field:nth-child(4) {
+.table-row-first td.field:nth-child(4) {
     /* 광고 계약명 값 */
     width: 261px;
 }
 
-/* Frame 14: 두 번째 행 */
-.frame-14 td.field:nth-child(1) {
+/* 두 번째 행 */
+.table-row-middle td.field:nth-child(1) {
     /* 미디어그룹 상품 라벨 */
     width: 120px;
 }
-.frame-14 td.field:nth-child(2) {
+.table-row-middle td.field:nth-child(2) {
     /* 미디어그룹 상품 값 */
     width: 261px;
 }
-.frame-14 td.field:nth-child(3) {
+.table-row-middle td.field:nth-child(3) {
     /* 미디어 정보 라벨 */
     width: 120px;
 }
-.frame-14 td.field:nth-child(4) {
+.table-row-middle td.field:nth-child(4) {
     /* 미디어 정보 값 */
     width: 261px;
 }
 
-/* Frame 19: 세 번째 행 */
-.frame-19 td.field:nth-child(1) {
+/* 세 번째 행 */
+.table-row-last td.field:nth-child(1) {
     /* 광고 기간 라벨 */
     width: 120px;
 }
-.frame-19 td.field:nth-child(2) {
+.table-row-last td.field:nth-child(2) {
     /* 광고 기간 값 */
     width: 261px;
 }
-.frame-19 td.field:nth-child(3) {
+.table-row-last td.field:nth-child(3) {
     /* 보고서 발행일 라벨 */
     width: 120px;
 }
-.frame-19 td.field:nth-child(4) {
+.table-row-last td.field:nth-child(4) {
     /* 보고서 발행일 값 */
     width: 261px;
 }
@@ -1303,10 +1418,12 @@ section.page:last-child {
     font-style: normal;
     font-weight: 500; /* Medium */
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
-    letter-spacing: -0.064px;
+    line-height: 20px; /* font-size * 1.2 */
+    letter-spacing: -0.25px;
     color: #616161;
     word-break: break-word;
+    display: inline-block;
+    width: fit-content;
 }
 
 .field-label .field-text {
@@ -1332,9 +1449,11 @@ section.page:last-child {
     font-style: normal;
     font-weight: 500; /* Medium */
     font-size: 12px;
-    line-height: 14.4px;
-    letter-spacing: -0.213px; /* -0.21330547332763672px */
+    line-height: 15px;
+    letter-spacing: -0.5px; /* -1px */
     color: #616161;
+    display: inline-block;
+    white-space: nowrap;
 }
 
 .field-text-blue {
@@ -1343,13 +1462,13 @@ section.page:last-child {
 
 .field-text-14 {
     font-size: 14px !important;
-    line-height: 16.8px !important;
+    line-height: 17px !important;
 }
 
 /* 페이지 14: field-text-14 우선 적용 */
 .field-media-group .field-text-14 {
     font-size: 14px !important;
-    line-height: 16.8px !important;
+    line-height: 17px !important;
 }
 
 /* pitch 안내 문구: 주석 텍스트 */
@@ -1360,9 +1479,9 @@ section.page:last-child {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 13px; /* 13.331592559814453px */
-    line-height: 16px; /* 15.99791145324707px */
-    letter-spacing: -0.053px; /* -0.05332637103388266px */
+    font-size: 13px; /* 14px */
+    line-height: 16px; /* 16px */
+    letter-spacing: -0.25px; /* -1px */
     color: #9e9e9e;
     margin: 0;
     padding: 0;
@@ -1381,8 +1500,8 @@ section.page:last-child {
     height: 523px;
 }
 
-/* 유동/ 노출 인구: Frame 유동/노출 인구 */
-.frame-유동노출인구 {
+/* circulation/ots: Frame circulation/ots */
+.frame-circulation-ots {
     position: absolute;
     left: 0px; /* contents 기준 */
     top: 0px; /* contents 기준 상단 */
@@ -1391,7 +1510,7 @@ section.page:last-child {
 }
 
 /* Frame 21: 주요 오디언스 요약 */
-.frame-21 {
+.frame-audience-summary {
     position: absolute;
     left: 0px; /* contents 기준 */
     top: auto; /* JavaScript로 동적으로 계산 - 유동/노출인구 인사이트 하단 + 40px 간격 */
@@ -1417,7 +1536,7 @@ section.page:last-child {
 }
 
 /* Frame 22: 노출인구 최다 미디어그룹 */
-.frame-22 {
+.frame-max-exposure-group {
     position: absolute;
     left: 0px; /* contents 기준 */
     top: auto; /* JavaScript로 동적으로 계산 - Frame 21 하단 + 40px 간격 */
@@ -1432,7 +1551,7 @@ section.page:last-child {
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: hugo;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -1450,10 +1569,10 @@ section.page:last-child {
     font-weight: 600;
     font-size: 20px;
     line-height: 24px; /* font-size * 1.2 */
-    letter-spacing: -0.08px;
+    letter-spacing: -0.25px;
     color: #616161;
     margin: 0;
-    padding: 0;
+
 }
 
 /* frame-data-info: 데이터 분석 정보 */
@@ -1461,7 +1580,7 @@ section.page:last-child {
     position: absolute;
     right: 0px;
     top: 6px; /* content title 내부에서 6px 아래 */
-    height: 7px;
+    height: fit-content;
     display: flex;
     align-items: center;
 }
@@ -1477,23 +1596,23 @@ section.page:last-child {
     white-space: nowrap;
 }
 
-/* frame-table-performance: 성과 페이지용 테이블 */
-.frame-table-performance {
+/* frame-table-performance: 성과 페이지용 테이블 래퍼 */
+.frame-table-performance-container {
     position: absolute;
     left: 0px;
     top: 36px; /* content title (26px) + margin-bottom (11px) = 36px */
     width: 1016px;
-    height: 40px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    background-color: #ffffff;
+}
+
+.frame-table-performance {
+    width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    box-shadow: none;
+    background-color: transparent;
 }
 
-.frame-table-performance .frame-18 {
+.frame-table-performance .table-row-first {
     width: 1016px;
     height: 40px;
 }
@@ -1505,6 +1624,28 @@ section.page:last-child {
     vertical-align: middle; /* 수직 가운데 정렬 */
     text-align: left; /* 좌측 정렬 */
     display: table-cell;
+}
+
+/* 테이블 외곽선 복원 */
+/* 테이블 외곽선 제거 (래퍼 border와 겹치지 않도록) */
+.frame-table-performance .table-row-first td.field {
+    border-top: none;
+}
+
+.frame-table-performance .table-row-last td.field {
+    border-bottom: none;
+}
+
+.frame-table-performance tr td.field:first-child {
+    border-left: none;
+}
+
+.frame-table-performance tr td.field:last-child {
+    border-right: none;
+}
+
+.frame-table-performance tr:last-child td.field {
+    border-bottom: none;
 }
 
 .frame-table-performance td.field.field-value {
@@ -1530,16 +1671,17 @@ section.page:last-child {
     width: 1016px;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center; /* 기본값: 아이콘과 텍스트 수평 중앙 정렬 */
     padding: 10px; /* 모든 여백 10px */
     gap: 10px; /* 아이콘과 텍스트 간격 10px */
     background-color: #e9f1ff;
     border: 1px solid #bcd3ff;
     border-radius: 4px;
+    height: auto; /* hug */
 }
 
-/* 유동/노출 인구 섹션의 insight */
-.frame-유동노출인구 .frame-insight {
+/* circulation/ots 섹션의 insight */
+.frame-circulation-ots .frame-insight {
     bottom: auto; /* 콘텐츠 영역 하단 */
     top: auto; /* JavaScript로 동적으로 계산 - 상단 요소와 12px 간격 */
     margin-top: 0px;
@@ -1552,8 +1694,16 @@ section.page:last-child {
     min-height: 58px; /* 최소 높이 유지 */
 }
 
+.frame-insight.frame-insight-large {
+    align-items: flex-start; /* 아이콘과 텍스트를 상단 정렬 */
+}
+
+.frame-insight.frame-insight-large .frame-insight-header {
+    align-items: flex-start; /* 헤더 내부도 상단 정렬 유지 */
+}
+
 /* Frame 23 안의 insight (주요 오디언스 요약, 노출인구 최다 미디어그룹) */
-.frame-23 .frame-insight {
+.frame-insight-container .frame-insight {
     position: relative;
     left: 0px;
     top: 0px;
@@ -1562,12 +1712,12 @@ section.page:last-child {
     margin-top: 0px; /* 상단 여백 삭제 */
 }
 
-.frame-23 .frame-insight-large {
+.frame-insight-container .frame-insight-large {
     height: auto; /* hug (auto) */
     min-height: 58px; /* 최소 높이 유지 */
 }
 
-.frame-23 .frame-insight:not(.frame-insight-large) {
+.frame-insight-container .frame-insight:not(.frame-insight-large) {
     height: auto; /* hug */
     min-height: 38px;
 }
@@ -1581,24 +1731,24 @@ section.page:last-child {
 }
 
 /* Frame 24-insight: 아이콘 + 텍스트 컨테이너 (다중 줄 insight용) */
-.frame-24-insight {
+.frame-insight-header {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    gap: 10px;
+    align-items: center; /* 아이콘과 텍스트 수평 중앙 정렬 */
+    gap: 10px; /* 아이콘과 텍스트 간격 10px */
     flex: 1;
 }
 
-/* 첫 번째 insight (유동/노출 인구): Frame 24 없이 직접 구조 */
-.frame-유동노출인구 .frame-insight {
+/* 첫 번째 insight (circulation/ots): Frame 24 없이 직접 구조 */
+.frame-circulation-ots .frame-insight {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
-    gap: 0px;
+    align-items: center; /* 아이콘과 텍스트 수평 중앙 정렬 */
+    gap: 10px; /* 아이콘과 텍스트 간격 10px */
 }
 
 /* Frame 1686563118-insight: 인사이트 텍스트 컨테이너 (단일 줄) */
-.frame-1686563118-insight {
+.frame-insight-text-container {
     flex: 1;
     font-family: 'Pretendard';
     font-style: normal;
@@ -1610,24 +1760,24 @@ section.page:last-child {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 2px; /* 텍스트 프레임 간 간격 */
+    gap: 2px !important; /* 텍스트 프레임 간 간격 2px */
 }
 
 /* Frame 1686563123-insight: 다중 줄 텍스트 컨테이너 (Frame 21용) */
-.frame-1686563123-insight {
+.frame-insight-multiline {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.frame-1686563123-insight .frame-1686563118-insight {
+.frame-insight-multiline .frame-insight-text-container {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
 }
 
-.frame-1686563123-insight .frame-1686563119-insight {
+.frame-insight-multiline .frame-insight-effect-level {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -1638,12 +1788,25 @@ section.page:last-child {
     line-height: 120%; /* identical to box height, or 17px */
     letter-spacing: -0.25px;
     color: #616161;
+    gap: 2px !important; /* 프레임 간 간격 2px */
+}
+
+/* Frame 1686563119-insight: 기본 스타일 */
+.frame-insight-effect-level {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px !important; /* 프레임 간 간격 2px */
 }
 
 /* Frame 1686563120-insight, Frame 1686563121-insight, Frame 1686563122-insight: 인라인 텍스트 그룹 */
-.frame-1686563120-insight,
-.frame-1686563121-insight,
-.frame-1686563122-insight {
+.frame-insight-ratio-text,
+.frame-insight-rank-1,
+.frame-insight-rank-2,
+.frame-insight-rank-3,
+.frame-insight-media-group-info,
+.frame-insight-ots-count,
+.frame-insight-audience-info {
     display: inline-flex;
     align-items: baseline;
 }
@@ -1659,7 +1822,7 @@ section.page:last-child {
 }
 
 /* Frame 23: 인사이트 컨테이너 */
-.frame-23 {
+.frame-insight-container {
     position: absolute;
     left: 0px;
     top: 39px; /* content title (19px) + margin-bottom (20px) = 39px */
@@ -1667,7 +1830,7 @@ section.page:last-child {
     height: 38px; /* Frame 22의 경우 38px, Frame 21의 경우 58px */
 }
 
-.frame-21 .frame-23 {
+.frame-audience-summary .frame-insight-container {
     height: 58px; /* Frame 21의 Frame 23은 58px */
 }
 
@@ -1675,20 +1838,69 @@ section.page:last-child {
    주요 광고 성과 2 페이지 스타일
    ============================================ */
 
-/* Frame 1686563133: 본문 영역 */
-/* Frame 1686563133: 주요 광고 성과2 contents 영역 */
-.frame-1686563133 {
+/* performance-chart-section 내부의 frame-content-title 스타일 - Figma 디자인 반영 */
+.performance-chart-section .frame-content-title {
     position: absolute;
-    left: 54px;
-    right: 54px; /* fill: 가로 fill */
-    top: 188.26px; /* frame-head top (54px) + frame-sub-title top (46px) + text-media-title line-height (52.26px) + 간격 36px = 188.26px */
-    bottom: 54px; /* fill: 세로 fill */
-    width: auto; /* fill: left와 right로 가로 fill */
-    height: auto; /* fill: top과 bottom으로 세로 fill */
+    left: 54px; /* 페이지 컨텐츠 영역 좌측 (좌측 여백 54px) */
+    top: 198px; /* frame-head top (54px) + frame-sub-title top (46px) + text-media-title line-height (52px) + 간격 (46px) = 198px */
+    width: 1016px;
+    height: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #616161; /* 좌측 4px stroke */
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    padding-left: 8px; /* 좌측 4px stroke + 간격 4px = 8px */
+    margin-bottom: 12px; /* 차트 영역과의 간격 12px */
 }
 
-/* Frame 1686563131: 차트 영역 */
-.frame-1686563131 {
+/* performance-chart-section 내부의 차트 영역 */
+.performance-chart-section .frame-chart-area {
+    position: absolute;
+    left: 54px;
+    top: calc(198px + 26px + 12px); /* frame-content-title top + height + 간격 */
+    width: 1016px;
+    height: auto;
+    margin-bottom: 12px; /* frame-insight-notice와의 간격 12px */
+}
+
+.performance-chart-section .frame-chart-area .frame-chart-container {
+    width: 100%;
+    height: 470px; /* chart-canvas-media-group-population 높이에 맞춤 */
+    background-color: #e0e0e0;
+    position: relative;
+}
+
+.performance-chart-section .frame-chart-area canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* chart-canvas-media-group-population 크기 설정 */
+#chart-canvas-media-group-population {
+    width: 1016px !important;
+    height: 420px !important;
+    max-width: 1016px !important;
+    max-height: 420px !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    overflow: hidden !important;
+}
+
+/* performance-chart-section 내부의 frame-insight-notice top 제거 */
+.performance-chart-section .frame-insight-notice {
+    top: auto; /* top 설정 제거 */
+    left: 54px; /* 6페이지 인사이트 프레임 좌측 정렬 */
+}
+
+/* 차트 영역 래퍼 */
+.chart-area-wrapper {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -1696,46 +1908,43 @@ section.page:last-child {
     bottom: 0px; /* fill: 하단까지 채움 */
     width: auto; /* fill: left/right로 자동 계산 */
     height: auto; /* fill: top/bottom으로 자동 계산 */
+    max-height: 400px;
 }
 
-/* Frame 1686563131 안의 content title: 좌측 4px stroke */
-.frame-1686563131 .frame-content-title {
+/* chart-area-wrapper 안의 content title: 좌측 4px stroke */
+.chart-area-wrapper .frame-content-title {
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
     border-bottom: none;
     padding-left: 8px; /* stroke 후 텍스트 간격 */
-    margin-bottom: 20px; /* 하단 20px 여백 */
+    margin-bottom: 12px; /* 하단 20px 여백 */
     display: flex;
     align-items: center;
 }
 
-/* Frame 1686563153: 차트 영역 (피그마 프레임 구조) */
-.frame-1686563153 {
+/* 차트 컨테이너 래퍼 */
+.chart-container-wrapper {
     position: absolute;
     left: 0px;
     top: 39px; /* content title (19px) + margin-bottom (20px) = 39px */
     width: 1016px;
-    height: 400px; /* 피그마 기준: 399.93px (약 400px) */
+    height: 400px; /* 피그마 기준: 400px (약 400px) */
 }
 
-/* Frame 1686563153 안의 차트 컨테이너 */
-.frame-1686563153 .frame-chart-container {
+/* chart-container-wrapper 안의 차트 컨테이너 */
+.chart-container-wrapper .frame-chart-container {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 368px; /* 피그마 기준: 367.93px (약 368px) */
+    height: 368px; /* 피그마 기준: 368px (약 368px) */
     background-color: #e0e0e0; /* 회색 배경 */
 }
 
-/* chart-canvas-1686563131 배경색 */
-#chart-canvas-1686563131 {
-    background-color: #e0e0e0 !important; /* 회색 배경 */
-}
-
-/* Frame 1686563111: 범례 영역 */
-.frame-1686563111 {
+/* 범례 영역 */
+.chart-legend-row {
     position: absolute;
     left: 0px;
     top: 384px; /* 차트 컨테이너 (368px) + 간격 (16px) = 384px */
@@ -1743,33 +1952,33 @@ section.page:last-child {
     height: 16px;
     display: flex;
     align-items: center;
-    gap: 67.33px; /* 피그마 기준: 12316.33 - 12249.00 = 67.33px */
+    gap: 68px; /* 피그마 기준: 12316.33 - 12249.00 = 68px */
 }
 
-/* Frame 1686563149: 유동인구 범례 */
-.frame-1686563149 {
+/* 유동인구 범례 */
+.chart-legend-circulation {
     display: flex;
     align-items: center;
-    width: 60.66px; /* 피그마 기준: 60.66474914550781px */
+    width: 61px; /* 피그마 기준: 61px */
     height: 16px;
 }
 
-/* Frame 1686563148: 노출인구 범례 */
-.frame-1686563148 {
+/* 노출인구 범례 */
+.chart-legend-exposure {
     display: flex;
     align-items: center;
-    width: 60.66px; /* 피그마 기준: 60.66474914550781px */
+    width: 61px; /* 피그마 기준: 61px */
     height: 16px;
 }
 
 /* Frame 1686563111 안의 legend-text */
-.frame-1686563111 .legend-text {
+.chart-legend-row .legend-text {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
-    font-size: 13px; /* 피그마 기준: 13.331592559814453px */
-    line-height: 16px; /* 피그마 기준: 15.997910499572754px */
-    letter-spacing: -0.053px; /* 피그마 기준: -0.05332636833190918px */
+    font-size: 13px; /* 피그마 기준: 14px */
+    line-height: 16px; /* 피그마 기준: 16px */
+    letter-spacing: -0.25px; /* 피그마 기준: -1px */
     color: #757575;
 }
 
@@ -1810,14 +2019,50 @@ section.page:last-child {
 canvas[id^="chart-canvas"],
 canvas[id="chart-canvas"] {
     width: 1015px !important;
-    height: 470px !important;
+    height: 500px !important;
     max-width: 1015px !important;
     max-height: 500px !important;
     min-width: 0 !important;
     min-height: 0 !important;
+    top: 44px;
+    bottom: 54px !important;
     box-sizing: border-box !important;
     display: block !important;
     overflow: hidden !important;
+    background: #f5f5f5 !important;
+    background-color: #f5f5f5 !important;
+}
+
+/* chart-canvas-daily 전용 스타일 */
+#chart-canvas-daily {
+    position: absolute;
+    left: 0px;
+    top: 44px;
+    width: 1016px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* 좌측 정렬 */
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* chart-canvas-performance4-1 전용 스타일 */
+#chart-canvas-performance4-1 {
+    position: absolute;
+    left: 0px;
+    top: 44px; /* content title (24px) + gap (20px) = 44px */
+    width: 1016px;
+    height: 500px;
+}
+
+/* chart-canvas-hourly 전용 스타일 */
+#chart-canvas-hourly {
+    position: relative !important;
+    left: 0px !important;
+    top: 0px !important;
+    width: 1016px !important;
+    height: 500px !important;
 }
 
 /* 차트 범례 스타일 (Chart.js 범례) */
@@ -1842,33 +2087,28 @@ canvas[id="chart-canvas"] {
 /* frame-insight-notice: 유사 미디어그룹 선별 안내 인사이트 박스 (info 프레임) */
 .frame-insight-notice {
     position: absolute;
-    left: 0px;
-    top: 470px;
-    bottom: 40px; /* 콘텐츠 영역 하단 */
+    top: 520px;
+    left: 0px; /* 좌측 정렬 */
+    height: 62.81px;
+    bottom: 54px;
     width: 1016px;
-    height: auto; /* hug */
-    min-height: 56px;
     flex-direction: column;
     gap: 12px; /* Frame 24와 Frame 1686563118 사이 간격 */
+    align-items: flex-start; /* 내용 좌측 정렬 */
 }
 
-/* Frame 1686563133 안의 tips 인사이트 박스 */
-.frame-1686563133 .frame-insight-notice {
-    position: absolute;
-    left: 0px;
-    bottom: 0px; /* 콘텐츠 영역 하단 */
-    width: 1016px;
-    height: auto; /* hug */
-    min-height: 56px;
-}
 
 /* tip title: 아이콘 + 제목 텍스트 */
-.frame-insight-notice .frame-tip-title {
+.frame-insight-notice .frame-tip-title,
+.frame-insight-notice .frame-insight-header.frame-tip-title {
     display: flex;
+    left: 0px; /* 좌측 정렬 */
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start; /* 좌측 정렬 */
     gap: 10px;
-    height: 14px;
+    height: auto; /* hug: 내용에 맞춤 */
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .tip-icon {
@@ -1886,12 +2126,14 @@ canvas[id="chart-canvas"] {
     color: #003399;
 }
 
-/* Frame 1686563118: 인사이트 텍스트 (tips 프레임용) */
-.frame-insight-notice .frame-1686563118-notice {
+/* 인사이트 텍스트 (tips 프레임용) */
+.frame-insight-notice .insight-text.frame-insight-notice-text,
+.frame-insight-notice .frame-insight-text-container.frame-insight-notice-text {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    height: 14px;
+    justify-content: flex-start; /* 좌측 정렬 */
+    height: auto; /* hug: 내용에 맞춤 */
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
@@ -1899,9 +2141,11 @@ canvas[id="chart-canvas"] {
     line-height: 120%; /* identical to box height, or 15px */
     letter-spacing: -0.25px;
     color: #616161;
+    text-align: left; /* 텍스트 좌측 정렬 */
+    width: 100%; /* 전체 너비 사용 */
 }
 
-.frame-insight-notice .frame-1686563119-insight {
+.frame-insight-notice .insight-text-line {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
@@ -1912,15 +2156,48 @@ canvas[id="chart-canvas"] {
     display: inline;
 }
 
+.frame-insight-notice .frame-insight-effect-level {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%; /* identical to box height, or 15px */
+    letter-spacing: -0.25px;
+    color: #616161;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px !important; /* 프레임 간 간격 2px */
+}
+
+/* 첫 번째 구조의 insight 텍스트를 두 번째 구조의 insight-text-group과 동일하게 */
+.frame-insight-notice .frame-insight-ratio-text,
+.frame-insight-notice .frame-insight-media-group-info,
+.frame-insight-notice .insight-text-group {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+/* 첫 번째 구조의 insight-header.frame-tip-title을 두 번째 구조의 구조와 동일하게 */
+.frame-insight-notice .insight-header.frame-tip-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start; /* 좌측 정렬 */
+    gap: 10px;
+    height: auto; /* hug: 내용에 맞춤 */
+    width: 100%; /* 전체 너비 사용 */
+}
+
 /* ============================================
    주요 광고 성과 3 페이지 스타일
    ============================================ */
 
-/* Frame 1686563108: 본문 영역 */
-.frame-1686563108 {
+/* 성과 테이블 섹션 */
+.performance-table-section {
     position: absolute;
     left: 54px;
-    top: 152.26px; /* frame-head top (54px) + text-media-title line-height (52.26px) + 간격 46px = 152.26px */
+    top: 153px; /* frame-head top (54px) + text-media-title line-height (53px) + 간격 46px = 153px */
     width: 1016px;
     height: auto; /* 최대 높이: 349px - 테이블이 넘치면 다음 페이지로 */
     max-height: 349px; /* 최대 높이 제한 */
@@ -1930,22 +2207,22 @@ canvas[id="chart-canvas"] {
     margin-bottom: 46px;
 }
 
-/* Frame 20: 테이블 영역 */
-.frame-20-performance3 {
+/* 성과 테이블 래퍼 */
+.performance-table-wrapper {
     position: absolute;
     left: 0px;
     top: 46px;
     width: 1016px;
-    height: auto; /* hug: 미디어그룹 수에 따라 동적으로 높이 조정 */
-    max-height: calc(349px - 12px); /* frame-1686563108 높이(349px) - tips 간격(12px) = 337px */
-    margin-bottom: 12px; /* tips 프레임과의 간격 12px */
+    height: fit-content;
+    max-height: calc(349px - 12px); /* performance-chart-container 높이(349px) - tips 간격(12px) = 337px */
+    margin-bottom: 0px; /* CPM 공식과의 간격은 CPM 공식의 margin-top으로 처리 */
     overflow: visible; /* 넘치는 부분은 다음 페이지로 */
     page-break-inside: auto; /* 페이지 분할 허용 - 테이블이 페이지를 넘어가면 다음 페이지로 */
     break-inside: auto; /* 페이지 분할 허용 */
 }
 
-/* frame-20-performance3가 349px 이상일 때 (확장 모드) */
-.frame-20-performance3-extended {
+/* performance-table-wrapper가 349px 이상일 때 (확장 모드) */
+.performance-table-wrapper-extended {
     max-height: none !important; /* 높이 제한 제거 */
     page-break-inside: auto; /* 페이지 분할 허용 */
     break-inside: auto; /* 페이지 분할 허용 */
@@ -1953,47 +2230,47 @@ canvas[id="chart-canvas"] {
 
 /* 인쇄 시 페이지 분할 처리 */
 @media print {
-    /* frame-1686563108이 349px를 넘으면 다음 페이지로 */
-    .frame-1686563108 {
+    /* performance-table-section이 349px를 넘으면 다음 페이지로 */
+    .performance-table-section {
         max-height: auto;
         page-break-after: auto;
         break-after: auto;
     }
     
-    /* frame-1686563108 내부에서 페이지 분할 방지 - 전체가 넘치면 다음 페이지로 */
-    .frame-1686563108 > * {
+    /* performance-table-section 내부에서 페이지 분할 방지 - 전체가 넘치면 다음 페이지로 */
+    .performance-table-section > * {
         page-break-inside: avoid;
         break-inside: avoid;
     }
     
-    /* frame-20-performance3가 frame-1686563108 높이를 넘으면 다음 페이지로 */
-    .frame-20-performance3 {
-        max-height: calc(349px - 12px); /* frame-1686563108 높이(349px) - tips 간격(12px) */
+    /* performance-table-wrapper가 performance-table-section 높이를 넘으면 다음 페이지로 */
+    .performance-table-wrapper {
+        max-height: calc(349px - 12px); /* performance-table-section 높이(349px) - tips 간격(12px) */
         page-break-inside: auto; /* 페이지 분할 허용 - 테이블이 페이지를 넘어가면 다음 페이지로 */
         break-inside: auto; /* 페이지 분할 허용 */
     }
     
     /* 테이블 행이 페이지를 넘어가지 않도록 */
-    .frame-table-performance3 tbody .frame-13 {
+    .frame-table-performance3 tbody .table-data-row {
         page-break-inside: avoid;
         break-inside: avoid;
     }
     
-    /* frame-20-performance3가 높이 제한을 넘으면 다음 페이지로 */
-    .frame-1686563108:has(.frame-20-performance3[style*="height"]),
-    .frame-1686563108:has(.frame-20-performance3-extended) {
+    /* performance-table-wrapper가 높이 제한을 넘으면 다음 페이지로 */
+    .performance-table-section:has(.performance-table-wrapper[style*="height"]),
+    .performance-table-section:has(.performance-table-wrapper-extended) {
         page-break-after: always;
         break-after: page;
     }
 }
 
-/* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance3 .frame-content-title {
+/* content title (좌측 4px stroke) */
+.performance-table-wrapper .frame-content-title {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 19px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -2005,27 +2282,28 @@ canvas[id="chart-canvas"] {
     align-items: center;
 }
 
-/* Frame 28: 테이블 */
-.frame-table-performance3 {
+/* Frame 28: 테이블 래퍼 */
+.frame-table-performance3-container {
     position: relative;
     left: 0px;
-    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
-    margin-top: 39px; /* content title (19px) + gap (20px) = 39px */
+    top: 0px;
+    margin-top: 44px; /* content title (24px) + gap (20px) = 44px */
     margin-bottom: 0px; /* Frame 29와의 간격 */
     width: 1016px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    background-color: #ffffff;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    box-shadow: none;
     page-break-inside: auto; /* 페이지 분할 허용 */
     break-inside: auto; /* 페이지 분할 허용 */
 }
 
-/* Frame 27: 테이블 헤더 */
-.frame-table-performance3 thead .frame-27 {
+.frame-table-performance3 {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    background-color: transparent;
+}
+
+/* 테이블 헤더 */
+.frame-table-performance3 thead .table-header-row {
     height: 40px;
 }
 
@@ -2038,11 +2316,25 @@ canvas[id="chart-canvas"] {
     font-style: normal;
     font-weight: 500; /* Medium (피그마 스타일) */
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
+    line-height: 20px; /* font-size * 1.2 */
     letter-spacing: -0.25px;
     color: #616161;
     text-align: left;
     vertical-align: middle;
+}
+
+/* 테이블 외곽선 복원 (헤더) */
+/* 헤더 외곽선 제거 */
+.frame-table-performance3 thead th.field:first-child {
+    border-left: none;
+}
+
+.frame-table-performance3 thead th.field:last-child {
+    border-right: none;
+}
+
+.frame-table-performance3 thead tr:first-child th.field {
+    border-top: none;
 }
 
 /* 테이블 셀 크기 설정 */
@@ -2062,11 +2354,17 @@ canvas[id="chart-canvas"] {
     width: 140px; /* 유동인구, 노출인구, 유동 대비 노출 비율, CPM */
 }
 
-/* Frame 13: 일반 미디어그룹 행 */
-.frame-table-performance3 tbody .frame-13 {
+/* 일반 미디어그룹 행 */
+.frame-table-performance3 tbody .table-data-row {
     height: 40px;
     page-break-inside: avoid; /* 행이 페이지를 넘어가지 않도록 */
     break-inside: avoid; /* 행이 페이지를 넘어가지 않도록 */
+}
+
+/* 페이지 분할 규칙: 첫 페이지 6행, 이후 각 페이지 8행 */
+.page-performance-3 .frame-table-performance3 tbody .table-data-row:nth-of-type(8n+7) {
+    page-break-before: always;
+    break-before: page;
 }
 
 .frame-table-performance3 tbody td.field {
@@ -2078,7 +2376,7 @@ canvas[id="chart-canvas"] {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
+    line-height: 20px; /* font-size * 1.2 */
     letter-spacing: -0.25px;
     color: #012672;
     vertical-align: middle; /* 수직 가운데 정렬 */
@@ -2086,11 +2384,25 @@ canvas[id="chart-canvas"] {
     width: 100%; /* 가로 fill */
 }
 
-/* Frame 29: 유사 미디어그룹 헤더 */
-.frame-20-performance3 .frame-29 {
+/* 테이블 외곽선 복원 (데이터) */
+/* 데이터 외곽선 제거 */
+.frame-table-performance3 tbody td.field:first-child {
+    border-left: none;
+}
+
+.frame-table-performance3 tbody td.field:last-child {
+    border-right: none;
+}
+
+.frame-table-performance3 tbody tr:last-child td.field {
+    border-bottom: none;
+}
+
+/* 유사 미디어그룹 헤더 */
+.performance-table-wrapper .similar-media-group-header {
     position: relative;
     left: 0px;
-    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
+    top: 0px; /* frame-table-performance3 내부에서 상대 위치 */
     width: 1016px;
     height: 29px;
     margin-top: 0px; /* 테이블과의 간격은 테이블의 margin-bottom으로 조정 */
@@ -2102,8 +2414,8 @@ canvas[id="chart-canvas"] {
     padding: 0 16px;
 }
 
-/* Frame 29: frame-20-performance3 밖의 경우 (다른 페이지용) */
-.frame-29:not(.frame-20-performance3 .frame-29) {
+/* similar-media-group-header: performance-table-wrapper 밖의 경우 (다른 페이지용) */
+.similar-media-group-header:not(.performance-table-wrapper .similar-media-group-header) {
     position: absolute;
     left: 0px;
     top: 268px;
@@ -2117,22 +2429,7 @@ canvas[id="chart-canvas"] {
     padding: 0 16px;
 }
 
-/* Frame 29: frame-20-performance3 밖의 경우 (다른 페이지용) */
-.frame-29:not(.frame-20-performance3 .frame-29) {
-    position: absolute;
-    left: 0px;
-    top: 268px;
-    width: 1016px;
-    height: 29px;
-    background-color: #eeeeee;
-    border: 1px solid #eeeeee;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-}
-
-.frame-29-field {
+.similar-media-group-header-field {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
@@ -2142,70 +2439,71 @@ canvas[id="chart-canvas"] {
     color: #616161;
 }
 
-/* Frame 28: 유사 미디어그룹 테이블 */
-.frame-20-performance3 .frame-table-similar {
-    position: relative;
-    left: 0px;
-    top: 0px; /* frame-20-performance3 내부에서 상대 위치 */
-    margin-top: 0px; /* Frame 29와의 간격 */
-    width: 1016px;
-    border: 1px solid #e0e0e0;
-    border-radius: 0;
-    background-color: #ffffff;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    box-shadow: none;
+/* 유사 미디어그룹 헤더 행 */
+.frame-table-performance3 tbody .similar-media-group-header-row {
+    height: 29px;
 }
 
-/* Frame 28: frame-20-performance3 밖의 경우 (다른 페이지용) */
-.frame-table-similar:not(.frame-20-performance3 .frame-table-similar) {
-    position: absolute;
-    left: 0px;
-    top: 297px;
-    width: 1016px;
-    border: 1px solid #e0e0e0;
-    border-radius: 0;
-    background-color: #ffffff;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-    box-shadow: none;
-}
-
-/* Frame 14: 유사 미디어그룹 행 */
-.frame-table-similar tbody .frame-14-similar {
-    height: 52px;
-}
-
-/* 유사 미디어그룹 행 invisible 처리 */
-.frame-table-similar tbody .frame-14-similar.invisible,
-.frame-table-similar tbody .frame-14-similar[style*="display: none"],
-.frame-table-similar tbody .frame-14-similar[style*="display:none"] {
-    display: none !important;
-}
-
-.frame-table-similar tbody td.field {
-    padding: 12px 16px;
-    border: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    background-color: #ffffff;
+.frame-table-performance3 tbody .similar-media-group-header-row td.field {
+    padding: 8px 16px;
+    background-color: #eeeeee;
+    color: #616161;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
+    line-height: 1.4;
     letter-spacing: -0.25px;
-    color: #012672;
-    vertical-align: middle; /* 수직 가운데 정렬 */
-    text-align: left; /* 좌측 정렬 */
-    width: 100%; /* 가로 fill */
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* 유사 미디어그룹 행 */
+.frame-table-performance3 tbody .similar-media-group-row {
+    height: 52px;
+}
+
+/* 유사 미디어그룹 행 invisible 처리 */
+.frame-table-performance3 tbody .similar-media-group-row.invisible,
+.frame-table-performance3 tbody .similar-media-group-row[style*="display: none"],
+.frame-table-performance3 tbody .similar-media-group-row[style*="display:none"] {
+    display: none !important;
 }
 
 /* field-tall-similar: 2줄 텍스트용 */
 .field-tall-similar {
     vertical-align: top;
     padding-top: 8px;
+}
+
+/* 페이지 7 테이블 stroke (다른 필드와 동일 색상) */
+.page-performance-3 .frame-table-performance3 {
+    border: 1px solid #e0e0e0;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.page-performance-3 .frame-table-performance3 thead th.field,
+.page-performance-3 .frame-table-performance3 tbody td.field {
+    border-color: #e0e0e0;
+}
+
+.page-performance-3 .frame-table-performance3 thead th.field:first-child,
+.page-performance-3 .frame-table-performance3 tbody td.field:first-child {
+    border-left: 1px solid #e0e0e0;
+}
+
+.page-performance-3 .frame-table-performance3 thead th.field:last-child,
+.page-performance-3 .frame-table-performance3 tbody td.field:last-child {
+    border-right: 1px solid #e0e0e0;
+}
+
+.page-performance-3 .frame-table-performance3 thead tr:first-child th.field {
+    border-top: 1px solid #e0e0e0;
+}
+
+.page-performance-3 .frame-table-performance3 tbody tr:last-child td.field {
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .field-value-item-similar {
@@ -2229,36 +2527,45 @@ canvas[id="chart-canvas"] {
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
-    line-height: 19.2px; /* font-size * 1.2 */
+    line-height: 20px; /* font-size * 1.2 */
     letter-spacing: -0.25px;
     color: #012672;
 }
 
-/* Frame 1686563108 안의 tips 인사이트 박스 */
-/* frame-20-performance3 다음에 오는 tips 프레임 위치 조정 (frame-20-performance3 하단 + 간격 12px) */
-.frame-1686563108 .frame-20-performance3 ~ .frame-insight-notice {
+/* performance-table-section 안의 tips 인사이트 박스 */
+/* performance-table-wrapper 다음에 오는 tips 프레임 위치 조정 (performance-table-wrapper 하단 + 간격 12px) */
+.performance-table-section .performance-table-wrapper ~ .frame-insight-notice {
     position: absolute;
     left: 0px;
     bottom: auto; /* JavaScript로 동적으로 계산 - 마지막 페이지 하단 */
     width: 1016px;
-    height: auto;
-    min-height: 56px;
+    height: auto; /* hug: 내용에 맞춤 */
 }
 
-/* CPM 계산 공식 안내 */
-.frame-1686563108 .frame-cpm-formula {
-    position: absolute;
+/* CPM 계산 공식 안내 - 필드 테이블 아래 12px 간격 유지 */
+.performance-table-wrapper .frame-cpm-formula {
+    position: relative;
     left: 0px;
-    top: auto; /* JavaScript로 동적으로 계산 - frame-insight-notice 하단 + 12px 간격 */
+    top: 0px;
     width: 1016px;
     height: auto;
+    margin-top: 12px; /* 필드 테이블 하단과의 간격 12px 항상 유지 */
+}
+
+.performance-table-section .frame-cpm-formula {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 1016px;
+    height: auto;
+    margin-top: 12px; /* 필드 테이블 하단과의 간격 12px 항상 유지 */
 }
 
 .cpm-formula-text {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
-    font-size: 10px;
+    font-size: 13px;
     line-height: 12px;
     letter-spacing: -0.25px;
     color: #757575;
@@ -2269,31 +2576,31 @@ canvas[id="chart-canvas"] {
    ============================================ */
 
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4-1) */
-.frame-1686563108-performance4 {
+.performance-chart-age-gender-section {
     position: absolute;
     left: 54px;
     top: 170px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
     width: 1016px;
-    height: 392px;
+    height: fit-content;
 }
 
 /* Frame 20: 차트 영역 (주요 광고 성과 4-1) */
-.frame-20-performance4 {
+.frame-chart-age-gender {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: auto;
+    height: fit-content;
     min-height: 392px;
 }
 
 /* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance4 .frame-content-title {
+.frame-chart-age-gender .frame-content-title {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 19px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -2305,8 +2612,8 @@ canvas[id="chart-canvas"] {
     align-items: center;
 }
 
-/* Frame 1686563136: 차트 영역 */
-.frame-1686563136 {
+/* 연령·성별 차트 영역 */
+.age-gender-chart-layout {
     position: relative;
     left: 0px;
     top: 39px; /* content title (19px) + gap (20px) = 39px */
@@ -2328,11 +2635,11 @@ canvas[id="chart-canvas"] {
     height: 100%;
 }
 
-/* Frame 1686563137: 범례 영역 */
-.frame-1686563137 {
+/* 범례 영역 공통 앵커 */
+.chart-legend-anchor {
     position: absolute;
-    left: 350px; /* frame-1686563136 기준: 2821 - 2471 = 350px */
-    top: 351px; /* frame-1686563136 기준: 4710 - 4359 = 351px (차트 하단 아래) */
+    left: 350px; /* age-gender-chart-layout 기준 */
+    top: 351px; /* age-gender-chart-layout 기준 */
     width: 62px;
     height: 10px;
     display: flex;
@@ -2375,33 +2682,22 @@ canvas[id="chart-canvas"] {
    ============================================ */
 
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4 - 인구 피라미드) */
-.frame-1686563108-performance4-pyramid {
+.performance-chart-age-gender-pyramid-section {
     position: absolute;
     left: 54px;
-    top: 192.26px; /* frame-head top (54px) + frame-sub-title top (46px) + text-media-title line-height (52.26px) + 간격 46px = 192.26px */
+    top: 193px; /* frame-head top (54px) + frame-sub-title top (46px) + text-media-title line-height (53px) + 간격 46px = 193px */
     width: 1016px;
-    height: 392px;
+    height: fit-content;
 }
 
 /* Frame 20: 차트 영역 (주요 광고 성과 4 - 인구 피라미드) */
-.frame-20-performance4-pyramid {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    right: 0px; /* fill: 우측까지 채움 */
-    bottom: 0px; /* fill: 하단까지 채움 */
-    width: auto; /* fill: left/right로 자동 계산 */
-    height: auto; /* fill: top/bottom으로 자동 계산 */
+.frame-chart-age-gender-pyramid {
     min-height: 392px;
 }
 
 /* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance4-pyramid .frame-content-title {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 1016px;
-    height: 19px;
+.frame-chart-age-gender-pyramid .frame-content-title {
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -2413,13 +2709,12 @@ canvas[id="chart-canvas"] {
     align-items: center;
 }
 
-/* Frame 1686563136: 차트 영역 (인구 피라미드) */
-.frame-1686563136-pyramid {
+/* 인구 피라미드 차트 영역 */
+.pyramid-chart-background {
     position: absolute;
     left: 0px;
     top: 39px; /* content title (19px) + gap (20px) = 39px */
-    right: 0px; /* fill: 우측까지 채움 */
-    width: auto; /* fill: left/right로 자동 계산 */
+    width: 1016px;
     height: 500px; /* 높이 500px */
     background-color: #e0e0e0; /* 그레이 fill */
 }
@@ -2430,7 +2725,7 @@ canvas[id="chart-canvas"] {
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 339px;
+    height: 500px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start; /* 좌측 정렬 */
@@ -2503,7 +2798,7 @@ canvas[id="chart-canvas"] {
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
-    letter-spacing: -0.04px;
+    letter-spacing: -0.25px;
     color: #757575;
 }
 
@@ -2528,10 +2823,10 @@ canvas[id="chart-canvas"] {
 }
 
 /* 범례 영역 (인구 피라미드 페이지) */
-.frame-1686563136-pyramid .frame-1686563137 {
+.pyramid-chart-background .chart-legend-anchor {
     position: absolute;
     left: 0px;
-    bottom: 0px; /* frame-1686563136-pyramid 하단에 배치 */
+    bottom: 0px; /* pyramid-chart-background 하단에 배치 */
     width: 1016px;
     height: 13px;
     display: flex;
@@ -2545,51 +2840,48 @@ canvas[id="chart-canvas"] {
    ============================================ */
 
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4-2) */
-.frame-1686563108-performance4-2 {
+.performance-chart-daily-section {
     position: absolute;
     left: 54px;
-    top: 192.26px; /* frame-head top (54px) + text-media-title line-height (52.26px) + 간격 46px = 152.26px */
+    top: 193px; /* frame-head top (54px) + text-media-title line-height (53px) + 간격 46px = 153px */
     width: 1016px;
-    height: 392px;
+    height: fit-content;
 }
 
 /* Frame 20: 차트 영역 (주요 광고 성과 4-2) */
-.frame-20-performance4-2 {
+.frame-chart-daily {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
     height: auto;
-    min-height: 392px;
 }
 
 /* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance4-2 .frame-content-title {
+.frame-chart-daily .frame-content-title {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 19px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
     border-bottom: none;
     padding-left: 8px;
-    margin-bottom: 46px; /* 하단 46px 여백 */
+    margin-bottom: 20px; /* 하단 46px 여백 */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Frame 1686563136: 차트 영역 (일별 노출인구) */
-.frame-1686563136-daily {
+/* 일별 노출인구 차트 영역 */
+.daily-chart-background {
     position: absolute;
     left: 0px;
     top: 65px; /* content title (19px) + gap (46px) = 65px */
-    right: 0px;
-    bottom: 0px;
-    width: auto; /* hug: 내용에 맞춤 */
-    height: 500px; /* fill parent */
+    width: 1016px;
+    height: 500px;
     background-color: #e0e0e0; /* gray fill */
 }
 
@@ -2623,7 +2915,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* 범례 영역 (일별 노출인구 페이지) */
-.frame-1686563137-daily {
+.daily-chart-legend {
     position: absolute;
     left: 0px;
     top: 320px; /* 차트 하단 + 간격 */
@@ -2646,31 +2938,22 @@ canvas[id="chart-canvas"] {
    ============================================ */
 
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4-3) */
-.frame-1686563108-performance4-3 {
+.performance-chart-weekly-section {
     position: absolute;
     left: 54px;
-    top: 192.26px; /* frame-head top (54px) + text-media-title line-height (52.26px) + 간격 46px = 152.26px */
+    top: 193px; /* frame-head top (54px) + text-media-title line-height (53px) + 간격 46px = 153px */
     width: 1016px;
-    height: 392px;
+    height: fit-content;
 }
 
-/* Frame 20: 차트 영역 (주요 광고 성과 4-3) */
-.frame-20-performance4-3 {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 1016px;
-    height: auto;
-    min-height: 392px;
-}
 
 /* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance4-3 .frame-content-title {
+.frame-chart-weekly .frame-content-title {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 19px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -2682,8 +2965,15 @@ canvas[id="chart-canvas"] {
     align-items: center;
 }
 
-/* Frame 1686563139: 차트 영역 (요일별 노출인구) */
-.frame-1686563139-weekly {
+/* chart-canvas-weekly를 frame-content-title 하단에 정렬 */
+.frame-chart-weekly #chart-canvas-weekly {
+    position: absolute;
+    left: 0px;
+    top: calc(19px + 20px); /* frame-content-title height + margin-bottom */
+}
+
+/* 요일별 노출인구 차트 영역 */
+.weekly-chart-wrapper {
     position: relative;
     left: 0px;
     top: 39px; /* content title (19px) + gap (20px) = 39px */
@@ -2724,7 +3014,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* 범례 영역 (요일별 노출인구 페이지) */
-.frame-1686563137-weekly {
+.weekly-chart-legend {
     position: absolute;
     left: 0px;
     top: 470px; /* 차트 하단 + 간격 */
@@ -2741,31 +3031,30 @@ canvas[id="chart-canvas"] {
    ============================================ */
 
 /* Frame 1686563108: 본문 영역 (주요 광고 성과 4-4) */
-.frame-1686563108-performance4-4 {
+.performance-chart-hourly-section {
     position: absolute;
     left: 54px;
-    top: 192.26px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
+    top: 193px; /* frame-head (40px) + sub title (34px + 56px = 90px) + 간격 40px = 170px */
     width: 1016px;
-    height: 392px;
+    height: fit-content;
 }
 
 /* Frame 20: 차트 영역 (주요 광고 성과 4-4) */
-.frame-20-performance4-4 {
+.frame-chart-hourly {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: fit-content;
-    min-height: 392px;
+    height: auto;
 }
 
 /* Frame 21: content title (좌측 4px stroke) */
-.frame-20-performance4-4 .frame-content-title {
+.frame-chart-hourly .frame-content-title {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 19px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-top: none;
     border-right: none;
@@ -2777,11 +3066,11 @@ canvas[id="chart-canvas"] {
     align-items: center;
 }
 
-/* Frame 1686563139: 차트 영역 (시간대별 노출인구) */
-.frame-1686563139-hourly {
+/* 시간대별 노출인구 차트 영역 */
+.hourly-chart-wrapper {
     position: relative;
     left: 0px;
-    top: 39px; /* content title (19px) + gap (20px) = 39px */
+    top: 44px; /* content title (24px) + gap (20px) = 44px */
     width: 1016px;
     height: fill-available;
 }
@@ -2819,7 +3108,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* 범례 영역 (시간대별 노출인구 페이지) */
-.frame-1686563137-hourly {
+.hourly-chart-legend {
     position: absolute;
     left: 0px;
     top: 470px; /* 차트 하단 + 간격 */
@@ -2840,12 +3129,13 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600; /* SemiBold */
-    font-size: 15.998px;
-    line-height: 19.197px;
-    letter-spacing: -0.064px;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.25px;
     color: #616161;
     height: 19px;
     width: fit-content;
+    align-items: center;
 }
 
 /* 미디어그룹 상세 페이지: sub title 영역 */
@@ -2862,9 +3152,9 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 800; /* ExtraBold */
-    font-size: 35px; /* 34.662139892578125px */
-    line-height: 49px; /* 48.52699661254883px */
-    letter-spacing: -0.139px; /* -0.13864856163633704px */
+    font-size: 35px; /* 35px */
+    line-height: 49px; /* 49px */
+    letter-spacing: -0.25px; /* -1px */
     color: #1462ff;
     margin: 0;
     padding: 0;
@@ -2872,7 +3162,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563118: 서브타이틀 영역 */
-.frame-1686563118 {
+.frame-media-subtitle {
     position: absolute;
     left: 0px;
     top: 49px; /* 제목 아래 간격 */
@@ -2886,7 +3176,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563120: 첫 번째 서브타이틀 그룹 */
-.frame-1686563120 {
+.frame-subtitle-line-1 {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -2896,7 +3186,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563119: 두 번째 서브타이틀 그룹 */
-.frame-1686563119 {
+.frame-subtitle-line-2 {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -2906,7 +3196,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563121: 지역명 그룹 */
-.frame-1686563121 {
+.frame-subtitle-location {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -2920,9 +3210,9 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600; /* SemiBold */
-    font-size: 19px; /* 18.664228439331055px */
-    line-height: 22px; /* 22.397075653076172px */
-    letter-spacing: -0.075px; /* -0.07465691486979893px */
+    font-size: 19px; /* 19px */
+    line-height: 22px; /* 23px */
+    letter-spacing: -0.25px; /* -1px */
     color: #222222;
 }
 
@@ -2931,30 +3221,33 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 18.664px;
-    line-height: 22.397px;
-    letter-spacing: -0.075px;
+    font-size: 19px;
+    line-height: 23px;
+    letter-spacing: -0.25px;
     color: #222222;
 }
 
 /* Frame 29: 이미지 영역 */
-.frame-29-media-group {
+.frame-media-image-area {
     position: absolute;
     left: 0px;
-    top: 117px; /* frame-head top (54px) + frame-head height (116.66px) + 간격 46px = 216.66px, 하지만 실제 계산: 163px */
+    top: 117px; /* frame-head top (54px) + frame-head height (117px) + 간격 46px = 217px, 하지만 실제 계산: 163px */
     width: 1016px;
     height: 245px;
     display: flex;
     flex-direction: row;
-    gap: 8px;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0; /* 간격은 자동 분배 */
 }
 
 /* Frame 30: 이미지 1 */
-.frame-30-media-group {
+.frame-media-map-image {
     position: relative;
-    width: 320px;
+    flex: 1 1 320px;
+    max-width: 320px;
     height: 245px;
-    border-radius: 5.333px;
+    border-radius: 6px;
     border: 1px solid #f5f5f5;
     overflow: hidden;
 }
@@ -2962,9 +3255,10 @@ canvas[id="chart-canvas"] {
 /* img_mediapillar_02 1: 이미지 2 */
 .img-mediapillar-02-1 {
     position: relative;
-    width: 320px;
+    flex: 1 1 320px;
+    max-width: 320px;
     height: 245px;
-    border-radius: 5.333px;
+    border-radius: 6px;
     border: 1px solid #f5f5f5;
     overflow: hidden;
 }
@@ -2972,9 +3266,10 @@ canvas[id="chart-canvas"] {
 /* img_mediapillar_02 2: 이미지 3 */
 .img-mediapillar-02-2 {
     position: relative;
-    width: 320px;
+    flex: 1 1 320px;
+    max-width: 320px;
     height: 245px;
-    border-radius: 5.333px;
+    border-radius: 6px;
     border: 1px solid #f5f5f5;
     overflow: hidden;
 }
@@ -2991,14 +3286,14 @@ canvas[id="chart-canvas"] {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 5.333px;
+    border-radius: 6px;
 }
 
 /* Pin(ADE/MEM) */
 .pin-ade-mem {
     position: absolute;
-    left: 133px; /* 11938.3818359375 - 11805.06640625 = 133.3154296875px */
-    top: 98px; /* 12592.900390625 - 12495.5791015625 = 97.3212890625px */
+    left: 133px; /* 11938.3818359375 - 11805.06640625 = 134px */
+    top: 98px; /* 12592.900390625 - 12495.5791015625 = 98px */
     width: 53px;
     height: 53px;
 }
@@ -3013,13 +3308,13 @@ canvas[id="chart-canvas"] {
 /* Media group pin */
 .media-group-pin {
     position: absolute;
-    left: 40px; /* 11945.0478515625 - 11938.3818359375 = 6.666015625px, 하지만 실제로는 40px */
-    top: 4px; /* 12599.56640625 - 12592.900390625 = 6.66578125px, 하지만 실제로는 4px */
+    left: 40px; /* 11945.0478515625 - 11938.3818359375 = 7px, 하지만 실제로는 40px */
+    top: 4px; /* 12599.56640625 - 12592.900390625 = 7px, 하지만 실제로는 4px */
     width: 40px;
     height: 40px;
     background-color: #616161;
     border: 1px solid #ffffff;
-    border-radius: 10.665px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3028,19 +3323,19 @@ canvas[id="chart-canvas"] {
 /* Subtract */
 .subtract {
     position: absolute;
-    left: 13px; /* 11958.3798828125 - 11945.0478515625 = 13.33203125px */
-    top: 9px; /* 12608.4541015625 - 12599.56640625 = 8.8878515625px */
+    left: 13px; /* 11958.3798828125 - 11945.0478515625 = 14px */
+    top: 9px; /* 12608.4541015625 - 12599.56640625 = 9px */
     width: 13px;
     height: 22px;
     background-color: #ffffff;
-    border-radius: 1.333px;
+    border-radius: 2px;
 }
 
 /* Rectangle 509142 */
 .rectangle-509142 {
     position: absolute;
-    left: 16px; /* 11960.6015625 - 11945.0478515625 = 15.5537109375px */
-    top: 15px; /* 12610.67578125 - 12599.56640625 = 11.10953125px */
+    left: 16px; /* 11960.6015625 - 11945.0478515625 = 16px */
+    top: 15px; /* 12610.67578125 - 12599.56640625 = 12px */
     width: 9px;
     height: 13px;
     background-color: #d9d9d9;
@@ -3049,7 +3344,7 @@ canvas[id="chart-canvas"] {
 /* Media group pin number */
 .media-group-pin-number {
     position: absolute;
-    left: 27px; /* 11971.7109375 - 11945.0478515625 = 26.6630859375px */
+    left: 27px; /* 11971.7109375 - 11945.0478515625 = 27px */
     top: 0px; /* 12592.900390625 - 12592.900390625 = 0px */
     width: 20px;
     height: 20px;
@@ -3066,29 +3361,29 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400; /* Regular */
-    font-size: 13px; /* 13.331592559814453px */
-    line-height: 16px; /* 15.99791145324707px */
-    letter-spacing: -0.053px; /* -0.05332637103388266px */
+    font-size: 13px; /* 14px */
+    line-height: 16px; /* 16px */
+    letter-spacing: -0.25px; /* -1px */
     color: #ffffff;
     text-align: center;
 }
 
 /* Frame 20: 미디어그룹 광고 개요 */
-.frame-20-media-group {
+.frame-media-overview {
     position: absolute;
     left: 54px;
-    top: 480px; /* frame-29-media-group top (163px) + height (245px) + 간격 40px = 448px */
+    top: 480px; /* frame-media-image-area top (163px) + height (245px) + 간격 40px = 448px */
     width: 1016px;
     height: auto;
 }
 
 /* Frame 21: 제목 + 광고 기간 정보 */
-.frame-21-media-group {
+.frame-media-overview-header {
     position: relative;
     left: 0px;
     top: 0px;
     width: 1016px;
-    height: 26px;
+    height: 24px;
     border-left: 4px solid #616161;
     border-right: none;
     border-bottom: none;
@@ -3097,7 +3392,6 @@ canvas[id="chart-canvas"] {
     justify-content: space-between;
     align-items: center;
     padding-left: 16px;
-    padding-right: 16px;
 }
 
 /* 미디어그룹 광고 개요 제목 */
@@ -3105,16 +3399,16 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 600; /* SemiBold */
-    font-size: 20px; /* 21.330547332763672px */
-    line-height: 26px; /* 25.59665870666504px */
-    letter-spacing: -0.085px; /* -0.08532219060245438px */
+    font-size: 20px; /* 22px */
+    line-height: 26px; /* 26px */
+    letter-spacing: -0.25px; /* -1px */
     color: #616161;
     margin: 0;
     padding: 0;
 }
 
 /* Frame 1686563134: 광고 기간 정보 */
-.frame-1686563134 {
+.data-period-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -3124,7 +3418,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563115: 광고 기간 내부 그룹 */
-.frame-1686563115 {
+.data-period-range {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -3134,7 +3428,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563115-inner: 광고 기간 내부 그룹 */
-.frame-1686563115-inner {
+.data-period-range-inner {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -3144,7 +3438,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563116: 시작일 그룹 */
-.frame-1686563116 {
+.data-period-start {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -3154,7 +3448,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563117: 총 일수 그룹 */
-.frame-1686563117 {
+.data-info-group {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -3168,21 +3462,23 @@ canvas[id="chart-canvas"] {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400; /* Regular */
-    font-size: 13px; /* 13.331592559814453px */
-    line-height: 16px; /* 15.99791145324707px */
-    letter-spacing: -0.053px; /* -0.05332637103388266px */
+    font-size: 13px; /* 14px */
+    line-height: 16px; /* 16px */
+    letter-spacing: -0.25px; /* -1px */
     color: #757575;
 }
 
 /* Frame 13: 테이블 형태의 정보들 */
-.frame-13-media-group {
+.frame-media-info-table {
     position: relative;
     left: 0px;
     top: 26px; /* Frame 21 아래 간격 */
     width: 1016px;
     height: auto;
-    border: 1px solid #e0e0e0;
-    border-radius: 5.333px;
+    border: none; /* 스트로크 제거 */
+    outline: none; /* outline 제거 */
+    border-radius: 4px;
+    overflow: hidden;
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -3190,105 +3486,140 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 18: 첫 번째 행 */
-.frame-18-media-group {
+.frame-media-info-row-1 {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
-    border-bottom: 1px solid #e0e0e0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
+    border: none; /* 스트로크 제거 */
+    outline: none; /* outline 제거 */
+    gap: 0px; /* 필드 간 간격 0px */
 }
 
 /* Frame 20: 두 번째 행 */
-.frame-20-media-group-row {
+.frame-media-info-row-2 {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
-    border-bottom: 1px solid #e0e0e0;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
+    border: none; /* 스트로크 제거 */
+    outline: none; /* outline 제거 */
+    gap: 0px; /* 필드 간 간격 0px */
 }
 
 /* Frame 13: 세 번째 행 */
-.frame-13-media-group-row {
+.frame-media-info-row-3 {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
+    border: none; /* 스트로크 제거 */
+    outline: none; /* outline 제거 */
+    gap: 0px; /* 필드 간 간격 0px */
 }
 
-/* Field: 미디어그룹 필드 - 모든 필드에 동일한 stroke 스타일 적용 */
+/* Field: 미디어그룹 필드 - 3페이지 테이블 스타일과 동일 */
 .field-media-group {
     display: flex;
     align-items: center;
-    padding: 16px;
+    justify-content: flex-start;
+    padding: 12px 16px; /* 3페이지 테이블 스타일과 동일 */
     border: 1px solid #e0e0e0;
     box-sizing: border-box;
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
+    margin: 0px; /* 필드 간 간격 0px */
 }
 
 /* 필드 간 중복 border 제거 (테이블 구조에서) */
-.frame-18-media-group .field-media-group + .field-media-group,
-.frame-20-media-group-row .field-media-group + .field-media-group,
-.frame-13-media-group-row .field-media-group + .field-media-group {
-    border-left: none;
+.frame-media-info-row-1 .field-media-group + .field-media-group,
+.frame-media-info-row-2 .field-media-group + .field-media-group,
+.frame-media-info-row-3 .field-media-group + .field-media-group {
+    border-left: none; /* 좌측 중복 border 제거 */
 }
 
-/* 첫 번째 행의 첫 번째 필드 */
-.frame-18-media-group:first-child .field-media-group:first-child,
-.frame-20-media-group-row:first-child .field-media-group:first-child,
-.frame-13-media-group-row:first-child .field-media-group:first-child {
-    border-top-left-radius: 5.333px;
+/* 행과 행 사이의 중복 border 제거 (14페이지) */
+.page-media-group-detail .frame-media-info-table > *:not(:first-child) .field-media-group {
+    border-top: none; /* 첫 번째 행이 아닌 행의 필드 상단 border 제거 */
 }
 
-/* 첫 번째 행의 마지막 필드 */
-.frame-18-media-group:first-child .field-media-group:last-child,
-.frame-20-media-group-row:first-child .field-media-group:last-child,
-.frame-13-media-group-row:first-child .field-media-group:last-child {
-    border-top-right-radius: 5.333px;
+/* 첫 번째 행의 첫 번째 필드 - 3페이지 테이블 스타일과 동일 */
+.frame-media-info-row-1:first-child .field-media-group:first-child,
+.frame-media-info-row-2:first-child .field-media-group:first-child,
+.frame-media-info-row-3:first-child .field-media-group:first-child {
+    border-top-left-radius: 4px;
 }
 
-/* 마지막 행의 첫 번째 필드 */
-.frame-18-media-group:last-child .field-media-group:first-child,
-.frame-20-media-group-row:last-child .field-media-group:first-child,
-.frame-13-media-group-row:last-child .field-media-group:first-child {
-    border-bottom-left-radius: 5.333px;
+/* 첫 번째 행의 마지막 필드 - 3페이지 테이블 스타일과 동일 */
+.frame-media-info-row-1:first-child .field-media-group:last-child,
+.frame-media-info-row-2:first-child .field-media-group:last-child,
+.frame-media-info-row-3:first-child .field-media-group:last-child {
+    border-top-right-radius: 4px;
 }
 
-/* 마지막 행의 마지막 필드 */
-.frame-18-media-group:last-child .field-media-group:last-child,
-.frame-20-media-group-row:last-child .field-media-group:last-child,
-.frame-13-media-group-row:last-child .field-media-group:last-child {
-    border-bottom-right-radius: 5.333px;
+/* 마지막 행의 첫 번째 필드 - 3페이지 테이블 스타일과 동일 */
+.frame-media-info-row-1:last-child .field-media-group:first-child,
+.frame-media-info-row-2:last-child .field-media-group:first-child,
+.frame-media-info-row-3:last-child .field-media-group:first-child {
+    border-bottom-left-radius: 4px;
 }
 
-/* Field label: 미디어그룹 라벨 */
+/* 마지막 행의 마지막 필드 - 3페이지 테이블 스타일과 동일 */
+.frame-media-info-row-1:last-child .field-media-group:last-child,
+.frame-media-info-row-2:last-child .field-media-group:last-child,
+.frame-media-info-row-3:last-child .field-media-group:last-child {
+    border-bottom-right-radius: 4px;
+}
+
+/* Field label: 미디어그룹 라벨 - 3페이지 테이블 스타일과 동일 */
 .field-label.field-media-group {
     width: 180px; /* 페이지 14: title field 길이 180px */
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
     background-color: #eeeeee;
     flex-shrink: 0;
     text-align: left; /* 좌측 정렬 */
     justify-content: flex-start; /* 좌측 정렬 */
+    border: 1px solid #e0e0e0; /* 스트로크 추가 */
+    box-sizing: border-box;
+    margin: 0px; /* 필드 간 간격 0px */
 }
 
-/* Field value: 미디어그룹 값 */
+/* Field value: 미디어그룹 값 - 3페이지 테이블 스타일과 동일 */
 .field-value.field-media-group {
     flex: 1;
     background-color: #ffffff;
     text-align: left; /* 좌측 정렬 */
     justify-content: flex-start; /* 좌측 정렬 */
-    height: 53px; /* 페이지 14: 필드 높이 53px */
-    min-height: 53px;
+    height: 40px; /* 3페이지 테이블 스타일과 동일 */
+    min-height: 40px;
 }
 
 /* Field value field-media-group field-bg-light: stroke는 field-media-group에서 통일 처리 */
+
+/* 페이지 13, 14: 테이블 높이 Hug 설정 */
+.page-media-group-detail .frame-media-info-row-1,
+.page-media-group-detail .frame-media-info-row-2,
+.page-media-group-detail .frame-media-info-row-1,
+.page-media-group-detail .frame-media-info-row-2,
+.page-media-group-detail .frame-media-info-row-3 {
+    height: 48px;
+    min-height: 48px;
+}
+
+.page-media-group-detail .field-media-group {
+    height: 48px;
+    min-height: 48px;
+}
+
+.page-media-group-detail .field-label.field-media-group,
+.page-media-group-detail .field-value.field-media-group {
+    height: 48px;
+    min-height: 48px;
+}
 
 /* Field tall: 높은 필드 */
 .field-tall {
@@ -3301,14 +3632,15 @@ canvas[id="chart-canvas"] {
 
 /* Field label field-media-group field-tall: 좌측 중앙 정렬 */
 .field-label.field-media-group.field-tall {
-    width: 180px; /* 페이지 14: title field 길이 180px */
-    height: 53px; /* 페이지 14: 필드 높이 53px */
+    width: 180px;
+    flex: 0 0 180px;
+    height: auto; /* 내용에 맞게 자동 조정 */
     min-width: 0; /* 최소 너비 제거 */
-    min-height: 53px;
+    min-height: 0; /* 최소 높이 제거 */
     text-align: left; /* 좌측 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
     justify-content: flex-start; /* 좌측 정렬 */
-    padding: 16px; /* 모든 방향 패딩 16px */
+    margin: 0px; /* 필드 간 간격 0px */
 }
 
 /* Field value field-media-group field-tall: 좌측 중앙 정렬 */
@@ -3323,23 +3655,67 @@ canvas[id="chart-canvas"] {
     text-align: left; /* 텍스트 좌측 정렬 */
 }
 
+.page-media-group-detail .field-media-group.field-tall {
+    height: 48px;
+    min-height: 48px;
+    padding: 0px 16px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.page-media-group-detail .field-label.field-media-group.field-tall {
+    padding: 0px 16px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.page-media-group-detail .field-value.field-media-group.field-tall {
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Media count overflow handling */
+.field-value.field-media-group.field-tall.media-count-limit {
+    max-height: 100px;
+    overflow: hidden;
+}
+
+.field-value.field-media-group.field-tall.media-count-continued {
+    max-height: none;
+    overflow: visible;
+}
+
+/* Page break helpers for media info continuation */
+.media-info-page-break {
+    page-break-before: always;
+    break-before: page;
+}
+
+.media-info-avoid-break,
+.media-info-avoid-break .field,
+.media-info-avoid-break .field-text {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
 /* Field text: 미디어그룹 텍스트 */
 .field-text {
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500; /* Medium */
-    font-size: 16px; /* 18.664228439331055px */
-    line-height: 22.397px; /* 22.397075653076172px */
-    letter-spacing: -0.075px; /* -0.07465691486979893px */
+    font-size: 16px; /* 19px */
+    line-height: 23px; /* 23px */
+    letter-spacing: -0.25px; /* -1px */
     color: #012672;
 }
 
 /* Field text bold: 굵은 텍스트 */
 .field-text-bold {
     font-weight: 700; /* Bold */
-    font-size: 16px; /* 18.664228439331055px */
-    line-height: 19px; /* 19.197492599487305px */
-    letter-spacing: -0.064px; /* -0.06399164295184079px */
+    font-size: 14px; /* 19px */
+    line-height: 19px; /* 20px */
+    letter-spacing: -0.25px; /* -1px */
     color: #012672;
     display: block;
     margin-bottom: 4px;
@@ -3353,33 +3729,33 @@ canvas[id="chart-canvas"] {
 /* 페이지 14: 노출 효과 분석, 광고 송출 분석 */
 
 /* Frame 8: 헤더 영역 */
-.frame-8-header {
+.chapter-2-header {
     position: absolute;
     left: 54px;
     top: 54px;
     width: 1016px;
-    height: 19px;
+    height: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Frame 1686563112: Breadcrumb 그룹 */
-.frame-1686563112 {
+/* Breadcrumb 그룹 */
+.breadcrumb-bar {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Frame 1686563114: Breadcrumb 내부 */
-.frame-1686563114 {
+/* Breadcrumb 내부 */
+.breadcrumb-group {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 /* Frame 1686563155: 콘텐츠 영역 */
-.frame-1686563155 {
+.media-detail-content {
     position: absolute;
     left: 54px;
     top: 97px; /* Frame 8 (54px) + height (19px) + gap (24px) = 97px */
@@ -3387,7 +3763,12 @@ canvas[id="chart-canvas"] {
     height: auto;
     display: flex;
     flex-direction: column;
-    gap: 24px; /* 노출 효과 분석과 광고 송출 분석 사이 간격 */
+    gap: 32px;
+}
+
+/* 페이지 14: chapter-2-header와 콘텐츠 간격 46px */
+.page-media-group-detail .media-detail-content {
+    top: 120px; /* chapter-2-header (54px + 20px) + gap (46px) = 120px */
 }
 
 /* 노출 효과 분석 */
@@ -3406,7 +3787,7 @@ canvas[id="chart-canvas"] {
 .frame-time-ad-delivery-analysis .frame-content-title {
     position: relative;
     width: 100%;
-    height: auto; /* 높이를 auto로 되돌림 */
+    height: 24px;
     top: 0; /* y 위치를 0으로 설정 */
     border-left: 4px solid #616161;
     border-top: none;
@@ -3424,11 +3805,12 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563135: 수집 기간 정보 */
-.frame-1686563135 {
+.data-info-meta {
     display: flex;
     align-items: center;
     gap: 8px;
     height: 9px;
+    margin-left: auto;
 }
 
 /* 광고 송출 분석 */
@@ -3455,31 +3837,72 @@ canvas[id="chart-canvas"] {
 /* 노출 효과 분석 테이블 - border는 각 필드에 적용되므로 컨테이너 border 제거 */
 .frame-exposure-analysis-table {
     width: 100%;
-    border: none;
-    border-radius: 5.333px;
+    border-radius: 4px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
 }
 
-/* 광고 송출 분석 테이블 - border는 각 필드에 적용되므로 컨테이너 border 제거 */
+/* 광고 송출 분석 테이블 - 스트로크 제거 */
 .frame-ad-delivery-analysis-table {
     width: 100%;
-    border: none;
-    border-radius: 5.333px;
-    overflow: hidden;
+    border: none; /* 스트로크 제거 */
+    outline: none; /* outline 제거 */
+    border-radius: 0; /* border-radius 제거 */
+    overflow: visible; /* overflow 제거 */
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
 }
 
-/* 타임 광고 송출 분석 테이블 - border는 각 필드에 적용되므로 컨테이너 border 제거 */
+/* 광고 송출 분석 테이블 내부 행 스트로크 제거 */
+.frame-ad-delivery-analysis-table .frame-media-info-row-1,
+.frame-ad-delivery-analysis-table .frame-media-info-row-2,
+.frame-ad-delivery-analysis-table .frame-media-info-row-3 {
+    border: none; /* 모든 border 제거 */
+    outline: none; /* outline 제거 */
+}
+
+/* 광고 송출 분석 테이블 내부 필드 스트로크 center 설정 */
+.frame-ad-delivery-analysis-table .field-media-group {
+    border: none; /* border 제거 */
+    outline: 1px solid #e0e0e0; /* stroke를 center로 설정 - outline은 요소 경계 밖에 그려짐 */
+    outline-offset: -0.5px; /* outline을 요소 경계 안쪽으로 이동하여 center 효과 */
+}
+
+/* 타임 광고 송출 분석 테이블 - 3페이지 테이블 스타일과 동일 */
 .frame-time-ad-delivery-analysis-table {
     width: 100%;
-    border: none;
-    border-radius: 5.333px;
+    border-radius: 4px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-color: #ffffff;
+}
+
+/* 노출 효과 분석 테이블 필드 간 중복 border 제거 */
+.frame-exposure-analysis-table .frame-media-info-row-1 .field-media-group + .field-media-group,
+.frame-exposure-analysis-table .frame-media-info-row-2 .field-media-group + .field-media-group,
+.frame-exposure-analysis-table .frame-media-info-row-3 .field-media-group + .field-media-group {
+    border-left: none; /* 좌측 중복 border 제거 */
+}
+
+/* 노출 효과 분석 테이블 행과 행 사이의 중복 border 제거 */
+.frame-exposure-analysis-table > *:not(:first-child) .field-media-group {
+    border-top: none; /* 첫 번째 행이 아닌 행의 필드 상단 border 제거 */
+}
+
+/* 타임광고 송출 분석 테이블 필드 간 중복 border 제거 */
+.frame-time-ad-delivery-analysis-table .frame-media-info-row-1 .field-media-group + .field-media-group,
+.frame-time-ad-delivery-analysis-table .frame-media-info-row-2 .field-media-group + .field-media-group,
+.frame-time-ad-delivery-analysis-table .frame-media-info-row-3 .field-media-group + .field-media-group {
+    border-left: none; /* 좌측 중복 border 제거 */
+}
+
+/* 타임광고 송출 분석 테이블 행과 행 사이의 중복 border 제거 */
+.frame-time-ad-delivery-analysis-table > *:not(:first-child) .field-media-group {
+    border-top: none; /* 첫 번째 행이 아닌 행의 필드 상단 border 제거 */
 }
 
 /* 페이지 15: 노출 효과 시각화 */
@@ -3488,7 +3911,7 @@ canvas[id="chart-canvas"] {
     left: 54px;
     top: 112px; /* Frame 8 (54px) */
     width: 1016px;
-    height: hugo;
+    height: 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3498,7 +3921,7 @@ canvas[id="chart-canvas"] {
     padding-bottom: 0px;
 }
 
-.frame-1686563156 {
+.visualization-section {
     position: absolute;
     left: 54px;
     top: 172px; /* 110px + 40px = 150px (40px 아래로 이동) */
@@ -3509,28 +3932,33 @@ canvas[id="chart-canvas"] {
     gap: 24px; /* 두 차트 사이 간격 */
 }
 
-.frame-1686563127-visualization {
+.visualization-layout-row {
     flex: 1;
     display: flex;
     flex-direction: column;
     top: 100px;
     gap: 12px;
+    min-width: 0; /* flex 아이템이 동일한 넓이를 갖도록 */
 }
 
-.frame-1686563129-visualization {
+.frame-visualization-daily,
+.frame-visualization-hourly {
     flex: 1;
     display: flex;
     flex-direction: column;
     top: 140px;
     gap: 12px;
+    min-width: 0; /* flex 아이템이 동일한 넓이를 갖도록 */
 }
 
-.frame-1686563158-visualization {
+.frame-visualization-age-gender,
+.frame-visualization-weekly {
     flex: 1;
     display: flex;
     flex-direction: column;
     top: 140px; /* 아래로 이동 */
     gap: 12px;
+    min-width: 0; /* flex 아이템이 동일한 넓이를 갖도록 */
 }
 
 .frame-visualization-chart-title {
@@ -3562,17 +3990,17 @@ canvas[id="chart-canvas"] {
     font-weight: 600;
     font-size: 21px;
     line-height: 26px;
-    letter-spacing: -0.085px;
+    letter-spacing: -0.25px;
     color: #515151;
 }
 
-.frame-1686563126-visualization {
+.frame-visualization {
     position: relative;
     width: 100%;
     height: 458px;
     background-color: #ffffff;
-    border: 1px solid #bdbdbd;
-    border-radius: 5.333px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
     padding: 13px;
     box-sizing: border-box;
     margin-bottom: 12px;
@@ -3593,7 +4021,8 @@ canvas[id="chart-canvas"] {
 }
 
 .frame-chart-container-visualization-pyramid canvas,
-.frame-chart-container-visualization-daily canvas {
+.frame-chart-container-visualization-daily canvas,
+#chart-canvas-visualization-daily-2 {
     width: 100% !important;
     height: 100% !important;
     max-width: 100% !important;
@@ -3605,8 +4034,27 @@ canvas[id="chart-canvas"] {
     overflow: hidden !important;
 }
 
-.frame-1686563137-visualization-pyramid,
-.frame-1686563137-visualization-daily {
+/* mediagroup-ots 차트 스타일 (페이지 15, 16) */
+#chart-canvas-mediagroup-ots-pyramid,
+#chart-canvas-mediagroup-ots-daily,
+#chart-canvas-mediagroup-ots-hourly,
+#chart-canvas-mediagroup-ots-weekly,
+#chart-canvas-mediagroup-ots-pyramid-2 {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    overflow: hidden !important;
+}
+
+.visualization-legend-age-gender,
+.visualization-legend-daily,
+.visualization-legend-weekly,
+.visualization-legend-hourly {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -3615,29 +4063,29 @@ canvas[id="chart-canvas"] {
 
 .frame-insight-visualization {
     background-color: #e9f1ff;
-    border: 1px solid #bcd3ff;
-    border-radius: 5.333px;
-    width: 100%;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    width: 496px;
     padding: 10px 16px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     margin-top: 12px;
     box-sizing: border-box;
 }
 
-.frame-insight-visualization .frame-24-insight {
+.frame-insight-visualization .frame-insight-header {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 10px;
+    align-items: flex-start;
+    gap: 10px; /* 아이콘과 텍스트 간격 10px */
     width: 100%;
 }
 
-.frame-insight-visualization .frame-1686563124 {
+.frame-insight-visualization .visualization-insight-text {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: 2px;
     flex: 1;
 }
 
@@ -3650,20 +4098,12 @@ canvas[id="chart-canvas"] {
     font-weight: 700;
     font-size: 13px;
     line-height: 16px;
-    letter-spacing: -0.053px;
+    letter-spacing: -0.25px;
     color: #000000;
     z-index: 10;
 }
 
-/* 페이지 16: 노출 효과 시각화 2 */
-.frame-1686563129-visualization-2 {
-    position: absolute;
-    left: 54px;
-    top: 110px; /* frame-exposure-visualization-title 아래 */
-    width: 100%;
-    height: 26px;
-    background-color: #e0e0e0;
-}
+/* 페이지 16: 노출 효과 시각화 2 - 15페이지와 동일한 구조 사용 */
 
 .frame-chart-container-visualization-weekly,
 .frame-chart-container-visualization-hourly {
@@ -3705,7 +4145,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563101: 메인 컨테이너 */
-.frame-1686563101-back-cover {
+.back-cover-container {
     position: absolute;
     left: 54px;
     top: 54px;
@@ -3719,7 +4159,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563102: 로고 및 서비스 운영팀 */
-.frame-1686563102-back-cover {
+.back-cover-header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3749,7 +4189,7 @@ canvas[id="chart-canvas"] {
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    letter-spacing: -0.064px;
+    letter-spacing: -0.25px;
     color: #ffffff;
     text-align: center;
 }
@@ -3763,7 +4203,7 @@ canvas[id="chart-canvas"] {
 }
 
 /* Frame 1686563103: 문의 안내 */
-.frame-1686563103-back-cover {
+.back-cover-contact {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -3779,7 +4219,7 @@ canvas[id="chart-canvas"] {
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    letter-spacing: -0.064px;
+    letter-spacing: -0.25px;
     color: #9e9e9e;
     text-align: center;
 }
@@ -3790,23 +4230,23 @@ canvas[id="chart-canvas"] {
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    letter-spacing: -0.064px;
+    letter-spacing: -0.25px;
     color: #9e9e9e;
     text-align: center;
 }
 
 /* Frame 7: 하단 로고 및 저작권 */
-.frame-7-back-cover {
+.frame-back-cover-footer {
     position: absolute;
-    left: 54px;
-    right: 54px;
-    bottom: 54px;
-    width: 1016px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: fill;
     height: 19px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0;
+    gap: auto;
 }
 
 .frame-logo-bottom-back-cover {
@@ -3827,13 +4267,12 @@ canvas[id="chart-canvas"] {
     margin: 0;
     width: auto;
     height: 19px;
-    padding-right: 54px;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
     line-height: 120%; /* or 19px */
-    letter-spacing: -0.004em;
+    letter-spacing: -0.25px;
     color: #9E9E9E;
     flex: none;
     order: 1;
